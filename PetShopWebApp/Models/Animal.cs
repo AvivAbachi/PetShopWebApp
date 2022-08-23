@@ -4,7 +4,7 @@
     {
         public int AnimalId { get; set; }
         public string? Name { get; set; }
-        public int Age { get; set; }
+        public float Age { get; set; }
         public string? PictureURL { get; set; }
         public string? Description { get; set; }
         public Category? Category { get; set; }
