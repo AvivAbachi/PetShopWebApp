@@ -9,6 +9,7 @@ namespace PetShopWebApp.Data
         public DbSet<Animal>? Animals { get; set; }
         public DbSet<Comment>? Comments { get; set; }
         public DbSet<Category>? Category { get; set; }
+        public DbSet<User>? Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>().HasData(
@@ -36,7 +37,7 @@ namespace PetShopWebApp.Data
                     Age = 7.4,
                     Description = "The Siberian Husky is a medium-sized working sled dog breed. The breed belongs to the Spitz genetic family. It is recognizable by its thickly furred double coat, erect triangular ears, and distinctive markings, and is smaller than the similar-looking Alaskan Malamute.",
                     PictureURL = "https://upload.wikimedia.org/wikipedia/commons/8/8b/Husky_L.jpg"
-                }, 
+                },
                 new Animal
                 {
                     AnimalId = 3,
@@ -128,6 +129,12 @@ namespace PetShopWebApp.Data
                     Description = "Clownfish or anemonefish are fishes from the subfamily Amphiprioninae in the family Pomacentridae. Thirty species are recognized: one in the genus Premnas, while the remaining are in the genus Amphiprion. In the wild, they all form symbiotic mutualisms with sea anemones.",
                     PictureURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Amphiprion_ocellaris_%28Clown_anemonefish%29_by_Nick_Hobgood.jpg/1920px-Amphiprion_ocellaris_%28Clown_anemonefish%29_by_Nick_Hobgood.jpg"
                 });
+            modelBuilder.Entity<Comment>().HasData(
+                new Comment { CommentId = 1, AnimalId = 1, Auther = "Aviv", Text = "Cute Dog", CreatedDate = DateTime.Now }
+           );
+            modelBuilder.Entity<User>().HasData(
+                new User { UserId = 1, UserName = "admin", Password = "1234" }
+           );
         }
     }
 }

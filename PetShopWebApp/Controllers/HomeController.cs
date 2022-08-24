@@ -13,7 +13,8 @@ namespace PetShopWebApp.Controllers
         }
         public IActionResult Index()
         {
-            return View(_context.Animals!.Include(a=>a.Category));
+            var pets = _context.Animals!.Where(a => a.AnimalId != 1);
+            return View(pets);
         }
     }
 }
