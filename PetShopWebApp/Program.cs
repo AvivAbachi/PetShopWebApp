@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using PetShopWebApp.Data;
+using PetShopWebApp.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddTransient<IRepository, MyRepository>();
 string connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 builder.Services.AddDbContext<PetShopConetex>(options => options.UseSqlServer(connectionString));
 
