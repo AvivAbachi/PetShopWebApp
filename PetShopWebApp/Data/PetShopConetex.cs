@@ -26,6 +26,7 @@ namespace PetShopWebApp.Data
                     Name = "Golden Retriever",
                     CategoryId = 1,
                     Age = 4.2,
+                    Like = 5,
                     Description = "The Golden Retriever is a Scottish breed of retriever dog of medium size. It is characterised by a gentle and affectionate nature and a striking golden coat. It is commonly kept as a pet and is among the most frequently registered breeds in several Western countries.",
                     PictureURL = "https://upload.wikimedia.org/wikipedia/commons/b/bd/Golden_Retriever_Dukedestiny01_drvd.jpg"
                 },
@@ -35,6 +36,7 @@ namespace PetShopWebApp.Data
                     Name = "Siberian Husky",
                     CategoryId = 1,
                     Age = 7.4,
+                    Like = 3,
                     Description = "The Siberian Husky is a medium-sized working sled dog breed. The breed belongs to the Spitz genetic family. It is recognizable by its thickly furred double coat, erect triangular ears, and distinctive markings, and is smaller than the similar-looking Alaskan Malamute.",
                     PictureURL = "https://upload.wikimedia.org/wikipedia/commons/8/8b/Husky_L.jpg"
                 },
@@ -44,6 +46,7 @@ namespace PetShopWebApp.Data
                     Name = "Border Collie",
                     CategoryId = 1,
                     Age = 5.2,
+                    Like = 4,
                     Description = "The Border Collie is a British breed of herding dog of medium size. They are descended from landrace sheepdogs once found all over the British Isles, but became standardized in the Anglo-Scottish border region. Presently they are used primarily as working dogs to herd livestock, specifically sheep.",
                     PictureURL = "https://upload.wikimedia.org/wikipedia/commons/e/e4/Border_Collie_600.jpg"
                 },

@@ -13,7 +13,11 @@ namespace PetShopWebApp.Controllers
         }
         public IActionResult Index()
         {
-            var pets = _context.Animals!.Where(a => a.AnimalId != 1);
+            var pets = _context.Animals!
+                .Include(pets => pets.Category)
+                .OrderByDescending(a => a.Like)
+                .Take(2);
+
             return View(pets);
         }
     }

@@ -5,6 +5,7 @@
         public int AnimalId { get; set; }
         public string? Name { get; set; }
         public double Age { get; set; }
+        public int Like { get; set; }
         public string? PictureURL { get; set; }
         public string? Description { get; set; }
         public int CategoryId { get; set; }

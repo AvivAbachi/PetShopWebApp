@@ -5,13 +5,14 @@
 
 <h1>Index</h1>
 
-@foreach (PetShopWebApp.Models.Animal ds in Model)
+@foreach (var pet in Model)
 {
     <div style="border:1px black solid;padding:1em;margin:1em">
-        <h3>@ds.Name</h3>
-        <div>Category: @ds.Category!.Name</div>
-        <div>Age: @ds.Age</div>
-        <div>Description: @ds.Description</div>
-        <img src="@ds.PictureURL" width="300" />
+        <h3>@pet.Name</h3>
+        <div>Category: @pet.Category!.Name</div>
+        <div>Age: @pet.Age</div>
+        <div>Like: @pet.Like</div>
+        <div>Description: @pet.Description</div>
+        <img src="@pet.PictureURL" width="300" />
     </div>
 }
