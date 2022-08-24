@@ -1,7 +1,17 @@
-﻿
+﻿@model IEnumerable<PetShopWebApp.Models.Animal>
 @{
     ViewBag.Title = "PetShop";
 }
 
 <h1>Index</h1>
 
+@foreach (PetShopWebApp.Models.Animal ds in Model)
+{
+    <div style="border:1px black solid;padding:1em;margin:1em">
+        <h3>@ds.Name</h3>
+        <div>Category: @ds.Category!.Name</div>
+        <div>Age: @ds.Age</div>
+        <div>Description: @ds.Description</div>
+        <img src="@ds.PictureURL" width="300" />
+    </div>
+}
