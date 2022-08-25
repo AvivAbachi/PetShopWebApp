@@ -1,18 +1,53 @@
 ﻿@model IEnumerable<PetShopWebApp.Models.Animal>
 @{
-    ViewBag.Title = "PetShop";
+    ViewBag.Title = "Pet Shop";
+}
+@section navbar{
+    <li class="nav-item">
+        <a class="nav-link active" href="/">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/">Catagory</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/">Login</a>
+    </li>
 }
 
-<h1>Index</h1>
-
-@foreach (var pet in Model)
-{
-    <div style="border:1px black solid;padding:1em;margin:1em">
-        <h3>@pet.Name</h3>
-        <div>Category: @pet.Category!.Name</div>
-        <div>Age: @pet.Age</div>
-        <div>Like: @pet.Like</div>
-        <div>Description: @pet.Description</div>
-        <img src="@pet.PictureURL" width="300" />
+    <div class="px-4 py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="~/logo_original.png" alt="" width="256">
+        <h1 class="display-5 fw-bold">Welcome to Pet Shop!</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">
+                We believe that the bond between human and animals is a remarkable gift. Your only one click away from finding your new best friend!
+            </p>
+            <div>
+                <a class="btn btn-primary btn-lg">View Are Pets!</a>
+            </div>
+        </div>
     </div>
-}
+
+    <div class="container px-4 py-5 border-top border-bottom mb-5">
+        <div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 py-5">
+        @foreach (var pet in Model)
+        {
+            <a href="/" class="col text-decoration-none">
+                <div class="overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background: url('@pet.PictureURL') no-repeat top center ;background-size:cover;height:384px">
+                    <div class="d-flex flex-column justify-content-between p-5 pb-3 text-white text-shadow-1 h-100" style="text-shadow:2px 5px 5px #000000aa;">
+                        <h2 class="mb-4 display-6 lh-1 fw-bold">@pet.Name</h2>
+                        <ul class="d-flex list-unstyled mt-auto">
+                            <li class="d-flex align-items-center me-auto">
+                                @*<svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>*@
+                                <small>@pet.Category?.Name</small>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                @*<svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>*@
+                                <small>@pet.Like</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+</div>
