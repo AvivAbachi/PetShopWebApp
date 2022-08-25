@@ -4,13 +4,13 @@
 }
 @section navbar{
     <li class="nav-item">
-        <a class="nav-link active" href="/">Home</a>
+        <a asp-controller="Home" asp-action="Index" class="nav-link active">Home</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/">Catagory</a>
+        <a asp-controller="Home" asp-action="Catagory" class="nav-link">Catagory</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="/">Login</a>
+        <a asp-controller="Admin" asp-action="Index" class="nav-link">Login</a>
     </li>
 }
 
@@ -31,7 +31,7 @@
         <div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 py-5">
         @foreach (var pet in Model)
         {
-            <a href="/" class="col text-decoration-none">
+            <a asp-controller="Home" asp-action="Animal" asp-route-id="@pet.AnimalId" class="col text-decoration-none">
                 <div class="overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background: url('@pet.PictureURL') no-repeat top center ;background-size:cover;height:384px">
                     <div class="d-flex flex-column justify-content-between p-5 pb-3 text-white text-shadow-1 h-100" style="text-shadow:2px 5px 5px #000000aa;">
                         <h2 class="mb-4 display-6 lh-1 fw-bold">@pet.Name</h2>
