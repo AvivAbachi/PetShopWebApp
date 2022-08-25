@@ -3,10 +3,31 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <script src="~/jquery/jquery.min.js"></script>
+    <script src="~/bootsrap/js/bootstrap.bundle.min.js"></script>
+    <link rel="icon" type="image/png" href="~/logo_small.png">
+    <link rel="stylesheet" href="~/bootsrap/css/bootstrap.min.css" />
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <div>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-light fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">
+                    <img src="~/logo_big.png" alt="Pets Shop Logo" width="64" class="d-inline-block align-text-top" />
+                </a>
+                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        @RenderSection("navbar", false)
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div style="margin-top: 91.33px">
         @RenderBody()
     </div>
 </body>
