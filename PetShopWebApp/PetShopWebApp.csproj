@@ -7,7 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Compile Remove="wwwroot\bootsrap\dist\**" />
+    <Compile Remove="wwwroot\jquery\jquery\**" />
+    <Content Remove="wwwroot\bootsrap\dist\**" />
+    <Content Remove="wwwroot\jquery\jquery\**" />
+    <EmbeddedResource Remove="wwwroot\bootsrap\dist\**" />
+    <EmbeddedResource Remove="wwwroot\jquery\jquery\**" />
+    <None Remove="wwwroot\bootsrap\dist\**" />
+    <None Remove="wwwroot\jquery\jquery\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\jquery\" />
+    <Folder Include="wwwroot\bootsrap\" />
   </ItemGroup>
 
   <ItemGroup>

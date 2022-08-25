@@ -17,6 +17,7 @@ using (var scope = app.Services.CreateScope())
     ctx.Database.EnsureCreated();
 }
 
+app.UseStaticFiles();
 app.UseRouting();
 
 app.UseEndpoints(endpoints =>
