@@ -1,4 +1,4 @@
-﻿// Function Add Like
+﻿//  Add Like Function
 $('.btn-like').click(
     function (btn) {
         const id = btn.currentTarget.dataset.animal;
@@ -6,3 +6,26 @@ $('.btn-like').click(
         btn.currentTarget.setAttribute('disabled', '');
     }
 )
+// Add Comment Function
+const form = $('#newComment');
+form.submit(function (e) {
+    e.preventDefault()
+    const formdata = $(this).serializeArray()
+    const data = { id: this.dataset.id };
+    $(formdata).each(function (index, obj) {
+        data[obj.name] = obj.value;
+    });
+    $.post("/Home/AddAnimalComment/", data, function (data) {
+        $('#comments').prepend(`
+            <div class="card-body">
+                <div class="card-title fs-5">${data.text}</div>
+                    <div class="d-flex justify-content-between">
+                        <small>Auther: ${data.auther}</small>
+                        <small>Created At: ${data.createdDate}</small>
+                    </div>
+                </div>
+            </div>
+        `);
+        form.trigger('reset');
+    });
+})

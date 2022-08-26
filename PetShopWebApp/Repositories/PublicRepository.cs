@@ -6,7 +6,7 @@ namespace PetShopWebApp.Repositories
 {
     public class PublicRepository : IPublicRepository
     {
-        PetShopConetex _context;
+        readonly PetShopConetex _context;
         public PublicRepository(PetShopConetex context)
         {
             _context = context;
@@ -17,11 +17,12 @@ namespace PetShopWebApp.Repositories
         }
         public Animal GetAnimalByIDAndComments(int id)
         {
-            return _context.Animals!
-               .Where(p => p.AnimalId == id)
-               .Include(p => p.Category)
-               .Include(p => p.Comments)
-               .First();
+            var pet = _context.Animals!
+                  .Where(p => p.AnimalId == id)
+                  .Include(p => p.Category)
+                  .Include(p => p.Comments!.OrderByDescending(c=>c.CreatedDate))
+                  .First();
+             return pet;
         }
         public IEnumerable<Animal> GetAnimalByCategory(int category)
         {
@@ -42,6 +43,14 @@ namespace PetShopWebApp.Repositories
             pet.Like++;
             _context.SaveChanges();
             return pet.Like;
+        }
+        public Comment AddAnimaComment(int id, string auther, string text)
+        {
+            var pet = GetAnimalByIDAndComments(id);
+            var comment = new Comment { AnimalId = id, Auther = auther, Text = text, CreatedDate = DateTime.Now };
+            pet.Comments!.Add(comment);
+            _context.SaveChanges();
+            return comment;
         }
     }
 }
