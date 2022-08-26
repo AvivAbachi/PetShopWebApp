@@ -1,0 +1,42 @@
+﻿@model PetShopWebApp.Models.Animal
+
+@{
+    ViewBag.Title = Model.Name + " - Pet Shop";
+}
+
+@section navbar{
+    <li class="nav-item">
+        <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+    </li>
+    <li class="nav-item">
+        <a asp-controller="Home" asp-action="Catagory" class="nav-link active">Catagory</a>
+    </li>
+    <li class="nav-item">
+        <a asp-controller="Admin" asp-action="Index" class="nav-link">Login</a>
+    </li>
+}
+
+    <div class="container py-5">
+        <div class="card flex-row border-0 shadow-lg row-cols-2 row-cols-lg-2 position-relative">
+            <div class="col">
+                @await Html.PartialAsync("_ButtonLikePartial", Model.AnimalId)
+                <img class="card-img" src="@Model.PictureURL" />
+            </div>
+            <div class="col p-5">
+                <div class="">
+                    <h1>@Model.Name</h1>
+                    <div>Like: <span id="like_@Model.AnimalId">@Model.Like</span></div>
+                    <div>Age: @Model.Age</div>
+                    <div>Category: @Model.Category?.Name</div>
+                    <div class="border-top border-bottom my-4 py-4">
+                        <h4>Description</h4>
+                        <p>@Model.Description</p>
+                    </div>
+                    <div class="text-end">
+                        <a class="btn btn-primary btn-lg btn- rounded-5">Content As!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
