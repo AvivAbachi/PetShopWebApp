@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<PetShopWebApp.Models.Animal>
+
 @{
     ViewBag.Title = "Pet Shop";
 }
+
 @section navbar{
     <li class="nav-item">
         <a asp-controller="Home" asp-action="Index" class="nav-link active">Home</a>
@@ -22,32 +24,35 @@
                 We believe that the bond between human and animals is a remarkable gift. Your only one click away from finding your new best friend!
             </p>
             <div>
-                <a class="btn btn-primary btn-lg">View Our`s Pets!</a>
+                <a asp-controller="Home" asp-action="Catagory" class="btn btn-primary btn-lg rounded-5">View Our`s Pets!</a>
             </div>
         </div>
     </div>
 
     <div class="container px-4 py-5 border-top border-bottom mb-5">
-        <div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 py-5">
+        <div class="row row-cols-1 row-cols-lg-2 align-items-stretch py-5">
         @foreach (var pet in Model)
         {
-            <a asp-controller="Home" asp-action="Animal" asp-route-id="@pet.AnimalId" class="col text-decoration-none">
-                <div class="overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background: url('@pet.PictureURL') no-repeat top center ;background-size:cover;height:384px">
-                    <div class="d-flex flex-column justify-content-between p-5 pb-3 text-white text-shadow-1 h-100" style="text-shadow:2px 5px 5px #000000aa;">
-                        <h2 class="mb-4 display-6 lh-1 fw-bold">@pet.Name</h2>
-                        <ul class="d-flex list-unstyled mt-auto">
-                            <li class="d-flex align-items-center me-auto">
-                                @*<svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>*@
-                                <small>@pet.Category?.Name</small>
-                            </li>
-                            <li class="d-flex align-items-center">
-                                @*<svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>*@
-                                <small>@pet.Like</small>
-                            </li>
-                        </ul>
-                    </div>
+            <div class="col g-4">
+                <div class="position-relative">
+                    @await Html.PartialAsync("_ButtonLikePartial", pet.AnimalId)
+                    <a asp-controller="Home" asp-action="Animal" asp-route-id="@pet.AnimalId" class="d-block overflow-hidden text-bg-dark rounded-4 shadow-lg card-pet text-decoration-none" style="background-image: url('@pet.PictureURL')">
+                        <div class="d-flex flex-column justify-content-between p-5 pb-3 text-white text-shadow-1 h-100">
+                            <h2 class="mb-4 display-6 lh-1 fw-bold">@pet.Name</h2>
+                            <ul class="d-flex list-unstyled mt-auto">
+                                <li class="d-flex align-items-center me-auto">
+                                    @*<svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>*@
+                                    <small>@pet.Category?.Name</small>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    @*<svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>*@
+                                    <small>@pet.Like</small>
+                                </li>
+                            </ul>
+                        </div>
+                    </a>
                 </div>
-            </a>
+            </div>
         }
     </div>
 </div>
