@@ -18,9 +18,10 @@ namespace PetShopWebApp.Repositories
         public Animal GetAnimalByIDAndComments(int id)
         {
             return _context.Animals!
-                .Include(p => p.Category)
-                .Include(p => p.Comments)
-                .First(p => p.AnimalId == id);
+               .Where(p => p.AnimalId == id)
+               .Include(p => p.Category)
+               .Include(p => p.Comments)
+               .First();
         }
         public IEnumerable<Animal> GetAnimalByCategory(int category)
         {
@@ -37,9 +38,10 @@ namespace PetShopWebApp.Repositories
         }
         public int AddAnimalLike(int id)
         {
-            var pet = _context.Animals!.First(p => p.AnimalId == id).Like++;
+            var pet = _context.Animals!.First(p => p.AnimalId == id);
+            pet.Like++;
             _context.SaveChanges();
-            return _context.Animals!.First(p => p.AnimalId == id).Like;
+            return pet.Like;
         }
     }
 }
