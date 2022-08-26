@@ -14,5 +14,17 @@ namespace PetShopWebApp.Controllers
         {
             return View(_repository.GetAnimalsByLikes(2));
         }
+        public IActionResult Animal(int id)
+        {
+            return View(_repository.GetAnimalByIDAndComments(id));
+        }
+        [HttpPost]
+        public JsonResult AddAnimalLike(string id)
+        {
+            _ = int.TryParse(id, out int num);
+            return Json(_repository.AddAnimalLike(num));
+            //return RedirectToAction("Animal", new { id = num });
+            //return NoContent();
+        }
     }
 }

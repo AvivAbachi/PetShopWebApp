@@ -32,11 +32,14 @@ namespace PetShopWebApp.Repositories
         {
             return _context.Animals!
                 .OrderByDescending(a => a.Like)
+                .Include(p => p.Category)
                 .Take(counter);
         }
-        public void AddAnimalLike(int id)
+        public int AddAnimalLike(int id)
         {
-            _context.Animals!.First(p => p.AnimalId == id).Like++;
+            var pet = _context.Animals!.First(p => p.AnimalId == id).Like++;
+            _context.SaveChanges();
+            return _context.Animals!.First(p => p.AnimalId == id).Like;
         }
     }
 }
