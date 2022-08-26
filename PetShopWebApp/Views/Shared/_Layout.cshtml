@@ -3,10 +3,11 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="~/logo_small.png" />
     <script src="~/jquery/jquery.min.js"></script>
-    <script src="~/bootsrap/js/bootstrap.bundle.min.js"></script>
-    <link rel="icon" type="image/png" href="~/logo_small.png">
     <link rel="stylesheet" href="~/bootsrap/css/bootstrap.min.css" />
+    @*<script src="~/bootsrap/js/bootstrap.bundle.min.js"></script>*@
+    <link rel="stylesheet" href="~/style.css" />
     <title>@ViewBag.Title</title>
 </head>
 <body>
@@ -27,8 +28,9 @@
             </div>
         </nav>
     </header>
-    <div style="margin-top: 91.33px">
+    <div class="page">
         @RenderBody()
     </div>
+    <script src="~/site.js"></script>
 </body>
 </html>
