@@ -29,3 +29,13 @@ form.submit(function (e) {
         form.trigger('reset');
     });
 })
+// Menu Toggle
+$('.navbar-toggler').click(
+    function (btn) {
+        const isOpen = !btn.currentTarget.ariaExpanded;
+        btn.currentTarget.ariaExpanded = isOpen;
+        const menu = $(btn.currentTarget.dataset.bsTarget);
+        menu.toggleClass('show', isOpen);
+        menu.slideToggle(isOpen);
+    }
+)

@@ -9,8 +9,8 @@
 }
 
 .btn-like {
-    top: 1em;
-    right: 1em;
+    top: 0;
+    right: 0;
     border-radius: 100%;
     line-height: 0;
 }
