@@ -3,11 +3,11 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/png" href="~/logo_small.png" />
-    <script src="~/jquery/jquery.min.js"></script>
-    <link rel="stylesheet" href="~/bootsrap/css/bootstrap.min.css" />
-    @*<script src="~/bootsrap/js/bootstrap.bundle.min.js"></script>*@
-    <link rel="stylesheet" href="~/style.css" />
+    <link rel="icon" type="image/png" href="~/favicon.png" />
+	<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+	@*<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>*@
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="~/css/style.css" />
     <title>@ViewBag.Title</title>
 </head>
 <body>
@@ -17,10 +17,10 @@
                 <a asp-controller="Home" asp-action="Index" class="navbar-brand">
                     <img src="~/logo_big.png" alt="Pets Shop Logo" width="64" class="d-inline-block align-text-top" />
                 </a>
-                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler border-0" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="collapse navbar-collapse" id="menu">
                     <ul class="navbar-nav">
                         @RenderSection("navbar", false)
                     </ul>
@@ -30,7 +30,8 @@
     </header>
     <div class="page">
         @RenderBody()
-    </div>
-    <script src="~/site.js"></script>
+	</div>
+	<script src="~/js/site.js"></script>
+    <script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
