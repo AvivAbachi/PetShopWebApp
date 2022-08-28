@@ -10,5 +10,6 @@ namespace PetShopWebApp.Repositories
         Animal GetAnimalByIDAndComments(int id);
         int  AddAnimalLike(int id);
         public Comment AddAnimaComment(int id, string auther, string comment);
+        IEnumerable<Category> GetCategories();
     }
 }

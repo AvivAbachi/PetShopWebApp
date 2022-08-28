@@ -52,5 +52,10 @@ namespace PetShopWebApp.Repositories
             _context.SaveChanges();
             return comment;
         }
+
+        public IEnumerable<Category> GetCategories()
+        {
+            return _context.Category!;
+        }
     }
 }
