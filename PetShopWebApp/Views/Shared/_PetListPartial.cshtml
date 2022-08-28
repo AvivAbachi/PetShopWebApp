@@ -1,0 +1,22 @@
+﻿@model IEnumerable<PetShopWebApp.Models.Animal>
+
+<table class="table">
+  <thead class="table-light">
+    <th>Portrait</th>
+     <th>Name</th>
+     <th>Age</th>
+     <th>Category</th>
+     <th>Description</th>
+     <th>Find out more and comment</th>
+  </thead>
+  <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+            <td><img src="@item.PictureURL"> </td>
+        </tr>
+
+      }
+
+  </tbody>
+</table>

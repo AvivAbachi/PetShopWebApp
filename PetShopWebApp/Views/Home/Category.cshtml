@@ -1,0 +1,34 @@
+﻿@model IEnumerable<PetShopWebApp.Models.Animal>
+@{
+    ViewBag.Title = "Pet Shop - Categories";
+}
+@section navbar{
+    <li class="nav-item">
+        <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+    </li>
+    <li class="nav-item ">
+        <a asp-controller="Home" asp-action="Category" class="nav-link active">Catagory</a>
+    </li>
+    <li class="nav-item">
+        <a asp-controller="Admin" asp-action="Index" class="nav-link">Login</a>
+    </li>
+}
+    <div class="px-4 py-5 text-center">
+        <h1 class="fw-bold">Let's meet our's Pets!</h1>
+    </div>
+    <div>
+      <select class="form-select" aria-label="Default select example">
+          <option selected>Select to see by category</option>
+            @foreach (var item in  (IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList)
+            {
+            <option value="@(item.CategoryId)">@item.Name</option>
+            }
+      </select>
+
+      @await Html.PartialAsync("_PetListPartial",Model)
+
+      
+</div>
+
+
+

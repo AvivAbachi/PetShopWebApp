@@ -38,5 +38,10 @@ namespace PetShopWebApp.Repositories
         {
             _context.Animals!.First(p => p.AnimalId == id).Like++;
         }
+
+        public IEnumerable<Category> GetCategories()
+        {
+            return _context.Category!;
+        }
     }
 }

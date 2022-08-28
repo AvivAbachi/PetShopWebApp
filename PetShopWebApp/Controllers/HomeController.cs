@@ -14,5 +14,10 @@ namespace PetShopWebApp.Controllers
         {
             return View(_repository.GetAnimalsByLikes(2));
         }
+        public IActionResult Category()
+        {
+            ViewBag.CategoryList = _repository.GetCategories();
+            return View(_repository.GetAnimals());
+        }
     }
 }
