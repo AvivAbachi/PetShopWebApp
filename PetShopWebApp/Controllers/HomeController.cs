@@ -24,6 +24,13 @@ namespace PetShopWebApp.Controllers
             return View(_repository.GetAnimalByIDAndComments(id));
         }
 
+        public IActionResult Category(int? id)
+        {
+            
+            ViewBag.CategoryList = _repository.GetCategories();
+            return View(id == null ? _repository.GetAnimals() :_repository.GetAnimalByCategory(id!.Value)) ;
+        }
+
         [HttpPost]
         public JsonResult AddAnimalLike(int id)
         {

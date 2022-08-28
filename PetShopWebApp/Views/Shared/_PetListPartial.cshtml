@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<PetShopWebApp.Models.Animal>
 
+
 <table class="table">
   <thead class="table-light">
     <th>Portrait</th>
@@ -13,7 +14,12 @@
       @foreach (var item in Model)
       {
         <tr>
-            <td><img src="@item.PictureURL"> </td>
+            <td><img src="@item.PictureURL" width="200"> </td>
+            <td>@item.Name </td>
+            <td>@item.Age </td>
+            <td>@item.Category.Name </td>
+            <td>@item.Description </td>
+            <td><a asp-controller="Home" asp-action="Animal" asp-route-id="@item.AnimalId" class="btn btn-primary">Details</a></td>
         </tr>
 
       }
