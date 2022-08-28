@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetShopWebApp.Models;
 using PetShopWebApp.Repositories;
+using System;
+using System.Text.Json;
 
 namespace PetShopWebApp.Controllers
 {
@@ -10,14 +13,39 @@ namespace PetShopWebApp.Controllers
         {
             _repository = repository;
         }
+
         public IActionResult Index()
         {
             return View(_repository.GetAnimalsByLikes(2));
         }
-        public IActionResult Category()
+
+        public IActionResult Animal(int id)
         {
-            ViewBag.CategoryList = _repository.GetCategories();
-            return View(_repository.GetAnimals());
+            return View(_repository.GetAnimalByIDAndComments(id));
+        }
+
+        [HttpPost]
+        public JsonResult AddAnimalLike(int id)
+        {
+            return Json(_repository.AddAnimalLike(id));
+            //return RedirectToAction("Animal", new { id });
+            //return NoContent();
+        }
+
+        [HttpPost]
+        public JsonResult AddAnimalComment(int id, string auther, string text)
+        {
+            var comment = _repository.AddAnimaComment(id, auther, text);
+            return Json(new
+            {
+                comment.CommentId,
+                comment.AnimalId,
+                comment.Auther,
+                comment.Text,
+                CreatedDate = comment.CreatedDate.ToString(),
+            });
+            //_repository.AddAnimaComment(id, auther, text);
+            //return RedirectToAction("Animal", new { id });
         }
     }
 }

@@ -6,7 +6,7 @@ namespace PetShopWebApp.Repositories
 {
     public class PublicRepository : IPublicRepository
     {
-        PetShopConetex _context;
+        readonly PetShopConetex _context;
         public PublicRepository(PetShopConetex context)
         {
             _context = context;
@@ -17,10 +17,12 @@ namespace PetShopWebApp.Repositories
         }
         public Animal GetAnimalByIDAndComments(int id)
         {
-            return _context.Animals!
-                .Include(p => p.Category)
-                .Include(p => p.Comments)
-                .First(p => p.AnimalId == id);
+            var pet = _context.Animals!
+                  .Where(p => p.AnimalId == id)
+                  .Include(p => p.Category)
+                  .Include(p => p.Comments!.OrderByDescending(c=>c.CreatedDate))
+                  .First();
+             return pet;
         }
         public IEnumerable<Animal> GetAnimalByCategory(int category)
         {
@@ -32,11 +34,23 @@ namespace PetShopWebApp.Repositories
         {
             return _context.Animals!
                 .OrderByDescending(a => a.Like)
+                .Include(p => p.Category)
                 .Take(counter);
         }
-        public void AddAnimalLike(int id)
+        public int AddAnimalLike(int id)
         {
-            _context.Animals!.First(p => p.AnimalId == id).Like++;
+            var pet = _context.Animals!.First(p => p.AnimalId == id);
+            pet.Like++;
+            _context.SaveChanges();
+            return pet.Like;
+        }
+        public Comment AddAnimaComment(int id, string auther, string text)
+        {
+            var pet = GetAnimalByIDAndComments(id);
+            var comment = new Comment { AnimalId = id, Auther = auther, Text = text, CreatedDate = DateTime.Now };
+            pet.Comments!.Add(comment);
+            _context.SaveChanges();
+            return comment;
         }
 
         public IEnumerable<Category> GetCategories()
