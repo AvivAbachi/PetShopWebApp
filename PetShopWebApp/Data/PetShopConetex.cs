@@ -133,7 +133,30 @@ namespace PetShopWebApp.Data
                     PictureURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Amphiprion_ocellaris_%28Clown_anemonefish%29_by_Nick_Hobgood.jpg/1920px-Amphiprion_ocellaris_%28Clown_anemonefish%29_by_Nick_Hobgood.jpg"
                 });
             modelBuilder.Entity<Comment>().HasData(
-                new Comment { CommentId = 1, AnimalId = 1, Auther = "Aviv", Text = "Cute Dog", CreatedDate = DateTime.Now }
+                new Comment { CommentId = 1, AnimalId = 1, Auther = "Aviv", Text = "Cute Dog", CreatedDate = DateTime.Now },
+                new Comment { CommentId = 2, AnimalId = 1, Auther = "Shira", Text = "Small Dog", CreatedDate = DateTime.Now },
+                 new Comment { CommentId = 3, AnimalId = 2, Auther = "Aviv", Text = "Snow Dog", CreatedDate = DateTime.Now },
+                new Comment { CommentId = 4, AnimalId = 2, Auther = "Shira", Text = "White black Dog", CreatedDate = DateTime.Now },
+                  new Comment { CommentId = 5, AnimalId = 3, Auther = "Aviv", Text = "British Dog", CreatedDate = DateTime.Now },
+                new Comment { CommentId = 6, AnimalId = 3, Auther = "Shira", Text = "Good for sheep", CreatedDate = DateTime.Now },
+                 new Comment { CommentId = 7, AnimalId = 4, Auther = "Aviv", Text = "Cute Cat", CreatedDate = DateTime.Now },
+                new Comment { CommentId = 8, AnimalId = 4, Auther = "Shira", Text = "cat with blue eyes", CreatedDate = DateTime.Now },
+                  new Comment { CommentId = 9, AnimalId = 5, Auther = "Aviv", Text = "Persian Cute Cat", CreatedDate = DateTime.Now },
+                new Comment { CommentId = 10, AnimalId = 5, Auther = "Shira", Text = "Persian's cates are with round face and short muzzle", CreatedDate = DateTime.Now },
+                 new Comment { CommentId = 11, AnimalId = 6, Auther = "Aviv", Text = "Cute Rabbit", CreatedDate = DateTime.Now },
+                new Comment { CommentId = 12, AnimalId = 6, Auther = "Shira", Text = "Brown Rabbit", CreatedDate = DateTime.Now },
+                  new Comment { CommentId = 13, AnimalId = 7, Auther = "Aviv", Text = "Cute Macaw", CreatedDate = DateTime.Now },
+                new Comment { CommentId = 14, AnimalId = 7, Auther = "Shira", Text = "beautiful Macaw", CreatedDate = DateTime.Now },
+                 new Comment { CommentId = 15, AnimalId = 8, Auther = "Aviv", Text = "Cute African Grey", CreatedDate = DateTime.Now },
+                new Comment { CommentId = 16, AnimalId = 8, Auther = "Shira", Text = "African Grey is grey", CreatedDate = DateTime.Now },
+                   new Comment { CommentId = 17, AnimalId = 9, Auther = "Aviv", Text = "Cute Chameleon", CreatedDate = DateTime.Now },
+                new Comment { CommentId = 18, AnimalId = 9, Auther = "Shira", Text = "Small Chameleon", CreatedDate = DateTime.Now },
+                  new Comment { CommentId = 19, AnimalId = 10, Auther = "Aviv", Text = "Cute tortoise", CreatedDate = DateTime.Now },
+                new Comment { CommentId = 20, AnimalId = 10, Auther = "Shira", Text = "Small tortoise", CreatedDate = DateTime.Now },
+                 new Comment { CommentId = 21, AnimalId = 11, Auther = "Aviv", Text = "Gold fish is very gold", CreatedDate = DateTime.Now },
+                new Comment { CommentId = 22, AnimalId = 11, Auther = "Shira", Text = "Gold fish beautiful", CreatedDate = DateTime.Now },
+                new Comment { CommentId = 23, AnimalId = 12, Auther = "Shira", Text = "Clown fish cute", CreatedDate = DateTime.Now },
+                new Comment { CommentId = 24, AnimalId = 12, Auther = "Aviv", Text = "Clown fish nice", CreatedDate = DateTime.Now }
            );
             modelBuilder.Entity<User>().HasData(
                 new User { UserId = 1, UserName = "admin", Password = "1234" }
