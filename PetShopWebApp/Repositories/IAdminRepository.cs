@@ -1,10 +1,12 @@
-﻿namespace PetShopWebApp.Repositories
+﻿using PetShopWebApp.Models;
+
+namespace PetShopWebApp.Repositories
 {
     public interface IAdminRepository
     {
         void AddAnimal();
         void EditAnimal();
-        bool Login();
+        bool Login(User user);
         void RemoveAnimal();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PetShopWebApp.Data;
+using PetShopWebApp.Models;
 
 namespace PetShopWebApp.Repositories
 {
@@ -9,9 +10,11 @@ namespace PetShopWebApp.Repositories
         {
             _context = context;
         }
-        public bool Login()
+        public bool Login(User user)
         {
-            throw new NotImplementedException();
+            var pet = _context.Users!
+                .First(u => u.UserName == user.UserName);
+            return pet.Password == user.Password;
         }
         public void AddAnimal()
         {
