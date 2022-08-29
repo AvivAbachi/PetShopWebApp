@@ -13,15 +13,21 @@ namespace PetShopWebApp.Repositories
         }
         public IEnumerable<Animal> GetAnimals()
         {
-            return _context.Animals!;
+            return _context.Animals!
+                .OrderBy(a=>a.AnimalId);
         }
-        public Animal GetAnimalByIDAndComments(int id)
+        public IEnumerable<Comment> GetComments()
+        {
+            return _context.Comments!;
+        }
+        public Animal? GetAnimalByIDAndComments(int id)
         {
             var pet = _context.Animals!
                   .Where(p => p.AnimalId == id)
                   .Include(p => p.Category)
-                  .Include(p => p.Comments!.OrderByDescending(c=>c.CreatedDate))
-                  .First();
+                  .Include(p => p.Comments!
+                  .OrderByDescending(c=>c.CreatedDate))
+                  .FirstOrDefault();
              return pet;
         }
         public IEnumerable<Animal> GetAnimalByCategory(int category)
@@ -34,6 +40,7 @@ namespace PetShopWebApp.Repositories
         {
             return _context.Animals!
                 .OrderByDescending(a => a.Like)
+                .OrderBy(a=>a.AnimalId)
                 .Include(p => p.Category)
                 .Take(counter);
         }

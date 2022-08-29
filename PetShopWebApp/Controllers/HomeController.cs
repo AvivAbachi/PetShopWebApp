@@ -26,9 +26,9 @@ namespace PetShopWebApp.Controllers
 
         public IActionResult Category(int? id)
         {
-            
+
             ViewBag.CategoryList = _repository.GetCategories();
-            return View(id == null ? _repository.GetAnimals() :_repository.GetAnimalByCategory(id!.Value)) ;
+            return View(id == null ? _repository.GetAnimals() : _repository.GetAnimalByCategory(id!.Value));
         }
 
         [HttpPost]
@@ -53,6 +53,10 @@ namespace PetShopWebApp.Controllers
             });
             //_repository.AddAnimaComment(id, auther, text);
             //return RedirectToAction("Animal", new { id });
+        }
+        public IActionResult Error()
+        {
+            return View();
         }
     }
 }

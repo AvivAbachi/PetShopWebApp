@@ -20,6 +20,16 @@ using (var scope = app.Services.CreateScope())
     ctx.Database.EnsureCreated();
 }
 
+//if (env.IsDevelopment())
+//{
+//    app.UseDeveloperExceptionPage();
+//}
+//else
+//{
+ //   app.UseExceptionHandler("/Home/Error");
+//}
+
+
 app.UseStaticFiles();
 app.UseRouting();
 
