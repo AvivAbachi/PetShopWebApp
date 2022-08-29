@@ -16,22 +16,29 @@ namespace PetShopWebApp.Repositories
                 .First(u => u.UserName == user.UserName);
             return pet.Password == user.Password;
         }
-        public void AddAnimal()
+        public void AddAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            _context.Animals!.Add(animal);
+            _context.SaveChanges();
         }
-        public void RemoveAnimal()
+        public Animal EditAnimal(Animal animal)
         {
-            throw new NotImplementedException();
-        }
-        public void EditAnimal()
-        {
+            var pet = _context.Animals!
+                .First(p => p.AnimalId == animal.AnimalId);
             UploadPicture();
-            throw new NotImplementedException();
-        }
+            return pet;
+                }
         void UploadPicture()
         {
             throw new NotImplementedException();
+        }
+
+        public void RemoveAnimal(int id)
+        {   
+            var pet= _context.Animals!
+                .Single(p=>p.AnimalId==id);
+            _context.Animals!.Remove(pet);
+            _context.SaveChanges();
         }
     }
 }

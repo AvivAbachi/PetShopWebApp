@@ -33,38 +33,45 @@ namespace PetShopTestProject
         [TestMethod]
         public void GetAnimalByCategoryTest()
         {
-            var pets=publicRepository.GetAnimalByCategory(1).ToList();
-            Assert.IsFalse(pets.First().CategoryId != 1);
+            int category = 1;
+            var pets = publicRepository.GetAnimalByCategory(category);
+            Assert.IsTrue(pets.All(a => a.CategoryId == category));
         }
 
         [TestMethod]
         public void GetAnimalsByLikesTest()
         {
-            var pets = publicRepository.GetAnimalsByLikes(2).ToList();
-
-            var petMaxArray = new List<Animal>();
-            var getPetMax1 = publicRepository.GetAnimals().MaxBy(p=>p.Like!);
-            petMaxArray.Add(getPetMax1!);
-            var tempPet = publicRepository.GetAnimalsByLikes(2).ToList();
-            tempPet.Remove(getPetMax1!);
-            petMaxArray.Add(tempPet.MaxBy(p => p.Like));
-            Assert.IsTrue(Enumerable.SequenceEqual(pets.OrderBy(e => e.AnimalId), petMaxArray.OrderBy(e => e.AnimalId)));
-
+            int count = 2;
+            var pets = publicRepository.GetAnimalsByLikes(count).ToList();
+            var allPets = publicRepository.GetAnimals().ToList();
+            for (int i = 0; i < count; i++)
+            {
+                var topPet = allPets.MaxBy(p => p.Like);
+                Assert.IsTrue(pets[i].AnimalId == topPet?.AnimalId);
+                allPets.Remove(topPet);
+            }
         }
 
         [TestMethod]
         public void GetAnimalByIDAndCommentsTest()
         {
-            var pets=publicRepository.GetAnimalByIDAndComments(1);
-            Assert.IsTrue(publicRepository.GetAnimals().Any(a => a.AnimalId == 1));
+            int id = 1;
+            var petComment = publicRepository.GetAnimalByIDAndComments(id)
+                .Comments!.OrderBy(c => c.CommentId).ToList();
+            var comments = publicRepository.GetComments()
+                .Where(c => c.AnimalId == id).OrderBy(c => c.CommentId).ToList();
+            CollectionAssert.AreEqual(comments, petComment);
         }
 
         [TestMethod]
         public void AddAnimaCommentTest()
         {
-            publicRepository.AddAnimaComment(2,"Amit","Testing adding comment");
-            var comments = publicRepository.GetComments();
-            Assert.IsTrue(comments.Any(c => c.AnimalId == 2 && c.Auther == "Amit" && c.Text == "Testing adding comment"));
+            int id = 2;
+            string auther = "Amit";
+            string text = "Testing adding comment";
+            publicRepository.AddAnimaComment(id, auther, text);
+            var comment = publicRepository.GetComments().Last();
+            Assert.IsTrue(comment.AnimalId == id && comment.Auther == auther && comment.Text == text);
         }
 
         [TestMethod]

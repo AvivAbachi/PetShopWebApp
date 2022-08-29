@@ -20,14 +20,14 @@ namespace PetShopWebApp.Repositories
         {
             return _context.Comments!;
         }
-        public Animal GetAnimalByIDAndComments(int id)
+        public Animal? GetAnimalByIDAndComments(int id)
         {
             var pet = _context.Animals!
                   .Where(p => p.AnimalId == id)
                   .Include(p => p.Category)
                   .Include(p => p.Comments!
                   .OrderByDescending(c=>c.CreatedDate))
-                  .First();
+                  .FirstOrDefault();
              return pet;
         }
         public IEnumerable<Animal> GetAnimalByCategory(int category)
