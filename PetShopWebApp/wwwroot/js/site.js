@@ -11,12 +11,13 @@ const form = $('#newComment');
 form.submit(function (e) {
     e.preventDefault()
     const formdata = $(this).serializeArray()
-    const data = { id: this.dataset.id };
-    $(formdata).each(function (index, obj) {
-        data[obj.name] = obj.value;
-    });
+    const data = {
+        id: this.dataset.id,
+        [formdata[0].name]: formdata[0].value,
+        [formdata[1].name]: formdata[1].value
+    };
     $.post("/Home/AddAnimalComment/", data, function (data) {
-        $('#comments').prepend(`
+        const comment = $(`
             <div class="card-body">
                 <div class="card-title fs-5">${data.text}</div>
                     <div class="d-flex justify-content-between">
@@ -25,7 +26,10 @@ form.submit(function (e) {
                     </div>
                 </div>
             </div>
-        `);
+        `)
+        $('#comments').prepend(comment);
+        $(comment).hide();
+        $(comment).slideDown();
         form.trigger('reset');
     });
 })
