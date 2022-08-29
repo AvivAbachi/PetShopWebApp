@@ -1,4 +1,12 @@
-﻿.page {
+﻿.btn {
+    --bs-btn-border-radius: 1000px;
+}
+
+.form-select {
+    border-radius: 1000px;
+}
+
+.page {
     margin-top: 91.33px;
 }
 
@@ -18,6 +26,21 @@
 .text-shadow-1 {
     text-shadow: 2px 5px 5px #000000aa;
 }
+
 .form-signin {
     max-width: 330px;
 }
+
+    .form-signin .form-floating input {
+        border-radius: 0;
+    }
+
+    .form-signin .form-floating:first-of-type input {
+        border-top-left-radius: .375rem;
+        border-top-right-radius: .375rem;
+    }
+
+    .form-signin .form-floating:last-of-type input {
+        border-bottom-left-radius: .375rem;
+        border-bottom-right-radius: .375rem;
+    }

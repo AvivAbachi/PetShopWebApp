@@ -43,3 +43,9 @@ $('.navbar-toggler').click(
         menu.slideToggle(isOpen);
     }
 )
+// Auto Set Category
+$('#selectCategory').change(
+    function (select) {
+        $(this.parentNode).trigger('submit');
+    }
+)

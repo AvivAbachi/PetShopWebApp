@@ -1,0 +1,9 @@
+﻿@model IEnumerable<PetShopWebApp.Models.Category>
+
+<select id="selectCategory" name="id" class="form-select">
+	<option>Select to see by category</option>
+	@foreach (var category in Model)
+	{
+		<option value="@(category.CategoryId)">@category.Name</option>
+	}
+</select>
