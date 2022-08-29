@@ -14,7 +14,7 @@ namespace PetShopWebApp.Repositories
         public IEnumerable<Animal> GetAnimals()
         {
             return _context.Animals!
-                .OrderBy(a=>a.AnimalId);
+                .OrderBy(a => a.AnimalId);
         }
         public IEnumerable<Comment> GetComments()
         {
@@ -25,10 +25,9 @@ namespace PetShopWebApp.Repositories
             var pet = _context.Animals!
                   .Where(p => p.AnimalId == id)
                   .Include(p => p.Category)
-                  .Include(p => p.Comments!
-                  .OrderByDescending(c=>c.CreatedDate))
+                  .Include(p => p.Comments!.OrderByDescending(c => c.CreatedDate))
                   .FirstOrDefault();
-             return pet;
+            return pet;
         }
         public IEnumerable<Animal> GetAnimalByCategory(int category)
         {
@@ -40,9 +39,9 @@ namespace PetShopWebApp.Repositories
         {
             return _context.Animals!
                 .OrderByDescending(a => a.Like)
-                .OrderBy(a=>a.AnimalId)
-                .Include(p => p.Category)
-                .Take(counter);
+                .Take(counter)
+                .OrderBy(a => a.AnimalId)
+                .Include(p => p.Category);
         }
         public int AddAnimalLike(int id)
         {
@@ -55,7 +54,7 @@ namespace PetShopWebApp.Repositories
         {
             var pet = GetAnimalByIDAndComments(id);
             var comment = new Comment { AnimalId = id, Auther = auther, Text = text, CreatedDate = DateTime.Now };
-            pet.Comments!.Add(comment);
+            pet?.Comments!.Add(comment);
             _context.SaveChanges();
             return comment;
         }

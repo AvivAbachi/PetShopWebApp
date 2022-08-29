@@ -3,39 +3,34 @@
 	ViewBag.Title = "Pet Shop - Categories";
 }
 @section navbar{
-    <li class="nav-item">
-        <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
-    </li>
-    <li class="nav-item ">
-        <a asp-controller="Home" asp-action="Category" class="nav-link active">Category</a>
-    </li>
-    <li class="nav-item">
-        <a asp-controller="Admin" asp-action="Index" class="nav-link">Login</a>
-    </li>
+	<li class="nav-item">
+		<a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+	</li>
+	<li class="nav-item ">
+		<a asp-controller="Home" asp-action="Category" class="nav-link active">Category</a>
+	</li>
+	<li class="nav-item">
+		<a asp-controller="Admin" asp-action="Index" class="nav-link">Login</a>
+	</li>
 }
 
-<div class="container">
-	<div class="px-4 py-5 text-center">
-		<h1 class="fw-bold">Let's meet our's Pets!</h1>
-	</div>
-	<div>
-	<form method="get" asp-action="Category" class="row justify-content-md-center">
-	  <select name="id" class="form-select col" aria-label="Default select example">
-		  <option selected>Select to see by category</option>
+	<div class="container">
+		<div class="px-4 py-5 text-center">
+			<h1 class="fw-bold">Let's meet our's Pets!</h1>
+		</div>
+		<div>
+			<form method="get" asp-action="Category" class="row justify-content-md-center">
+				<select name="id" class="form-select col" aria-label="Default select example">
+					<option selected>Select to see by category</option>
 				@foreach (var item in (IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList)
 				{
 					<option value="@(item.CategoryId)">@item.Name</option>
 				}
-	  </select>
-	  <button typa="submit" class="btn btn-primary col col-lg-2">select</button>
-	</form>
-	  <div>
+			</select>
+			<button typa="submit" class="btn btn-primary col col-lg-2">select</button>
+		</form>
+		<div>
 			@await Html.PartialAsync("_PetListPartial",Model,new ViewDataDictionary(ViewData){{ "isAdmin", false }})
-	  </div>    
+		</div>
 	</div>
 </div>
-
-
-
-
-

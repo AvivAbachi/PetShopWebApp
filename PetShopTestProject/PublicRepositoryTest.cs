@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetShopWebApp.Models;
 using PetShopWebApp.Repositories;
-using System.Linq;
 
 namespace PetShopTestProject
 {
@@ -25,6 +24,7 @@ namespace PetShopTestProject
         public void AddAnimalLikeTest()
         {
             var pet = publicRepository.GetAnimalByIDAndComments(1);
+            if (pet == null) throw new AssertFailedException("");
             int like = pet.Like;
             publicRepository.AddAnimalLike(1);
             Assert.IsTrue(like + 1 == pet.Like);
@@ -57,7 +57,7 @@ namespace PetShopTestProject
         {
             int id = 1;
             var petComment = publicRepository.GetAnimalByIDAndComments(id)
-                .Comments!.OrderBy(c => c.CommentId).ToList();
+                ?.Comments!.OrderBy(c => c.CommentId).ToList();
             var comments = publicRepository.GetComments()
                 .Where(c => c.AnimalId == id).OrderBy(c => c.CommentId).ToList();
             CollectionAssert.AreEqual(comments, petComment);

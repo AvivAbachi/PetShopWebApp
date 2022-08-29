@@ -54,6 +54,7 @@ namespace PetShopWebApp.Data
                 {
                     AnimalId = 4,
                     Name = "Ragdoll",
+                    Like = 5,
                     CategoryId = 1,
                     Age = 8.6,
                     Description = "The Ragdoll is a cat breed with a colorpoint coat and blue eyes. Its morphology is large and weighty, and it has a semi-long and silky soft coat. Ragdolls were bred by American breeder Ann Baker in the 1960s. They are best known for their docile, placid, temperament and affectionate nature",

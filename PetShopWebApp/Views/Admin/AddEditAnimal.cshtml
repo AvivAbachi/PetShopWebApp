@@ -5,27 +5,27 @@
 }
 
 @section navbar{
-    <li class="nav-item">
-        <a asp-controller="Home" asp-action="Index" class="nav-link ">Home</a>
-    </li>
-    <li class="nav-item">
-        <a asp-controller="Home" asp-action="Category" class="nav-link">Category</a>
-    </li>
-    <li class="nav-item">
-        <a asp-controller="Admin" asp-action="Index" class="nav-link active">Login</a>
-    </li>
+	<li class="nav-item">
+		<a asp-controller="Home" asp-action="Index" class="nav-link ">Home</a>
+	</li>
+	<li class="nav-item">
+		<a asp-controller="Home" asp-action="Category" class="nav-link">Category</a>
+	</li>
+	<li class="nav-item">
+		<a asp-controller="Admin" asp-action="Index" class="nav-link active">Login</a>
+	</li>
 }
 
-<form method="post" asp-action="@(ViewBag.isEdit?"EditAnimal":"AddAnimal")">
-  <div class="mb-3">
-	<label asp-for="@Model.Name" class="form-label"></label>
-	<input asp-for="@Model.Name" class="form-control">
-  </div>
-  <select asp-for="@Model.CategoryId">
+	<form method="post" asp-action="@(ViewBag.isEdit?"EditAnimal":"AddAnimal")">
+		<div class="mb-3">
+			<label asp-for="@Model.Name" class="form-label"></label>
+			<input asp-for="@Model.Name" class="form-control">
+		</div>
+		<select asp-for="@Model.CategoryId">
 		@foreach (var item in (IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList)
 		{
-						<option value="@(item.CategoryId)">@item.Name</option>
+			<option value="@(item.CategoryId)">@item.Name</option>
 		}
-  </select>
- <button typa="submit" class="btn btn-primary">@(ViewBag.isEdit?"Edit Animal!":"Add Animal!")</button>
- </form>
+	</select>
+	<button typa="submit" class="btn btn-primary">@(ViewBag.isEdit ? "Edit Animal!" : "Add Animal!")</button>
+</form>

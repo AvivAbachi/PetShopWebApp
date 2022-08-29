@@ -26,7 +26,7 @@ using (var scope = app.Services.CreateScope())
 //}
 //else
 //{
- //   app.UseExceptionHandler("/Home/Error");
+//   app.UseExceptionHandler("/Home/Error");
 //}
 
 
