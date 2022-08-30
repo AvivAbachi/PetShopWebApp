@@ -44,10 +44,10 @@ namespace PetShopWebApp.Controllers
             ViewBag.isEdit = false;
             return View("AddEditAnimal", new Animal());
         }
-        public IActionResult EditAnimal(Animal animal)
+        public IActionResult EditAnimal(int id)
         {
             ViewBag.CategoryList = _publicRepository.GetCategories();
-
+            var animal= _publicRepository.GetAnimalByIDAndComments(id);
             // bool islogin = _adminRepository.Login(user);
             //TempData["user"] = islogin;
             ViewBag.isEdit = true;
@@ -57,6 +57,19 @@ namespace PetShopWebApp.Controllers
         public IActionResult AddAnimal(Animal animal)
         {
             _adminRepository.AddAnimal(animal);
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public IActionResult EditAnimal(Animal animal)
+        {
+            _adminRepository.EditAnimal(animal);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult RemoveAnimal(int id)
+        {
+            _adminRepository.RemoveAnimal(id);
             return RedirectToAction("Index");
         }
     }
