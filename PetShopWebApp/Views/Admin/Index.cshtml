@@ -2,27 +2,16 @@
 
 @{
 	ViewBag.Title = "Admin - Pet Shop";
+	ViewBag.Page = "Admin";
 }
 
-@section navbar{
-	<li class="nav-item">
-		<a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
-	</li>
-	<li class="nav-item">
-		<a asp-controller="Home" asp-action="Category" class="nav-link">Category</a>
-	</li>
-	<li class="nav-item">
-		<a asp-controller="Admin" asp-action="Index" class="nav-link active">Login</a>
-	</li>
-}
-
-	<h1 class="py-5 text-center fw-bold">Admin</h1>
-	<div class="container">
-		<div class="row mb-4 container-fluid">
-			<form method="get" asp-action="Category" class="col">
-				@await Html.PartialAsync("_SelectCategoryPartial",(IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList)
-			</form>
-			<a asp-action="AddAnimal" class="btn btn-success col-auto">Add Animal</a>
-		</div>
-		@await Html.PartialAsync("_PetListPartial",Model,new ViewDataDictionary(ViewData){{ "isAdmin", true }})
+<h1 class="py-5 text-center fw-bold">Admin</h1>
+<div class="container">
+	<div class="row mb-4 container-fluid">
+		<form method="get" asp-action="Category" class="col">
+			@await Html.PartialAsync("_SelectCategoryPartial",(IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList)
+		</form>
+		<a asp-action="AddAnimal" class="btn btn-success col-auto">Add Animal</a>
 	</div>
+	@await Html.PartialAsync("_PetListPartial",Model,new ViewDataDictionary(ViewData){{ "isAdmin", true }})
+</div>

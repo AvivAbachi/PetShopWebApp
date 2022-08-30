@@ -22,7 +22,21 @@
 				</button>
 				<div class="collapse navbar-collapse" id="menu">
 					<ul class="navbar-nav">
-						@RenderSection("navbar", false)
+						<li class="nav-item">
+							<a asp-controller="Home" asp-action="Index" class="nav-link @(ViewBag.Page == "Home" ? "active":"")">
+								Home
+							</a>
+						</li>
+						<li class="nav-item">
+							<a asp-controller="Home" asp-action="Category" class="nav-link @(ViewBag.Page == "Category" ? "active":"")">
+								Category
+							</a>
+						</li>
+						<li class="nav-item">
+							<a asp-controller="Admin" asp-action="Index" class="nav-link @(ViewBag.Page == "Admin" ? "active":"")">
+								Admin
+							</a>
+						</li>
 					</ul>
 				</div>
 			</div>

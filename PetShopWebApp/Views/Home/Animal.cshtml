@@ -2,46 +2,35 @@
 
 @{
 	ViewBag.Title = Model.Name + " - Pet Shop";
+	ViewBag.Page = "Category";
 }
 
-@section navbar{
-	<li class="nav-item">
-		<a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
-	</li>
-	<li class="nav-item">
-		<a asp-controller="Home" asp-action="Category" class="nav-link active">Catagory</a>
-	</li>
-	<li class="nav-item">
-		<a asp-controller="Admin" asp-action="Index" class="nav-link">Login</a>
-	</li>
-}
-
-	<div class="container py-5">
-		<div class="card flex-row border-0 shadow-lg row-cols-2 row-cols-lg-2 position-relative">
-			<div class="col">
-				@await Html.PartialAsync("_ButtonLikePartial", Model.AnimalId)
-				<img class="card-img" src="@Model.PictureURL" />
-			</div>
-			<div class="col p-5">
-				<div class="">
-					<h1>@Model.Name</h1>
-					<h4 class="border-top mt-2 pt-4">Details</h4>
-					<div>Like: <span id="like_@Model.AnimalId">@Model.Like</span></div>
-					<div>Age: @Model.Age</div>
-					<div>Category: @Model.Category?.Name</div>
-					<h4 class="border-top mt-2 pt-4">Description</h4>
-					<p>@Model.Description</p>
-					<h4 class="border-top mt-2 pt-4">Comments</h4>
-					<form data-id="@Model.AnimalId" id="newComment">
-						<label for="auther" class="form-label">Auther</label>
-						<input value="" class="form-control mb-3" name="auther" />
-						<label for="text" class="form-label">Comment</label>
-						<textarea class="form-control mb-3" name="text"></textarea>
-						<button type="submit" class="btn btn-primary btn-sm">
-							Send Comment!
-						</button>
-					</form>
-					<div id="comments">
+<div class="container py-5">
+	<div class="card flex-row border-0 shadow-lg row-cols-2 row-cols-lg-2 position-relative">
+		<div class="col">
+			@await Html.PartialAsync("_ButtonLikePartial", Model.AnimalId)
+			<img class="card-img" src="@Model.PictureURL" />
+		</div>
+		<div class="col p-5">
+			<div class="">
+				<h1>@Model.Name</h1>
+				<h4 class="border-top mt-2 pt-4">Details</h4>
+				<div>Like: <span id="like_@Model.AnimalId">@Model.Like</span></div>
+				<div>Age: @Model.Age</div>
+				<div>Category: @Model.Category?.Name</div>
+				<h4 class="border-top mt-2 pt-4">Description</h4>
+				<p>@Model.Description</p>
+				<h4 class="border-top mt-2 pt-4">Comments</h4>
+				<form data-id="@Model.AnimalId" id="newComment">
+					<label for="auther" class="form-label">Auther</label>
+					<input value="" class="form-control mb-3" name="auther" />
+					<label for="text" class="form-label">Comment</label>
+					<textarea class="form-control mb-3" name="text"></textarea>
+					<button type="submit" class="btn btn-primary btn-sm">
+						Send Comment!
+					</button>
+				</form>
+				<div id="comments">
 					@foreach (var comment in @Model.Comments!)
 					{
 						<div class="card-body">
