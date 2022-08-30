@@ -361,4 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# PetShopWebApp
 /PetShopWebApp/package-lock.json
+/PetShopWebApp/wwwroot/upload

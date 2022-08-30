@@ -6,7 +6,7 @@ namespace PetShopWebApp.Repositories
 {
     public class PublicRepository : IPublicRepository
     {
-        readonly PetShopConetex _context;
+        private readonly PetShopConetex _context;
         public PublicRepository(PetShopConetex context)
         {
             _context = context;
@@ -58,7 +58,6 @@ namespace PetShopWebApp.Repositories
             _context.SaveChanges();
             return comment;
         }
-
         public IEnumerable<Category> GetCategories()
         {
             return _context.Category!;

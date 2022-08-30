@@ -49,3 +49,12 @@ $('#selectCategory').change(
         $(this.parentNode).trigger('submit');
     }
 )
+$('.btn-delete').click(
+    function (btn) {
+        const id = btn.currentTarget.dataset.id;
+        $.post('/Admin/DeleteAnimal/'+id, function () {
+        const pet = $('#pet_' + id);
+        pet.fadeOut(function () { pet.remove(); });
+        })
+    }
+)

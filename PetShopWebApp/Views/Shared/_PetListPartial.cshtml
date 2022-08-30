@@ -12,24 +12,24 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var item in Model)
+		@foreach (var pet in Model)
 		{
-			<tr class="d-lg-table-row mb-lg-0 d-flex flex-column mb-5">
+			<tr id="pet_@pet.AnimalId" class="d-lg-table-row mb-lg-0 d-flex flex-column mb-5">
 				<td>
-					<a asp-controller="Home" asp-action="Animal" asp-route-id="@item.AnimalId">
-						<img src="@item.PictureURL" width="200" class="rounded-3 m-lg-1">
+					<a asp-controller="Home" asp-action="Animal" asp-route-id="@pet.AnimalId">
+						<img src="@pet.PictureURL" width="200" class="rounded-3 m-lg-1">
 					</a>
 				</td>
-				<td>@item.Name </td>
-				<td>@item.Age </td>
-				<td>@item.Category!.Name </td>
-				<td>@item.Description </td>
-				<td class="px-2">
-					<a asp-controller="Home" asp-action="Animal" asp-route-id="@item.AnimalId" class="btn btn-primary d-block">Details</a>
+				<td>@pet.Name</td>
+				<td>@pet.Age</td>
+				<td>@pet.Category!.Name</td>
+				<td>@pet.Description</td>
+				<td class="p-3">
+					<a asp-controller="Home" asp-action="Animal" asp-route-id="@pet.AnimalId" class="btn btn-primary d-block">Details</a>
 					@if ((bool)ViewData["isAdmin"]!)
 					{
-						<a asp-controller="Admin" asp-action="EditAnimal" asp-route-id="@item.AnimalId" class="btn btn-success d-block mt-2">Edit</a>
-						<a asp-controller="Admin" asp-action="RemoveAnimal" asp-route-id="@item.AnimalId" class="btn btn-danger d-block mt-2">Remove</a>
+						<a asp-controller="Admin" asp-action="EditAnimal" asp-route-id="@pet.AnimalId" class="btn btn-success d-block mt-3">Edit</a>
+						<a data-id="@pet.AnimalId" class="btn btn-danger btn-delete d-block mt-3">Remove</a>
 					}
 				</td>
 			</tr>

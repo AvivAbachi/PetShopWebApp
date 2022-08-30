@@ -5,9 +5,8 @@
 	ViewBag.Page = "Home";
 }
 
-
 <div class="px-4 py-5 text-center">
-	<img class="d-block mx-auto mb-4" src="~/logo_original.png" alt="" width="256">
+	<img class="d-block mx-auto mb-4" src="~/assets/logo.png" alt="" width="256">
 	<h1 class="display-5 fw-bold">Welcome to Pet Shop!</h1>
 	<div class="col-lg-6 mx-auto">
 		<p class="lead mb-4">
@@ -25,16 +24,18 @@
 			<div class="col g-4">
 				<div class="position-relative">
 					@await Html.PartialAsync("_ButtonLikePartial", pet.AnimalId)
-					<a asp-controller="Home" asp-action="Animal" asp-route-id="@pet.AnimalId" class="d-block overflow-hidden text-bg-dark rounded-4 shadow-lg card-pet text-decoration-none" style="background-image: url('@pet.PictureURL')">
+					<a asp-controller="Home" asp-action="Animal" asp-route-id="@pet.AnimalId" 
+						class="d-block overflow-hidden text-bg-dark rounded-4 shadow-lg card-pet text-decoration-none" 
+						style="background-image: url('@pet.PictureURL')">
 						<div class="d-flex flex-column justify-content-between p-5 pb-3 text-white text-shadow-1 h-100">
 							<h2 class="mb-4 display-6 lh-1 fw-bold">@pet.Name</h2>
 							<ul class="d-flex list-unstyled mt-auto">
 								<li class="d-flex align-items-center me-auto">
-									<i class="fa-solid fa-bookmark"></i>
+									<i class="fa-solid fa-bookmark me-3"></i>
 									<small>@pet.Category?.Name</small>
 								</li>
 								<li class="d-flex align-items-center">
-									<i class="fa-solid fa-heart"></i>
+									<i class="fa-solid fa-heart me-3"></i>
 									<small id="like_@pet.AnimalId">@pet.Like</small>
 								</li>
 							</ul>

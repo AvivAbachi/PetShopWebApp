@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetShopWebApp.Data;
 using PetShopWebApp.Models;
-
+using System.Text.RegularExpressions;
 
 namespace PetShopWebApp.Repositories
 {
     public class AdminRepository : IAdminRepository
     {
-        readonly PetShopConetex _context;
-        private IWebHostEnvironment _environment;
+        private readonly PetShopConetex _context;
+        private readonly IWebHostEnvironment _environment;
         public AdminRepository(PetShopConetex context, IWebHostEnvironment environment)
         {
             _context = context;
@@ -16,48 +16,45 @@ namespace PetShopWebApp.Repositories
         }
         public bool Login(User user)
         {
-            var pet = _context.Users!
-                .First(u => u.UserName == user.UserName);
+            var pet = _context.Users!.First(u => u.UserName == user.UserName);
             return pet.Password == user.Password;
         }
-        public async void AddAnimal(Animal animal)
+        public void AddAnimal(Animal animal)
         {
-            string? url = animal.File != null ? await UploadPicture(animal.File) : null;
+            string url = animal.File != null ? UploadPicture(animal.File, animal.AnimalId) : "";
             _context.Animals!.Add(new Animal
             {
                 Name = animal.Name,
                 Description = animal.Description,
                 Age = animal.Age,
-                PictureURL =url,
+                PictureURL = url,
                 CategoryId = animal.CategoryId,
             });
             _context.SaveChanges();
         }
-        public async void EditAnimal(Animal animal)
+        public void EditAnimal(Animal animal)
         {
             var pet = _context.Animals!.First(p => p.AnimalId == animal.AnimalId);
             pet.Name = animal.Name;
             pet.Description = animal.Description;
             pet.Age = animal.Age;
-            pet.PictureURL = animal.File != null ?await UploadPicture(animal.File) : pet.PictureURL;
+            if (animal.File != null) pet.PictureURL = UploadPicture(animal.File, pet.AnimalId);
             pet.CategoryId = animal.CategoryId;
             _context.SaveChanges();
         }
-        private async Task< string?> UploadPicture(IFormFile file)
+        private string UploadPicture(IFormFile file, int id)
         {
-            var FileDic = "img";
-            string FilePath = Path.Combine(_environment.WebRootPath, FileDic);
+            string FilePath = Path.Combine(_environment.WebRootPath, "upload");
             if (!Directory.Exists(FilePath)) Directory.CreateDirectory(FilePath);
-            var fileName = file!.FileName;
+            var fileName = $"{id}.{file!.ContentType.Split('/')[1]}";
             var filePath = Path.Combine(FilePath, fileName);
 
             using (FileStream fs = File.Create(filePath))
             {
-             await   file.CopyToAsync(fs);
+                file.CopyTo(fs);
             }
-            return Path.GetFullPath(filePath);
+            return Path.Combine(_environment.WebRootPath, $"/upload/{fileName}");
         }
-
         public void RemoveAnimal(int id)
         {
             var pet = _context.Animals!
@@ -66,7 +63,7 @@ namespace PetShopWebApp.Repositories
                   .FirstOrDefault();
             if (pet != null)
             {
-                if (pet.PictureURL != null) File.Delete(pet.PictureURL);
+                //if (pet.PictureURL != null) File.Delete(pet.PictureURL);
                 _context.Comments!.RemoveRange(pet.Comments!);
                 _context.Animals!.Remove(pet);
                 _context.SaveChanges();

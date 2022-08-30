@@ -3,12 +3,12 @@
 @{
 	ViewBag.Title = (ViewBag.isEdit ? "Edit" : "Add") + " Pet - Pet Shop";
 	ViewBag.Page = "Admin";
-}
+ }
 
 <div class="container p-5">
 	<div class="card p-5 border-0 shadow-lg">
 		<h1 class="card-title text-center mb-3">@(ViewBag.isEdit ? "Edit" : "Add") Animal</h1>
-		<form class="card-body" method="post" asp-for="@Model" asp-action="@(ViewBag.isEdit?"EditAnimal":"AddAnimal")" enctype="multipart/form-data">
+		<form class="card-body" asp-action="@(ViewBag.isEdit?"EditAnimal":"AddAnimal")" method="post" enctype="multipart/form-data">
 			@if (ViewBag.isEdit)
 			{
 				<div class="mb-3 ">
