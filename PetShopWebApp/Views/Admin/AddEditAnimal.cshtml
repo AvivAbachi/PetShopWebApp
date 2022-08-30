@@ -18,7 +18,7 @@
 <div class="container p-5">
     <div class="card p-5 border-0 shadow-lg">
     <h1 class="card-title text-center mb-3">@(ViewBag.isEdit?"Edit":"Add") Animal</h1>
-    <form class="card-body" method="post" asp-for="@Model" asp-action="@(ViewBag.isEdit?"EditAnimal":"AddAnimal")">
+    <form class="card-body" method="post" asp-for="@Model" asp-action="@(ViewBag.isEdit?"EditAnimal":"AddAnimal")" enctype = "multipart/form-data" >
             @if (ViewBag.isEdit)
             {
                 <div class="mb-3 ">
@@ -55,8 +55,8 @@
         }
         <div class="mb-3">
             <label asp-for="@Model.PictureURL" class="form-label">PictureURL</label>
-            <input asp-for="@Model.PictureURL" class="form-control">
-            <input type="file"/>
+            @*<input asp-for="@Model.PictureURL" class="form-control">*@
+            <input asp-for="@Model.File" type="file" class="form-control"/>
             <br />
             <img class="rounded-3 mt-3" src="@Model.PictureURL" width="150" />
         </div>

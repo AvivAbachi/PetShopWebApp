@@ -1,4 +1,7 @@
-﻿namespace PetShopWebApp.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PetShopWebApp.Models
 {
     public class Animal
     {
@@ -9,6 +12,8 @@
         public string? PictureURL { get; set; }
         public string? Description { get; set; }
         public int CategoryId { get; set; }
+        [NotMapped]
+        public IFormFile? File { get; set; }
         public virtual Category? Category { get; set; }
         public virtual ICollection<Comment>? Comments { get; set; }
     }
