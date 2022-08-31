@@ -13,7 +13,10 @@
 			We believe that the bond between human and animals is a remarkable gift. Your only one click away from finding your new best friend!
 		</p>
 		<div>
-			<a asp-controller="Home" asp-action="Category" class="btn btn-primary btn-lg">View Our`s Pets!</a>
+			<a asp-controller="Home" asp-action="Category" class="btn btn-primary btn-lg">
+				View Our`s Pets			
+				<i class="fa-solid fa-paw ms-1"></i>
+			</a>
 		</div>
 	</div>
 </div>
@@ -31,11 +34,11 @@
 							<h2 class="mb-4 display-6 lh-1 fw-bold">@pet.Name</h2>
 							<ul class="d-flex list-unstyled mt-auto">
 								<li class="d-flex align-items-center me-auto">
-									<i class="fa-solid fa-bookmark me-3"></i>
+									<i class="fa-solid fa-bookmark me-2"></i>
 									<small>@pet.Category?.Name</small>
 								</li>
 								<li class="d-flex align-items-center">
-									<i class="fa-solid fa-heart me-3"></i>
+									<i class="fa-solid fa-heart me-2"></i>
 									<small id="like_@pet.AnimalId">@pet.Like</small>
 								</li>
 							</ul>

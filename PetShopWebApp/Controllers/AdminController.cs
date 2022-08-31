@@ -50,24 +50,20 @@ namespace PetShopWebApp.Controllers
             ViewBag.isEdit = true;
             return View("AddEditAnimal", animal);
         }
-
         [HttpPost]
-        public IActionResult AddAnimal(Animal model)
+        public async Task<IActionResult> AddAnimal(Animal model)
         {
-            if (ModelState.IsValid)
-            { 
-                _adminRepository.AddAnimal(model);
-            }
+            if (model == null) return NotFound();
+            await _adminRepository.AddAnimal(model);
             return RedirectToAction("Index");
         }
-
         [HttpPost]
-        public IActionResult EditAnimal(Animal model)
+        public async Task<IActionResult> EditAnimal(Animal model)
         {
-            _adminRepository.EditAnimal(model);
+            if (model == null) return NotFound();
+            await _adminRepository.EditAnimal(model);
             return RedirectToAction("Index");
         }
-
         [HttpPost]
         public IActionResult DeleteAnimal(int id)
         {

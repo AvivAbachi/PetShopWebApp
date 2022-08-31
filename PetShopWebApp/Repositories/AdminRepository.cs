@@ -19,30 +19,30 @@ namespace PetShopWebApp.Repositories
             var pet = _context.Users!.First(u => u.UserName == user.UserName);
             return pet.Password == user.Password;
         }
-        public void AddAnimal(Animal animal)
+        public async Task AddAnimal(Animal animal)
         {
-            string url = animal.File != null ? UploadPicture(animal.File, animal.AnimalId) : "";
             _context.Animals!.Add(new Animal
             {
                 Name = animal.Name,
                 Description = animal.Description,
                 Age = animal.Age,
-                PictureURL = url,
                 CategoryId = animal.CategoryId,
             });
-            _context.SaveChanges();
+            var r = _context.Animals!.Last();
+            string url = animal.File != null ? (await UploadPicture(animal.File, r.AnimalId)) : "";
+            await _context.SaveChangesAsync();
         }
-        public void EditAnimal(Animal animal)
+        public async Task EditAnimal(Animal animal)
         {
             var pet = _context.Animals!.First(p => p.AnimalId == animal.AnimalId);
             pet.Name = animal.Name;
             pet.Description = animal.Description;
             pet.Age = animal.Age;
-            if (animal.File != null) pet.PictureURL = UploadPicture(animal.File, pet.AnimalId);
+            if (animal.File != null) pet.PictureURL = await UploadPicture(animal.File, pet.AnimalId);
             pet.CategoryId = animal.CategoryId;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        private string UploadPicture(IFormFile file, int id)
+        private async Task<string> UploadPicture(IFormFile file, int id)
         {
             string FilePath = Path.Combine(_environment.WebRootPath, "upload");
             if (!Directory.Exists(FilePath)) Directory.CreateDirectory(FilePath);
@@ -51,7 +51,7 @@ namespace PetShopWebApp.Repositories
 
             using (FileStream fs = File.Create(filePath))
             {
-                file.CopyTo(fs);
+                await file.CopyToAsync(fs);
             }
             return Path.Combine(_environment.WebRootPath, $"/upload/{fileName}");
         }

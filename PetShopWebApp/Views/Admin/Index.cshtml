@@ -11,7 +11,10 @@
 		<form method="get" asp-action="Category" class="col">
 			@await Html.PartialAsync("_SelectCategoryPartial",(IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList)
 		</form>
-		<a asp-action="AddAnimal" class="btn btn-success col-auto">Add Animal</a>
+		<a asp-action="AddAnimal" class="btn btn-primary col-auto">
+			Add Pet
+			<i class="fa-solid fa-plus ms-1"></i>
+		</a>
 	</div>
 	@await Html.PartialAsync("_PetListPartial",Model,new ViewDataDictionary(ViewData){{ "isAdmin", true }})
 </div>

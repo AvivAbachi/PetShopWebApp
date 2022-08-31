@@ -4,8 +4,8 @@ namespace PetShopWebApp.Repositories
 {
     public interface IAdminRepository
     {
-        void AddAnimal(Animal animal);
-        void EditAnimal(Animal animal);
+        Task AddAnimal(Animal animal);
+        Task EditAnimal(Animal animal);
         bool Login(User user);
         void RemoveAnimal(int id);
     }
