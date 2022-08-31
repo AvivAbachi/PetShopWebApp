@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetShopWebApp.Data;
 using PetShopWebApp.Models;
-using System.Text.RegularExpressions;
 
 namespace PetShopWebApp.Repositories
 {
@@ -13,11 +12,6 @@ namespace PetShopWebApp.Repositories
         {
             _context = context;
             _environment = environment;
-        }
-        public bool Login(User user)
-        {
-            var pet = _context.Users!.First(u => u.UserName == user.UserName);
-            return pet.Password == user.Password;
         }
         public async Task AddAnimal(Animal animal)
         {

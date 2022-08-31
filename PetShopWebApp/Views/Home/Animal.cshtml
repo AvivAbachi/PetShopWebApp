@@ -8,7 +8,7 @@
 <div class="container py-5">
 	<div class="card border-0 shadow-lg d-flex flex-wrap flex-row row-cols-lg-2 row-cols-1 rounded-4 position-relative">
 		<div class="col">
-			@await Html.PartialAsync("_ButtonLikePartial", Model.AnimalId)
+			<partial name="_ButtonLikePartial" model="@Model.AnimalId" />
 			<img class="card-img rounded-4" src="@Model.PictureURL" />
 		</div>
 		<div class="col p-5">

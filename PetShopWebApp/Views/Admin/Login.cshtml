@@ -1,4 +1,4 @@
-﻿@*@model PetShopWebApp.Models.User*@
+﻿@model PetShopWebApp.Models.User
 
 @{
 	ViewBag.Title = "Login - Pet Shop";
@@ -6,16 +6,16 @@
 }
 
 <div class="form-signin text-center w-100 mx-auto py-5">
-	<form method="post">
+	<form asp-controller="Admin" asp-action="login" method="post">
 		<img class="d-block mx-auto" src="~/assets/logo.png" alt="" width="256">
 		<h1 class="h3 mb-4 fw-normal">Please login</h1>
 		<div class="form-floating">
-			<input name="UserName" class="form-control" id="username" placeholder="Username">
-			<label for="username">Username</label>
+			<input asp-for="@Model.UserName" class="form-control" placeholder="Username">
+			<label asp-for="@Model.UserName">Username</label>
 		</div>
 		<div class="form-floating">
-			<input name="Password" type="password" class="form-control" id="password" placeholder="Password">
-			<label for="password">Password</label>
+			<input asp-for="@Model.Password" type="password" class="form-control" id="password" placeholder="Password">
+			<label asp-for="@Model.Password">Password</label>
 		</div>
 		<button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Login</button>
 	</form>

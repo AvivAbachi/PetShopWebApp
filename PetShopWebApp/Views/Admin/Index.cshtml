@@ -9,12 +9,12 @@
 <div class="container">
 	<div class="row mb-4 container-fluid">
 		<form method="get" asp-action="Category" class="col">
-			@await Html.PartialAsync("_SelectCategoryPartial",(IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList)
+			<partial name="_SelectCategoryPartial" model="(IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList" />
 		</form>
 		<a asp-action="AddAnimal" class="btn btn-primary col-auto">
 			Add Pet
 			<i class="fa-solid fa-plus ms-1"></i>
 		</a>
 	</div>
-	@await Html.PartialAsync("_PetListPartial",Model,new ViewDataDictionary(ViewData){{ "isAdmin", true }})
+	<partial name="_PetListPartial" model="@Model" view-data="@(new ViewDataDictionary(ViewData){{ "isAdmin", true }})" />
 </div>
