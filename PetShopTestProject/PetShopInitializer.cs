@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PetShopWebApp.Data;
@@ -16,6 +17,8 @@ namespace PetShopTestProject
             string connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 
             builder.Services.AddDbContext<PetShopConetex>(options => options.UseSqlServer(connectionString));
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => { options.User.RequireUniqueEmail = true; }).AddEntityFrameworkStores<PetShopConetex>();
             builder.Services.AddTransient<IPublicRepository, PublicRepository>();
             builder.Services.AddTransient<IAdminRepository, AdminRepository>();
 

@@ -1,12 +1,10 @@
-﻿//  Add Like Function
-$('.btn-like').click(
+﻿$('.btn-like').click(
     function (btn) {
-        const id = btn.currentTarget.dataset.animal;
+        const id = btn.currentTarget.dataset.id;
         $.post("/Home/AddAnimalLike/" + id, function (data) { $("#like_" + id).html(data); });
         btn.currentTarget.setAttribute('disabled', '');
     }
 )
-// Add Comment Function
 const form = $('#newComment');
 form.submit(function (e) {
     e.preventDefault()
@@ -33,19 +31,26 @@ form.submit(function (e) {
         form.trigger('reset');
     });
 })
-// Menu Toggle
 $('.navbar-toggler').click(
     function (btn) {
         const isOpen = !btn.currentTarget.ariaExpanded;
         btn.currentTarget.ariaExpanded = isOpen;
-        const menu = $(btn.currentTarget.dataset.bsTarget);
+        const menu = $(btn.currentTarget.dataset.target);
         menu.toggleClass('show', isOpen);
         menu.slideToggle(isOpen);
     }
 )
-// Auto Set Category
 $('#selectCategory').change(
     function (select) {
         $(this.parentNode).trigger('submit');
+    }
+)
+$('.btn-delete').click(
+    function (btn) {
+        const id = btn.currentTarget.dataset.id;
+        $.post('/Admin/DeleteAnimal/' + id, function () {
+            const pet = $('#pet_' + id);
+            pet.fadeOut(function () { pet.remove(); });
+        })
     }
 )

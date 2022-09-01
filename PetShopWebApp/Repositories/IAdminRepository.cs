@@ -2,11 +2,10 @@
 
 namespace PetShopWebApp.Repositories
 {
-    public interface IAdminRepository
-    {
-        void AddAnimal(Animal animal);
-        Animal EditAnimal(Animal animal);
-        bool Login(User user);
-        void RemoveAnimal(int id);
-    }
+	public interface IAdminRepository
+	{
+		Task AddAnimal(Animal animal);
+		Task EditAnimal(Animal animal);
+		void RemoveAnimal(int id);
+	}
 }

@@ -6,46 +6,49 @@ namespace PetShopWebApp.Repositories
 {
     public class AdminRepository : IAdminRepository
     {
-        readonly PetShopConetex _context;
-        public AdminRepository(PetShopConetex context)
+        private readonly PetShopConetex _context;
+        private readonly IWebHostEnvironment _environment;
+        public AdminRepository(PetShopConetex context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
-        public bool Login(User user)
-        {
-            var pet = _context.Users!
-                .First(u => u.UserName == user.UserName);
-            return pet.Password == user.Password;
-        }
-        public void AddAnimal(Animal animal)
+        public async Task AddAnimal(Animal animal)
         {
             _context.Animals!.Add(new Animal
             {
                 Name = animal.Name,
                 Description = animal.Description,
                 Age = animal.Age,
-                PictureURL = animal.PictureURL,
                 CategoryId = animal.CategoryId,
             });
-            _context.SaveChanges();
+            var r = _context.Animals!.Last();
+            string url = animal.File != null ? (await UploadPicture(animal.File, r.AnimalId)) : "";
+            await _context.SaveChangesAsync();
         }
-        public Animal EditAnimal(Animal animal)
+        public async Task EditAnimal(Animal animal)
         {
             var pet = _context.Animals!.First(p => p.AnimalId == animal.AnimalId);
             pet.Name = animal.Name;
             pet.Description = animal.Description;
             pet.Age = animal.Age;
-            pet.PictureURL = animal.PictureURL;
+            if (animal.File != null) pet.PictureURL = await UploadPicture(animal.File, pet.AnimalId);
             pet.CategoryId = animal.CategoryId;
-            _context.SaveChanges();
-            //UploadPicture();
-            return pet;
+            await _context.SaveChangesAsync();
         }
-        void UploadPicture()
+        private async Task<string> UploadPicture(IFormFile file, int id)
         {
-            throw new NotImplementedException();
-        }
+            string FilePath = Path.Combine(_environment.WebRootPath, "upload");
+            if (!Directory.Exists(FilePath)) Directory.CreateDirectory(FilePath);
+            var fileName = $"{id}.{file!.ContentType.Split('/')[1]}";
+            var filePath = Path.Combine(FilePath, fileName);
 
+            using (FileStream fs = File.Create(filePath))
+            {
+                await file.CopyToAsync(fs);
+            }
+            return Path.Combine(_environment.WebRootPath, $"/upload/{fileName}");
+        }
         public void RemoveAnimal(int id)
         {
             var pet = _context.Animals!
@@ -54,6 +57,7 @@ namespace PetShopWebApp.Repositories
                   .FirstOrDefault();
             if (pet != null)
             {
+                //if (pet.PictureURL != null) File.Delete(pet.PictureURL);
                 _context.Comments!.RemoveRange(pet.Comments!);
                 _context.Animals!.Remove(pet);
                 _context.SaveChanges();

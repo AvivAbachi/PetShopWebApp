@@ -1,24 +1,14 @@
 ﻿@model IEnumerable<PetShopWebApp.Models.Animal>
+
 @{
-	ViewBag.Title = "Pet Shop - Categories";
+	ViewBag.Title = "Categories - Pet Shop";
+	ViewBag.Page = "Category";
 }
 
-@section navbar{
-	<li class="nav-item">
-		<a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
-	</li>
-	<li class="nav-item ">
-		<a asp-controller="Home" asp-action="Category" class="nav-link active">Category</a>
-	</li>
-	<li class="nav-item">
-		<a asp-controller="Admin" asp-action="Index" class="nav-link">Login</a>
-	</li>
-}
-
-	<h1 class="py-5 text-center fw-bold">Let's meet our's Pets!</h1>
-	<div class="container">
-		<form method="get" asp-action="Category" class="text-center mb-4">
-			@await Html.PartialAsync("_SelectCategoryPartial",(IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList)
-		</form>
-		@await Html.PartialAsync("_PetListPartial",Model,new ViewDataDictionary(ViewData){{ "isAdmin", false }})
-	</div>
+<h1 class="py-5 text-center fw-bold">Let's meet our's Pets!</h1>
+<div class="container">
+	<form method="get" asp-action="Category" class="text-center mb-4">
+		<partial name="_SelectCategoryPartial" model="(IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList" />
+	</form>
+	<partial name="_PetListPartial" model="@Model" view-data="@(new ViewDataDictionary(ViewData){{ "isAdmin", false }})" />
+</div>

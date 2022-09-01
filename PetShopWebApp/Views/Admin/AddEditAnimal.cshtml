@@ -1,68 +1,58 @@
 ﻿@model PetShopWebApp.Models.Animal
 
 @{
-    ViewBag.Title = "Admin - Add / Edit Pet Shop";
-}
+	ViewBag.Title = (ViewBag.isEdit ? "Edit" : "Add") + " Pet - Pet Shop";
+	ViewBag.Page = "Admin";
+ }
 
-@section navbar{
-	<li class="nav-item">
-		<a asp-controller="Home" asp-action="Index" class="nav-link ">Home</a>
-	</li>
-	<li class="nav-item">
-		<a asp-controller="Home" asp-action="Category" class="nav-link">Category</a>
-	</li>
-	<li class="nav-item">
-		<a asp-controller="Admin" asp-action="Index" class="nav-link active">Login</a>
-	</li>
-}
 <div class="container p-5">
-    <div class="card p-5 border-0 shadow-lg">
-    <h1 class="card-title text-center mb-3">@(ViewBag.isEdit?"Edit":"Add") Animal</h1>
-    <form class="card-body" method="post" asp-for="@Model" asp-action="@(ViewBag.isEdit?"EditAnimal":"AddAnimal")">
-            @if (ViewBag.isEdit)
-            {
-                <div class="mb-3 ">
-                    <label asp-for="@Model.AnimalId" class="form-label">ID</label>
-            <input asp-for="@Model.AnimalId" class="form-control" readonly></input>
-        </div>
-         }
-        <div class="mb-3">
-            <label asp-for="@Model.Name" class="form-label">Name</label>
-            <input asp-for="@Model.Name" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label asp-for="@Model.CategoryId" class="form-label">Category</label>
-            <select asp-for="@Model.CategoryId" class="form-select">
-                    @foreach (var item in (IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList)
-                    {
-                                <option value="@(item.CategoryId)">@item.Name</option>
-                    }
-            </select>
-        </div>
-        <div class="mb-3">
-            <label asp-for="@Model.Age" class="form-label">Age</label>
-            <input asp-for="@Model.Age" min=0 max=100 type="number" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label asp-for="@Model.Description" class="form-label">Description</label>
-            <textarea asp-for="@Model.Description" class="form-control"></textarea>
-        </div>
-        @if(ViewBag.isEdit){
-        <div class="mb-3">
-            <label asp-for="@Model.Like" class="form-label">Like</label>
-            <input asp-for="@Model.Like" class="form-control" readonly></input>
-        </div>
-        }
-        <div class="mb-3">
-            <label asp-for="@Model.PictureURL" class="form-label">PictureURL</label>
-            <input asp-for="@Model.PictureURL" class="form-control">
-            <input type="file"/>
-            <br />
-            <img class="rounded-3 mt-3" src="@Model.PictureURL" width="150" />
-        </div>
-    <button typa="submit" class="btn @(ViewBag.isEdit ? "btn-success" : "btn-primary")">
-        @(ViewBag.isEdit ? "Edit Animal!" : "Add Animal!")
-        </button>
-</form>
-</div>
+	<div class="card p-5 border-0 shadow-lg">
+		<h1 class="card-title text-center mb-3">@(ViewBag.isEdit ? "Edit" : "Add") Animal</h1>
+		<form class="card-body" asp-action="@(ViewBag.isEdit?"EditAnimal":"AddAnimal")" method="post" enctype="multipart/form-data">
+			@if (ViewBag.isEdit)
+			{
+				<div class="mb-3 ">
+					<label asp-for="@Model.AnimalId" class="form-label">ID</label>
+					<input asp-for="@Model.AnimalId" class="form-control" readonly />
+				</div>
+			}
+			<div class="mb-3">
+				<label asp-for="@Model.Name" class="form-label">Name</label>
+				<input asp-for="@Model.Name" class="form-control" />
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.CategoryId" class="form-label">Category</label>
+				<select asp-for="@Model.CategoryId" class="form-select">
+					@foreach (var item in (IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList)
+					{
+						<option value="@(item.CategoryId)">@item.Name</option>
+					}
+				</select>
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.Age" class="form-label">Age</label>
+				<input asp-for="@Model.Age" min=0 max=100 step="any" type="number" class="form-control" />
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.Description" class="form-label">Description</label>
+				<textarea asp-for="@Model.Description" class="form-control"></textarea>
+			</div>
+			@if (ViewBag.isEdit)
+			{
+				<div class="mb-3">
+					<label asp-for="@Model.Like" class="form-label">Like</label>
+					<input asp-for="@Model.Like" class="form-control" readonly />
+				</div>
+			}
+			<div class="mb-3">
+				<label asp-for="@Model.PictureURL" class="form-label">PictureURL</label>
+				<input asp-for="@Model.File" type="file" class="form-control" />
+				<br />
+				<img class="rounded-3 mt-3" src="@Model.PictureURL" width="150" />
+			</div>
+			<button typa="submit" class="btn @(ViewBag.isEdit ? "btn-success" : "btn-primary")">
+				@(ViewBag.isEdit ? "Edit Animal!" : "Add Animal!")
+			</button>
+		</form>
+	</div>
 </div>
