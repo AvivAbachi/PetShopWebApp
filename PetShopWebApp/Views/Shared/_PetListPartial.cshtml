@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<PetShopWebApp.Models.Animal>
-
+@{
+	bool isAdmin = (bool?)ViewData["isAdmin"] ?? false;
+}
 <table class="table table-borderless">
 	<thead>
-		<tr class="d-lg-table-row d-none">
+		<tr class="d-lg-table-row d-none text-start">
 			<th>Portrait</th>
 			<th>ID</th>
 			<th>Name</th>
@@ -15,31 +17,39 @@
 	<tbody>
 		@foreach (var pet in Model)
 		{
-			<tr id="pet_@pet.AnimalId" class="d-lg-table-row mb-lg-0 d-flex flex-column mb-5 p-1 rounded-4">
-				<td>
+			<tr id="pet_@pet.AnimalId" class="d-lg-table-row mb-lg-0 d-flex flex-row flex-wrap justify-content-center mb-5 rounded-5">
+				<td class="p-0 col-lg-auto col-12">
 					<a asp-controller="Home" asp-action="Animal" asp-route-id="@pet.AnimalId">
-						<img src="@pet.PictureURL" width="200" class="rounded-3 m-lg-1">
+						<img src="@pet.PictureURL" class="rounded-5 m-lg-2">
 					</a>
 				</td>
-				<td>@pet.AnimalId</td>
-				<td>@pet.Name</td>
-				<td>@pet.Category!.Name</td>
-				<td>@pet.Age</td>
-				<td>@pet.Description</td>
-				<td class="p-3 text-nowrap text-center">
-					<a asp-controller="Home" asp-action="Animal" asp-route-id="@pet.AnimalId" class="btn btn-info d-block text-white w-100">
-						Details
-						<i class="fa-solid fa-info mx-2"></i>
+				<td class="col-auto">
+					<i class="fa-solid fa-id-card text-info me-1 d-none"></i>
+					@pet.AnimalId
+				</td>
+				<td class="col-lg-auto col-12 order-1">
+					@pet.Name
+				</td>
+				<td class="col-auto">
+					<i class="fa-solid fa-bookmark text-warning me-1 d-none"></i>
+					@pet.Category!.Name
+				</td>
+				<td class="col-auto">
+					<i class="fa-solid fa-paw text-success me-1 d-none"></i>
+					@pet.Age <span class="d-none">y</span>
+				</td>
+				<td class="col-12 order-2">@pet.Description</td>
+				<td class="p-4 p-lg-3 text-nowrap text-center col-12 order-3">
+					<a asp-controller="Home" asp-action="Animal" asp-route-id="@pet.AnimalId" class="btn btn-rounded btn-info d-block text-white w-100">
+						Details <i class="fa-solid fa-info mx-2"></i>
 					</a>
-					@if ((bool)ViewData["isAdmin"]!)
+					@if (isAdmin)
 					{
-						<a asp-controller="Admin" asp-action="EditAnimal" asp-route-id="@pet.AnimalId" class="btn btn-success d-block mt-3 w-100">
-							Edit
-							<i class="fa-solid fa-pen-to-square mx-2"></i>
+						<a asp-controller="Admin" asp-action="EditAnimal" asp-route-id="@pet.AnimalId" class="btn btn-rounded btn-success d-block mt-3 w-100">
+							Edit <i class="fa-solid fa-pen-to-square mx-2"></i>
 						</a>
-						<a data-id="@pet.AnimalId" class="btn btn-danger btn-delete d-block mt-3 w-100">
-							Delete
-							<i class="fa-solid fa-trash mx-2"></i>
+						<a data-id="@pet.AnimalId" class="btn btn-rounded btn-danger btn-delete d-block mt-3 w-100">
+							Delete <i class="fa-solid fa-trash mx-2"></i>
 						</a>
 					}
 				</td>

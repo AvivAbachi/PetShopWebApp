@@ -2,7 +2,7 @@
 
 @{
 	ViewBag.Title = (ViewBag.isEdit ? "Edit" : "Add") + " Pet - Pet Shop";
-	ViewBag.Page = "Admin";
+	ViewBag.Page = "Manager";
  }
 
 <div class="container p-5">
@@ -50,7 +50,7 @@
 				<br />
 				<img class="rounded-3 mt-3" src="@Model.PictureURL" width="150" />
 			</div>
-			<button typa="submit" class="btn @(ViewBag.isEdit ? "btn-success" : "btn-primary")">
+			<button typa="submit" class="btn btn-rounded btn-lg @(ViewBag.isEdit ? "btn-success" : "btn-primary")">
 				@(ViewBag.isEdit ? "Edit Animal!" : "Add Animal!")
 			</button>
 		</form>

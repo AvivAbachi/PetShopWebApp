@@ -1,13 +1,9 @@
-﻿.btn {
-    --bs-btn-border-radius: 1000px;
-}
-
-.form-select {
+﻿.form-select {
     border-radius: 1000px;
 }
 
 .page {
-    margin-top: 91.33px;
+    margin: 91.33px 0;
 }
 
 .card-pet {
@@ -35,26 +31,30 @@
     }
 
     .form-signin .form-floating:first-of-type input {
-        border-top-left-radius: .375rem;
-        border-top-right-radius: .375rem;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
     }
 
     .form-signin .form-floating:last-of-type input {
-        border-bottom-left-radius: .375rem;
-        border-bottom-right-radius: .375rem;
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
     }
 
 #comments {
     max-height: 384px;
 }
 
-.table > tbody > tr:nth-of-type(odd) {
-    background: var(--bs-light);
+.table > tbody > tr img {
+    width: 200px;
 }
 
-    .table > tbody > tr:nth-of-type(odd) > * {
-        padding: .75rem;
+.table > tbody > tr:nth-of-type(odd) {
+    background: var(--mdb-gray-100);
+}
+
+    .table > tbody > tr:nth-of-type(odd) > *:first-child {
     }
+
 
 .e404 {
     min-height: calc(100vh - 91.33px);
@@ -64,3 +64,26 @@
     .e404 .display-1 {
         font-size: 10em;
     }
+
+@media (max-width: 991.98px) {
+    .table > tbody > tr {
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+        background: #fff !important;
+    }
+
+
+        .table > tbody > tr > td.order-1 {
+            font-size: 3em;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .table > tbody > tr > td .d-none {
+            display: inline-block !important;
+        }
+
+        .table > tbody > tr > td img {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+}

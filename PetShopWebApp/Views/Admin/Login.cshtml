@@ -2,7 +2,7 @@
 
 @{
 	ViewBag.Title = "Login - Pet Shop";
-	ViewBag.Page = "Admin";
+	ViewBag.Page = "Home";
 }
 
 <div class="form-signin text-center w-100 mx-auto py-5">
@@ -17,6 +17,6 @@
 			<input asp-for="@Model.Password" type="password" class="form-control" id="password" placeholder="Password">
 			<label asp-for="@Model.Password">Password</label>
 		</div>
-		<button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Login</button>
+		<button class="w-100 btn btn-lg btn-rounded btn-primary mt-4" type="submit">Login</button>
 	</form>
 </div>
