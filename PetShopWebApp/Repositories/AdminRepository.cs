@@ -15,16 +15,9 @@ namespace PetShopWebApp.Repositories
         }
         public async Task AddAnimal(Animal animal)
         {
-            _context.Animals!.Add(new Animal
-            {
-                Name = animal.Name,
-                Description = animal.Description,
-                Age = animal.Age,
-                CategoryId = animal.CategoryId,
-            });
-            var r = _context.Animals!.Last();
-            string url = animal.File != null ? (await UploadPicture(animal.File, r.AnimalId)) : "";
-            await _context.SaveChangesAsync();
+            if (animal.File != null) animal.PictureURL = await UploadPicture(animal.File, animal.AnimalId);
+            _context.Animals!.Add(animal);
+            _context.SaveChanges();
         }
         public async Task EditAnimal(Animal animal)
         {
@@ -34,7 +27,7 @@ namespace PetShopWebApp.Repositories
             pet.Age = animal.Age;
             if (animal.File != null) pet.PictureURL = await UploadPicture(animal.File, pet.AnimalId);
             pet.CategoryId = animal.CategoryId;
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
         private async Task<string> UploadPicture(IFormFile file, int id)
         {

@@ -6,10 +6,10 @@
 }
 
 <div class="container py-5">
-	<div class="card border-0 shadow-lg d-flex flex-wrap flex-row row-cols-lg-2 row-cols-1 rounded-4 position-relative">
+	<div class="card border-0 shadow-lg d-flex flex-wrap flex-row row-cols-lg-2 row-cols-1 rounded-7 position-relative">
 		<div class="col">
 			<partial name="_ButtonLikePartial" model="@Model.AnimalId" />
-			<img class="card-img rounded-4" src="@Model.PictureURL" />
+			<img class="card-img rounded-7" src="@Model.PictureURL" />
 		</div>
 		<div class="col p-5">
 			<h1>@Model.Name</h1>
@@ -33,7 +33,7 @@
 				<input class="form-control mb-4" name="auther" />
 				<label for="text" class="form-label">Comment</label>
 				<textarea class="form-control mb-4" name="text"></textarea>
-				<button type="submit" class="btn btn-success px-4 d-block me-0 ms-auto">
+				<button type="submit" class="btn btn-success btn-rounded px-4 d-block me-0 ms-auto">
 					Send Comment
 					<i class="fa-solid fa-paper-plane ms-1"></i>
 				</button>

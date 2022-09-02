@@ -7,13 +7,14 @@
 <head>
 	<meta name="viewport" content="width=device-width" />
 	<link rel="icon" type="image/png" href="~/assets/favicon.png" />
-	<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+	@*<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />*@
+	<link href="~/lib/mdbootstrap/css/mdb.min.css" rel="stylesheet" />
+	<link href="~/css/style.css" rel="stylesheet" asp-append-version="true" />
 	<title>@ViewBag.Title</title>
 </head>
 <body>
 	<header>
-		<nav class="navbar navbar-expand-lg bg-light fixed-top">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 			<div class="container-md container-fluid">
 				<a asp-controller="Home" asp-action="Index" class="navbar-brand">
 					<img src="~/assets/logo_sm.png" alt="Pets Shop Logo" width="64" class="d-inline-block align-text-top" />
@@ -36,7 +37,7 @@
 						@if (SignInManager.IsSignedIn(User))
 						{
 							<li class="nav-item me-auto">
-								<a asp-controller="Admin" asp-action="Index" class="nav-link @(ViewBag.Page == "Admin" ? "active":"")">
+								<a asp-controller="Admin" asp-action="Index" class="nav-link @(ViewBag.Page == "Manager" ? "active":"")">
 									Manager
 								</a>
 							</li>
@@ -49,7 +50,7 @@
 								Hello, @User.Identity?.Name
 							</li>
 							<li class="nav-item">
-								<form asp-controller="Admin" asp-action="Logout" method="post" >
+								<form asp-controller="Admin" asp-action="Logout" method="post">
 									<button type="submit" class="nav-link bg-transparent border-0">
 										Logout
 									</button>
@@ -72,8 +73,10 @@
 	<div class="page">
 		@RenderBody()
 	</div>
-	@*<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>*@
+	<script src="~/lib/mdbootstrap/js/mdb.min.js"></script>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 	<script src="~/lib/fontawesome/dist/fontawesome.mini.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 </body>

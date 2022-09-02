@@ -13,7 +13,7 @@
 			We believe that the bond between human and animals is a remarkable gift. Your only one click away from finding your new best friend!
 		</p>
 		<div>
-			<a asp-controller="Home" asp-action="Category" class="btn btn-primary btn-lg">
+			<a asp-controller="Home" asp-action="Category" class="btn btn-primary btn-rounded btn-lg">
 				View Our`s Pets			
 				<i class="fa-solid fa-paw ms-1"></i>
 			</a>
@@ -28,7 +28,7 @@
 				<div class="position-relative">
 					<partial name="_ButtonLikePartial" model="pet.AnimalId" />
 					<a asp-controller="Home" asp-action="Animal" asp-route-id="@pet.AnimalId" 
-						class="d-block overflow-hidden text-bg-dark rounded-4 shadow-lg card-pet text-decoration-none" 
+						class="d-block overflow-hidden text-bg-dark rounded-7 shadow-lg card-pet text-decoration-none" 
 						style="background-image: url('@pet.PictureURL')">
 						<div class="d-flex flex-column justify-content-between p-5 pb-3 text-white text-shadow-1 h-100">
 							<h2 class="mb-4 display-6 lh-1 fw-bold">@pet.Name</h2>

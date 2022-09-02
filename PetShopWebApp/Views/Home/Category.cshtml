@@ -10,5 +10,5 @@
 	<form method="get" asp-action="Category" class="text-center mb-4">
 		<partial name="_SelectCategoryPartial" model="(IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList" />
 	</form>
-	<partial name="_PetListPartial" model="@Model" view-data="@(new ViewDataDictionary(ViewData){{ "isAdmin", false }})" />
+	<partial name="_PetListPartial" model="@Model" />
 </div>

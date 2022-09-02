@@ -7,21 +7,20 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Remove="package-lock.json" />
-		<None Include="wwwroot\js\site.js" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
-		<None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
-		<None Include="wwwroot\lib\fontawesome\dist\fontawesome.mini.js" />
-		<None Include="wwwroot\lib\jquery\dist\jquery.js" />
-		<None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
-		<None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
-		<None Include="wwwroot\lib\jquery\dist\jquery.slim.js" />
-		<None Include="wwwroot\lib\jquery\dist\jquery.slim.min.js" />
-		<None Include="wwwroot\lib\jquery\dist\jquery.slim.min.map" />
+	  <None Include="wwwroot\js\site.js" />
+	  <None Include="wwwroot\lib\fontawesome\dist\fontawesome.mini.js" />
+	  <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+	  <None Include="wwwroot\lib\jquery-validation\additional-methods.min.js" />
+	  <None Include="wwwroot\lib\jquery-validation\jquery.validate.min.js" />
+	  <None Include="wwwroot\lib\jquery\dist\jquery.js" />
+	  <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+	  <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+	  <None Include="wwwroot\lib\jquery\dist\jquery.slim.js" />
+	  <None Include="wwwroot\lib\jquery\dist\jquery.slim.min.js" />
+	  <None Include="wwwroot\lib\jquery\dist\jquery.slim.min.map" />
+	  <None Include="wwwroot\lib\mdbootstrap\css\mdb.min.css.map" />
+	  <None Include="wwwroot\lib\mdbootstrap\js\mdb.min.js" />
+	  <None Include="wwwroot\lib\mdbootstrap\js\mdb.min.js.map" />
 	</ItemGroup>
 
 	<ItemGroup>

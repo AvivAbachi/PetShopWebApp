@@ -79,10 +79,10 @@ namespace PetShopWebApp.Controllers
             return View("AddEditAnimal", animal);
         }
         [HttpPost, Authorize]
-        public async Task<IActionResult> AddAnimal(Animal model)
+        public IActionResult AddAnimal(Animal model)
         {
             if (model == null) return NotFound();
-            await _adminRepository.AddAnimal(model);
+            _adminRepository.AddAnimal(model);
             return RedirectToAction("Index");
         }
         [HttpPost, Authorize]
