@@ -34,6 +34,7 @@ namespace PetShopWebApp.Controllers
         {
             return View(new User());
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
@@ -66,6 +67,7 @@ namespace PetShopWebApp.Controllers
         {
             ViewBag.CategoryList = _publicRepository.GetCategories();
             ViewBag.isEdit = false;
+            
             return View("AddEditAnimal", new Animal());
         }
         [Authorize]

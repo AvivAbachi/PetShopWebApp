@@ -19,6 +19,7 @@
 			<div class="mb-3">
 				<label asp-for="@Model.Name" class="form-label">Name</label>
 				<input asp-for="@Model.Name" class="form-control" />
+			    <span asp-validation-for="@Model.Name"></span>
 			</div>
 			<div class="mb-3">
 				<label asp-for="@Model.CategoryId" class="form-label">Category</label>
@@ -28,14 +29,17 @@
 						<option value="@(item.CategoryId)">@item.Name</option>
 					}
 				</select>
+				 <span asp-validation-for="@Model.CategoryId"></span>
 			</div>
 			<div class="mb-3">
 				<label asp-for="@Model.Age" class="form-label">Age</label>
 				<input asp-for="@Model.Age" min=0 max=100 step="any" type="number" class="form-control" />
+				 <span asp-validation-for="@Model.Age"></span>
 			</div>
 			<div class="mb-3">
 				<label asp-for="@Model.Description" class="form-label">Description</label>
 				<textarea asp-for="@Model.Description" class="form-control"></textarea>
+				<span asp-validation-for="@Model.Description"></span>
 			</div>
 			@if (ViewBag.isEdit)
 			{
@@ -49,6 +53,7 @@
 				<input asp-for="@Model.File" type="file" class="form-control" accept="image/*"/>
 				<br />
 				<img class="rounded-3 mt-3" src="@Model.PictureURL" width="150" />
+				<span asp-validation-for="@Model.PictureURL"></span>
 			</div>
 			<button typa="submit" class="btn btn-rounded btn-lg @(ViewBag.isEdit ? "btn-success" : "btn-primary")">
 				@(ViewBag.isEdit ? "Edit Animal!" : "Add Animal!")
