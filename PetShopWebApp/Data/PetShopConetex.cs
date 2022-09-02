@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PetShopWebApp.Models;
+using System.Reflection;
 
 namespace PetShopWebApp.Data
 {
@@ -11,7 +12,11 @@ namespace PetShopWebApp.Data
         public PetShopConetex(DbContextOptions<PetShopConetex> options, IWebHostEnvironment environment) : base(options)
         {
             _environment = environment;
-            if (_environment.ApplicationName == "testhost") { _environment.WebRootPath = ""; }
+            if (_environment.ApplicationName == "testhost")
+            {
+                FileInfo fileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
+                _environment.WebRootPath = Path.GetFullPath(Path.Combine(fileInfo.DirectoryName!, @"..\..\..\"));
+            }
         }
         public DbSet<Animal>? Animals { get; set; }
         public DbSet<Comment>? Comments { get; set; }

@@ -31,6 +31,7 @@ namespace PetShopWebApp.Repositories
         }
         private async Task<string> UploadPicture(IFormFile file, int id)
         {
+            if (!file!.ContentType.StartsWith("image/")) throw new AggregateException("file type not vaild"); 
             string FilePath = Path.Combine(_environment.WebRootPath, "upload");
             if (!Directory.Exists(FilePath)) Directory.CreateDirectory(FilePath);
             var fileName = $"{id}.{file!.ContentType.Split('/')[1]}";

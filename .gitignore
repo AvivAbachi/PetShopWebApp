@@ -365,3 +365,4 @@ FodyWeavers.xsd
 # PetShopWebApp
 /PetShopWebApp/package-lock.json
 /PetShopWebApp/wwwroot/upload
+/PetShopTestProject/upload
