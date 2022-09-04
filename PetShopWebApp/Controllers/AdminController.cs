@@ -74,9 +74,12 @@ namespace PetShopWebApp.Controllers
         {
             ViewBag.CategoryList = _publicRepository.GetCategories();
             var pet = _publicRepository.GetAnimalByIDAndComments(id);
-            if (pet == null) return Redirect("/404");
-            ViewBag.isEdit = true;
-            return View("AddEditAnimal", pet);
+            if (pet != null)
+            {
+                ViewBag.isEdit = true;
+                return View("AddEditAnimal", pet);
+            }
+            return Redirect("/404");
         }
 
         [HttpPost, Authorize]

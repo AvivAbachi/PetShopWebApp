@@ -15,12 +15,10 @@ namespace PetShopTestProject
         }
 
         [TestMethod]
-        public void AddAnimalTest()
+        public async Task AddAnimalTest()
         {
-            FileInfo fileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
-            string url = Path.GetFullPath(Path.Combine(fileInfo.DirectoryName!, @"..\..\..\Sample.jpg"));
             IFormFile file;
-            using (var stream = File.OpenRead(url))
+            using (var stream = File.OpenRead(SimpleImage))
             {
                 file = new FormFile(stream, 0, stream.Length, "", stream.Name)
                 {
@@ -35,55 +33,74 @@ namespace PetShopTestProject
                 Name = "Dolphin",
                 Description = "Dolphin loves to sweem",
                 Age = 5,
-                PictureURL = url,
+                PictureURL = SimpleImage,
                 CategoryId = 1,
                 //File = file,
             };
-            adminRipository.AddAnimal(animal);
+            await adminRipository.AddAnimal(animal);
             int countAfterAdd = publicRipository.GetAnimals().Count();
             Assert.IsTrue(countBeforeAdd + 1 == countAfterAdd);
-            if (countBeforeAdd + 1 == countAfterAdd) adminRipository.RemoveAnimal(animal.AnimalId);
         }
 
         [TestMethod]
-        public void EditAnimalTest()
+        public async Task EditAnimalTest()
         {
             int id = 1;
-            var petBeforeEdit = publicRipository.GetAnimalByIDAndComments(id);
-            petBeforeEdit!.Name = petBeforeEdit!.Name;
-            petBeforeEdit.Description = petBeforeEdit.Description;
-            petBeforeEdit.Age = petBeforeEdit.Age;
-            petBeforeEdit.PictureURL = petBeforeEdit.PictureURL;
-            petBeforeEdit.CategoryId = id;
+            var pet = publicRipository.GetAnimalByIDAndComments(id);
+            var savePet = new Animal
+            {
+                Name = pet!.Name,
+                Description = pet.Description,
+                Age = pet.Age,
+                CategoryId = pet.CategoryId,
+            };
+            pet!.Name = "New Dog";
+            pet!.Description = "Dog after edit";
+            pet!.Age = 10;
+            pet!.CategoryId = 2;
+            //pet!.PictureURL = url;
 
-            var petAfterEdit = publicRipository.GetAnimalByIDAndComments(id);
-            petAfterEdit!.Name = "New Dog";
-            petAfterEdit!.Description = "Dog after edit";
-            petAfterEdit!.Age = 5;
-            petAfterEdit!.CategoryId = 1;
+            await adminRipository.EditAnimal(pet);
 
-            adminRipository.EditAnimal(petAfterEdit!);
+            Assert.AreNotEqual(pet.Name, savePet.Name);
+            Assert.AreNotEqual(pet.Description, savePet.Description);
+            Assert.AreNotEqual(pet.Age, savePet.Age);
+            Assert.AreNotEqual(pet.CategoryId, savePet.CategoryId);
+            //Assert.AreNotEqual(pet.PictureURL, savePet.PictureURL);
+        }
 
-            Assert.AreNotEqual(petBeforeEdit.Name, petAfterEdit.Name);
-
-            adminRipository.EditAnimal(petBeforeEdit!);
+        /// <summary>
+        /// "App.Environment.WebRootPath" כתובת של התיקה הראשית
+        /// "SimpleImage" הכתובת של התמונה
+        /// 
+        /// "formFile" א.להתחל את משנה
+        /// "AddAnimalTest()" עם את נתקעת את יכול לעזר ב
+        /// 
+        /// "UploadPicture(formFile, id)" ב.להריץ את פונקציה
+        /// 
+        /// ג.לבדוק עם התמונה נוספה
+        /// 
+        /// c# יש כלים ב
+        /// Directory. Path. File.
+        /// </summary>
+        public async Task UploadImageTest()
+        {
+            //int id = 0;
+            //IFormFile formFile;
+            //await adminRipository.UploadPicture(formFile, id);
         }
 
         [TestMethod]
         public void RemoveAnimalTest()
         {
-            var pet = publicRipository.GetAnimals().Last();
-            int countBeforeRemove = publicRipository.GetAnimals().Count();
+            var petlist = publicRipository.GetAnimals();
+            var pet = petlist.Last();
+            int countBeforeRemove = petlist.Count();
             adminRipository.RemoveAnimal(pet.AnimalId);
-            int countAfterRemove = publicRipository.GetAnimals().Count();
+            int countAfterRemove = petlist.Count();
 
             Assert.IsTrue(countBeforeRemove == countAfterRemove + 1);
             Assert.IsNull(publicRipository.GetAnimalByIDAndComments(pet.AnimalId));
-
-            if (countBeforeRemove == countAfterRemove + 1) adminRipository.AddAnimal(pet);
         }
-
-        //bool Login(User user);
-
     }
 }

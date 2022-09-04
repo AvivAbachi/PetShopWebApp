@@ -8,10 +8,16 @@ $.validator.unobtrusive.options = settings;
 $('.btn-like').click(
     function (btn) {
         const id = btn.currentTarget.dataset.id;
-        $.post("/Home/AddAnimalLike/" + id, function (data) { $("#like_" + id).html(data); });
-        btn.currentTarget.setAttribute('disabled', '');
+        $.post(`/Home/AddAnimalLike/${id}`,
+            function (data) {
+                $(`#like_${id}`).html(data);
+                btn.currentTarget.setAttribute('disabled', '');
+            })
+            .fail(function (error) {
+                console.error(error.responseJSON.message);
+            })
     }
-)
+);
 
 const form = $('#newComment');
 form.submit(function (e) {
@@ -41,8 +47,11 @@ form.submit(function (e) {
             $(comment).hide();
             $(comment).slideDown();
             form.trigger('reset');
-        });
-})
+        })
+        .fail(function (error) {
+            console.error(error.responseJSON.message);
+        })
+});
 
 $('.navbar-toggler').click(
     function (btn) {
@@ -52,19 +61,24 @@ $('.navbar-toggler').click(
         menu.toggleClass('show', isOpen);
         menu.slideToggle(isOpen);
     }
-)
+);
+
 $('#selectCategory').change(
-    function (select) {
+    function () {
         $(this.parentNode).trigger('submit');
     }
-)
+);
 
 $('.btn-delete').click(
     function (btn) {
         const id = btn.currentTarget.dataset.id;
-        $.post('/Admin/DeleteAnimal/' + 555, function (data) {
-            const pet = $('#pet_' + id);
-            pet.fadeOut('slow', function () { pet.remove(); });
-        });
+        $.post('/Admin/DeleteAnimal/' + id,
+            function (data) {
+                const pet = $('#pet_' + id);
+                pet.fadeOut('slow', function () { pet.remove(); });
+            })
+            .fail(function (error) {
+                console.error(error.responseJSON.message);
+            })
     }
-)
+);
