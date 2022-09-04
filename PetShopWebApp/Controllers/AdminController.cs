@@ -47,7 +47,6 @@ namespace PetShopWebApp.Controllers
                 }
                 else
                 {
-                    //ModelState.AddModelError("login", "Invalid login attempt.");
                     ViewBag.Error = "Invalid login attempt";
                 }
             }
@@ -85,27 +84,32 @@ namespace PetShopWebApp.Controllers
         [HttpPost, Authorize]
         public async Task<IActionResult> AddAnimal(Animal model)
         {
-            if (model.File != null && model.File.ContentType.StartsWith("image/"))
+            if (model.File == null)
             {
-                //ModelState.AddModelError("File", "File type not vaild.");
-                //ModelState.SetModelValue("File", "File type not vaild.","");
+                ModelState.AddModelError("File", "Need Picture");
             }
-            if (!ModelState.IsValid)
+            else if (!model.File.ContentType.StartsWith("image/"))
             {
-                ViewBag.CategoryList = _publicRepository.GetCategories();
-                ViewBag.isEdit = false;
-                return View("AddEditAnimal", model);
+                ModelState.AddModelError("File", "File type not vaild");
+                model.File = null;
             }
-            await _adminRepository.AddAnimal(model);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                await _adminRepository.AddAnimal(model);
+                return RedirectToAction("Index");
+            }
+            ViewBag.CategoryList = _publicRepository.GetCategories();
+            ViewBag.isEdit = false;
+            return View("AddEditAnimal", model);
         }
 
         [HttpPost, Authorize]
         public async Task<IActionResult> EditAnimal(Animal model)
         {
-            if (model.File != null && model.File.ContentType.StartsWith("image/"))
+            if (model.File != null && !model.File.ContentType.StartsWith("image/"))
             {
-                //ModelState.AddModelError("File", "File type not vaild.");
+                ModelState.AddModelError("File", "File type not vaild");
+                model.File = null;
             }
             if (ModelState.IsValid)
             {
@@ -120,12 +124,12 @@ namespace PetShopWebApp.Controllers
         [HttpPost, Authorize]
         public IActionResult DeleteAnimal(int id)
         {
-            if (!_adminRepository.RemoveAnimal(id))
+            if (_adminRepository.RemoveAnimal(id))
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new { Message = "Invalid Pet Id" });
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            return Json(new { Message = "Invalid pet id" });
         }
     }
 }

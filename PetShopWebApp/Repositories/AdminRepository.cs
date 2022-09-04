@@ -37,7 +37,8 @@ namespace PetShopWebApp.Repositories
                 pet.CategoryId = animal.CategoryId;
                 if (animal.File != null)
                 {
-                    pet.PictureURL = await UploadPicture(animal.File, pet.AnimalId);
+                    if (File.Exists(pet?.PictureURL)) File.Delete(pet.PictureURL!);
+                    pet!.PictureURL = await UploadPicture(animal.File, pet.AnimalId);
                 }
                 _context.SaveChanges();
                 return true;
@@ -49,13 +50,13 @@ namespace PetShopWebApp.Repositories
         {
             string FilePath = Path.Combine(_environment.WebRootPath, "upload");
             if (!Directory.Exists(FilePath)) Directory.CreateDirectory(FilePath);
-            var fileName = $"{id}.{file!.ContentType.Split('/')[1]}";
+            string fileName = $"{id}.{file!.FileName.Split('.')[1]}";
             var filePath = Path.Combine(FilePath, fileName);
-            using (FileStream fs = File.Create(filePath))
+            using (var fs = File.Create(filePath))
             {
                 await file.CopyToAsync(fs);
             }
-            return $"/upload{fileName}";
+            return $"/upload/{fileName}";
         }
 
         public bool RemoveAnimal(int id)
@@ -66,6 +67,8 @@ namespace PetShopWebApp.Repositories
                   .FirstOrDefault();
             if (pet != null)
             {
+                var targetPath = _environment.WebRootPath + pet.PictureURL!.Replace("/", "\\");
+                if (File.Exists(targetPath)) File.Delete(targetPath!);
                 _context.Comments!.RemoveRange(pet.Comments!);
                 _context.Animals!.Remove(pet);
                 _context.SaveChanges();
