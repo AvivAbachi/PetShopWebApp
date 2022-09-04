@@ -1,7 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
-using PetShopWebApp.Models;
-using PetShopWebApp.Repositories;
-
 namespace PetShopTestProject
 {
     [TestClass]
@@ -56,11 +52,10 @@ namespace PetShopTestProject
         public void GetAnimalByIDAndCommentsTest()
         {
             int id = 1;
-            var petComment = publicRepository.GetAnimalByIDAndComments(id)
-                ?.Comments!.OrderBy(c => c.CommentId).ToList();
-            var comments = publicRepository.GetComments()
-                .Where(c => c.AnimalId == id).OrderBy(c => c.CommentId).ToList();
-            CollectionAssert.AreEqual(comments, petComment);
+            var comments = publicRepository
+                .GetAnimalByIDAndComments(id)
+                ?.Comments?.ToList();
+             CollectionAssert.AllItemsAreNotNull(comments);
         }
 
         [TestMethod]
@@ -69,9 +64,12 @@ namespace PetShopTestProject
             int id = 2;
             string auther = "Amit";
             string text = "Testing adding comment";
-            publicRepository.AddAnimaComment(id, auther, text);
-            var comment = publicRepository.GetComments().Last();
-            Assert.IsTrue(comment.AnimalId == id && comment.Auther == auther && comment.Text == text);
+            var comment = new Comment { AnimalId = id, Auther = auther, Text = text };
+            bool succsses = publicRepository.AddAnimaComment(comment);
+            Assert.IsTrue(succsses);
+            var pet = publicRepository.GetAnimalByIDAndComments(id);
+            var lastComment = pet?.Comments?.Last();
+            Assert.IsTrue(lastComment?.AnimalId == id && lastComment?.Auther == auther && lastComment?.Text == text);
         }
 
         [TestMethod]

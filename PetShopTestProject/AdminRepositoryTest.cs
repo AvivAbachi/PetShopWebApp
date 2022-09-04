@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using PetShopWebApp.Models;
-using PetShopWebApp.Repositories;
 using System.Reflection;
 
 namespace PetShopTestProject
@@ -40,7 +37,7 @@ namespace PetShopTestProject
                 Age = 5,
                 PictureURL = url,
                 CategoryId = 1,
-                File = file,
+                //File = file,
             };
             adminRipository.AddAnimal(animal);
             int countAfterAdd = publicRipository.GetAnimals().Count();
@@ -67,7 +64,7 @@ namespace PetShopTestProject
 
             adminRipository.EditAnimal(petAfterEdit!);
 
-            Assert.AreNotEqual(petBeforeEdit, petAfterEdit);
+            Assert.AreNotEqual(petBeforeEdit.Name, petAfterEdit.Name);
 
             adminRipository.EditAnimal(petBeforeEdit!);
         }

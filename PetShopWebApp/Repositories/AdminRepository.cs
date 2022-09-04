@@ -19,19 +19,21 @@ namespace PetShopWebApp.Repositories
             _context.Animals!.Add(animal);
             _context.SaveChanges();
         }
-        public async Task EditAnimal(Animal animal)
+        public async Task<bool> EditAnimal(Animal animal)
         {
-            var pet = _context.Animals!.First(p => p.AnimalId == animal.AnimalId);
+            var pet = _context.Animals!.FirstOrDefault(p => p.AnimalId == animal.AnimalId);
+            if (pet == null) return false;
             pet.Name = animal.Name;
             pet.Description = animal.Description;
             pet.Age = animal.Age;
-            if (animal.File != null) pet.PictureURL = await UploadPicture(animal.File, pet.AnimalId);
             pet.CategoryId = animal.CategoryId;
+            if (animal.File != null) pet.PictureURL = await UploadPicture(animal.File, pet.AnimalId);
             _context.SaveChanges();
+            return true;
         }
         private async Task<string> UploadPicture(IFormFile file, int id)
         {
-            if (!file!.ContentType.StartsWith("image/")) throw new AggregateException("file type not vaild"); 
+            //if (!file!.ContentType.StartsWith("image/")) throw new AggregateException("file type not vaild");
             string FilePath = Path.Combine(_environment.WebRootPath, "upload");
             if (!Directory.Exists(FilePath)) Directory.CreateDirectory(FilePath);
             var fileName = $"{id}.{file!.ContentType.Split('/')[1]}";
@@ -41,21 +43,19 @@ namespace PetShopWebApp.Repositories
             {
                 await file.CopyToAsync(fs);
             }
-            return Path.Combine(_environment.WebRootPath, $"/upload/{fileName}");
+            return filePath;
         }
-        public void RemoveAnimal(int id)
+        public bool RemoveAnimal(int id)
         {
             var pet = _context.Animals!
                   .Where(p => p.AnimalId == id)
                   .Include(p => p.Comments)
                   .FirstOrDefault();
-            if (pet != null)
-            {
-                //if (pet.PictureURL != null) File.Delete(pet.PictureURL);
-                _context.Comments!.RemoveRange(pet.Comments!);
-                _context.Animals!.Remove(pet);
-                _context.SaveChanges();
-            }
+            if (pet == null) return false;
+            _context.Comments!.RemoveRange(pet.Comments!);
+            _context.Animals!.Remove(pet);
+            _context.SaveChanges();
+            return true;
         }
     }
 }

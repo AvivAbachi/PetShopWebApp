@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using PetShopWebApp.Data;
-using PetShopWebApp.Repositories;
 
 namespace PetShopTestProject
 {

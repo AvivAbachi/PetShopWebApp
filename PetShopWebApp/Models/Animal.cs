@@ -16,7 +16,6 @@ namespace PetShopWebApp.Models
 		public double Age { get; set; }
 		public int Like { get; set; }
 
-		[Required(ErrorMessage = "Please enter Animal Picture")]
 		public string? PictureURL { get; set; }
 
 		[Required(ErrorMessage = "Please enter Animal Descriotion")]
