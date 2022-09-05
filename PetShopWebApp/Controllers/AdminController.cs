@@ -95,7 +95,8 @@ namespace PetShopWebApp.Controllers
             }
             if (ModelState.IsValid)
             {
-                await _adminRepository.AddAnimal(model);
+                var pet = _adminRepository.AddAnimal(model);
+                await _adminRepository.UploadPicture(pet);
                 return RedirectToAction("Index");
             }
             ViewBag.CategoryList = _publicRepository.GetCategories();
@@ -106,15 +107,16 @@ namespace PetShopWebApp.Controllers
         [HttpPost, Authorize]
         public async Task<IActionResult> EditAnimal(Animal model)
         {
-            if (model.File != null && !model.File.ContentType.StartsWith("image/"))
-            {
-                ModelState.AddModelError("File", "File type not vaild");
-                model.File = null;
-            }
+            //if (model.File != null && !model.File.ContentType.StartsWith("image/"))
+            //{
+            //    ModelState.AddModelError("File", "File type not vaild");
+            //    model.File = null;
+            //}
             if (ModelState.IsValid)
             {
-                bool success = await _adminRepository.EditAnimal(model);
-                if (success) return RedirectToAction("Index");
+                var pet = _adminRepository.EditAnimal(model);
+                await _adminRepository.UploadPicture(pet);
+                return RedirectToAction("Index");
             }
             ViewBag.CategoryList = _publicRepository.GetCategories();
             ViewBag.isEdit = true;

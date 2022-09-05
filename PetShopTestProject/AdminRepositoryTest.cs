@@ -14,7 +14,7 @@ namespace PetShopTestProject
         }
 
         [TestMethod]
-        public async Task AddAnimalTest()
+        public void AddAnimalTest()
         {
             var pets = _publicRipository.GetAnimals();
             int saveCount = pets.Count();
@@ -36,17 +36,16 @@ namespace PetShopTestProject
                 Age = 5,
                 PictureURL = SimpleImage,
                 CategoryId = 1,
-                File = file,
             };
 
-            await _adminRipository.AddAnimal(pet);
+              _adminRipository.AddAnimal(pet);
 
             Assert.IsTrue(saveCount + 1 == pets.Count());
             Assert.IsTrue(File.Exists(pet.PictureURL));
         }
 
         [TestMethod]
-        public async Task EditAnimalTest()
+        public void EditAnimalTest()
         {
             int id = 1;
             var pet = _publicRipository.GetAnimalByIDAndComments(id);
@@ -63,14 +62,12 @@ namespace PetShopTestProject
             pet!.Age = 10;
             pet!.CategoryId = 2;
 
-            await _adminRipository.EditAnimal(pet);
+              _adminRipository.EditAnimal(pet);
 
             Assert.AreNotEqual(pet.Name, savePet.Name);
             Assert.AreNotEqual(pet.Description, savePet.Description);
             Assert.AreNotEqual(pet.Age, savePet.Age);
             Assert.AreNotEqual(pet.CategoryId, savePet.CategoryId);
-            //Assert.AreNotEqual(pet.PictureURL, savePet.PictureURL);
-            //Assert.IsTrue(File.Exists(pet.PictureURL));
         }
 
         /// <summary>

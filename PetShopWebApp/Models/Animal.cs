@@ -25,6 +25,7 @@ namespace PetShopWebApp.Models
         public int CategoryId { get; set; }
 
         [NotMapped]
+        [FileTypeValidation(ErrorMessage = "Please select a PNG image smaller than 1MB")]
         public IFormFile? File { get; set; }
         public virtual Category? Category { get; set; }
         public virtual ICollection<Comment>? Comments { get; set; }

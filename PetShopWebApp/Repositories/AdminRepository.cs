@@ -15,48 +15,41 @@ namespace PetShopWebApp.Repositories
             _environment = environment;
         }
 
-        public async Task AddAnimal(Animal animal)
+        public Animal AddAnimal(Animal pet)
         {
-            _context.Animals!.Add(animal);
+            _context.Animals!.Add(pet);
             _context.SaveChanges();
-            if (animal.File != null)
-            {
-                animal.PictureURL = await UploadPicture(animal.File, animal.AnimalId);
-                _context.SaveChanges();
-            }
+            return pet;
         }
 
-        public async Task<bool> EditAnimal(Animal animal)
+        public Animal? EditAnimal(Animal editPet)
         {
-            var pet = _context.Animals!.FirstOrDefault(p => p.AnimalId == animal.AnimalId);
+            var pet = _context.Animals!.FirstOrDefault(p => p.AnimalId == editPet.AnimalId);
             if (pet != null)
             {
-                pet.Name = animal.Name;
-                pet.Description = animal.Description;
-                pet.Age = animal.Age;
-                pet.CategoryId = animal.CategoryId;
-                if (animal.File != null)
-                {
-                    if (File.Exists(pet?.PictureURL)) File.Delete(pet.PictureURL!);
-                    pet!.PictureURL = await UploadPicture(animal.File, pet.AnimalId);
-                }
+                pet.Name = editPet.Name;
+                pet.Description = editPet.Description;
+                pet.Age = editPet.Age;
+                pet.CategoryId = editPet.CategoryId;
                 _context.SaveChanges();
-                return true;
+                return pet;
             }
-            return false;
+            return null;
         }
 
-        public async Task<string> UploadPicture(IFormFile file, int id)
+        public async Task UploadPicture(Animal pet)
         {
             string FilePath = Path.Combine(_environment.WebRootPath, "upload");
             if (!Directory.Exists(FilePath)) Directory.CreateDirectory(FilePath);
-            string fileName = $"{id}.{file!.FileName.Split('.')[1]}";
+            string fileName = $"{pet.AnimalId}.{pet.File!.FileName.Split('.')[1]}";
             var filePath = Path.Combine(FilePath, fileName);
             using (var fs = File.Create(filePath))
             {
-                await file.CopyToAsync(fs);
+                await pet.File.CopyToAsync(fs);
             }
-            return $"/upload/{fileName}";
+            pet.PictureURL = $"/upload/{fileName}";
+            pet.File = null;
+            _context.SaveChanges();
         }
 
         public bool RemoveAnimal(int id)
