@@ -12,13 +12,13 @@ namespace PetShopWebApp.Controllers
 		}
 		public IActionResult Index()
 		{
-			return View(_repository.GetAnimalsByLikes(2));
+			return View(_repository.GetPetsByLikes(2));
 		}
 
 		[Route("Pet/{id}")]
-		public IActionResult Animal(int id)
+		public IActionResult Pet(int id)
 		{
-			return View(_repository.GetAnimalByIDAndComments(id));
+			return View(_repository.GetPetByIDAndComments(id));
 		}
 
 		[Route("Category")]
@@ -26,19 +26,19 @@ namespace PetShopWebApp.Controllers
 		{
 
 			ViewBag.CategoryList = _repository.GetCategories();
-			return View(id == null ? _repository.GetAnimals() : _repository.GetAnimalByCategory(id!.Value));
+			return View(id == null ? _repository.GetPets() : _repository.GetPetByCategory(id!.Value));
 		}
 
 		[HttpPost]
-		public IActionResult AddAnimalLike(int id)
+		public IActionResult AddPetLike(int id)
 		{
-			return Json(_repository.AddAnimalLike(id));
+			return Json(_repository.AddPetLike(id));
 		}
 
 		[HttpPost]
-		public IActionResult AddAnimalComment(int id, string auther, string text)
+		public IActionResult AddPetComment(int id, string auther, string text)
 		{
-			var comment = _repository.AddAnimaComment(id, auther, text);
+			var comment = _repository.AddPetComment(id, auther, text);
 			return Json(new
 			{
 				comment.Auther,

@@ -18,7 +18,7 @@ namespace PetShopTestProject
         }
 
         [TestMethod]
-        public void AddAnimalTest()
+        public void AddPetTest()
         {
             FileInfo fileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
             string url = Path.GetFullPath(Path.Combine(fileInfo.DirectoryName!, @"..\..\..\Sample.jpg"));
@@ -32,8 +32,8 @@ namespace PetShopTestProject
                 };
             }
 
-            int countBeforeAdd = publicRipository.GetAnimals().Count();
-            var animal = new Animal()
+            int countBeforeAdd = publicRipository.GetPets().Count();
+            var pet = new Pet()
             {
                 Name = "Dolphin",
                 Description = "Dolphin loves to sweem",
@@ -42,51 +42,49 @@ namespace PetShopTestProject
                 CategoryId = 1,
                 File = file,
             };
-            adminRipository.AddAnimal(animal);
-            int countAfterAdd = publicRipository.GetAnimals().Count();
+            adminRipository.AddPet(pet);
+            int countAfterAdd = publicRipository.GetPets().Count();
             Assert.IsTrue(countBeforeAdd + 1 == countAfterAdd);
-            if (countBeforeAdd + 1 == countAfterAdd) adminRipository.RemoveAnimal(animal.AnimalId);
+            if (countBeforeAdd + 1 == countAfterAdd) adminRipository.RemovePet(pet.PetId);
         }
 
         [TestMethod]
-        public void EditAnimalTest()
+        public void EditPetTest()
         {
             int id = 1;
-            var petBeforeEdit = publicRipository.GetAnimalByIDAndComments(id);
+            var petBeforeEdit = publicRipository.GetPetByIDAndComments(id);
             petBeforeEdit!.Name = petBeforeEdit!.Name;
             petBeforeEdit.Description = petBeforeEdit.Description;
             petBeforeEdit.Age = petBeforeEdit.Age;
             petBeforeEdit.PictureURL = petBeforeEdit.PictureURL;
             petBeforeEdit.CategoryId = id;
 
-            var petAfterEdit = publicRipository.GetAnimalByIDAndComments(id);
+            var petAfterEdit = publicRipository.GetPetByIDAndComments(id);
             petAfterEdit!.Name = "New Dog";
             petAfterEdit!.Description = "Dog after edit";
             petAfterEdit!.Age = 5;
             petAfterEdit!.CategoryId = 1;
 
-            adminRipository.EditAnimal(petAfterEdit!);
+            adminRipository.EditPet(petAfterEdit!);
 
             Assert.AreNotEqual(petBeforeEdit, petAfterEdit);
 
-            adminRipository.EditAnimal(petBeforeEdit!);
+            adminRipository.EditPet(petBeforeEdit!);
         }
 
         [TestMethod]
-        public void RemoveAnimalTest()
+        public void RemovePetTest()
         {
-            var pet = publicRipository.GetAnimals().Last();
-            int countBeforeRemove = publicRipository.GetAnimals().Count();
-            adminRipository.RemoveAnimal(pet.AnimalId);
-            int countAfterRemove = publicRipository.GetAnimals().Count();
+            var pet = publicRipository.GetPets().Last();
+            int countBeforeRemove = publicRipository.GetPets().Count();
+            adminRipository.RemovePet(pet.PetId);
+            int countAfterRemove = publicRipository.GetPets().Count();
 
             Assert.IsTrue(countBeforeRemove == countAfterRemove + 1);
-            Assert.IsNull(publicRipository.GetAnimalByIDAndComments(pet.AnimalId));
+            Assert.IsNull(publicRipository.GetPetByIDAndComments(pet.PetId));
 
-            if (countBeforeRemove == countAfterRemove + 1) adminRipository.AddAnimal(pet);
+            if (countBeforeRemove == countAfterRemove + 1) adminRipository.AddPet(pet);
         }
-
-        //bool Login(User user);
 
     }
 }

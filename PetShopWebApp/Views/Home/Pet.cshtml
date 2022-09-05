@@ -1,4 +1,4 @@
-﻿@model PetShopWebApp.Models.Animal
+﻿@model PetShopWebApp.Models.Pet
 
 @{
 	ViewBag.Title = Model.Name + " - Pet Shop";
@@ -8,7 +8,7 @@
 <div class="container py-5">
 	<div class="card border-0 shadow-lg d-flex flex-wrap flex-row row-cols-lg-2 row-cols-1 rounded-7 position-relative">
 		<div class="col">
-			<partial name="_ButtonLikePartial" model="@Model.AnimalId" />
+			<partial name="_ButtonLikePartial" model="@Model.PetId" />
 			<img class="card-img rounded-7" src="@Model.PictureURL" />
 		</div>
 		<div class="col p-5">
@@ -19,7 +19,7 @@
 				<i class="fa-solid fa-paw text-success ms-4 me-1"></i>
 				<span>@Model.Age y</span>
 				<i class="fa-solid fa-heart text-danger ms-4 me-1"></i>
-				<span id="like_@Model.AnimalId">@Model.Like</span>
+				<span id="like_@Model.PetId">@Model.Like</span>
 			</div>
 			<p>@Model.Description</p>
 		</div>
@@ -28,7 +28,7 @@
 				New Comment
 				<i class="fa-solid fa-pen text-success ms-1"></i>
 			</h4>
-			<form data-id="@Model.AnimalId" id="newComment">
+			<form data-id="@Model.PetId" id="newComment">
 				<label for="auther" class="form-label">Auther</label>
 				<input class="form-control mb-4" name="auther" />
 				<label for="text" class="form-label">Comment</label>
