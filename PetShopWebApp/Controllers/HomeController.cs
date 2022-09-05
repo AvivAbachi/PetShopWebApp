@@ -15,13 +15,13 @@ namespace PetShopWebApp.Controllers
         }
         public IActionResult Index()
         {
-            return View(_repository.GetAnimalsByLikes(2));
+            return View(_repository.GetPetsByLikes(2));
         }
 
         [Route("Pet/{id}")]
-        public IActionResult Animal(int id)
+        public IActionResult Pet(int id)
         {
-            var pet = _repository.GetAnimalByIDAndComments(id);
+            var pet = _repository.GetPetByIDAndComments(id);
             if (pet == null) return RedirectToAction("Error");
             return View(new PetView
             {
@@ -35,14 +35,14 @@ namespace PetShopWebApp.Controllers
         {
             ViewBag.CategoryList = _repository.GetCategories();
             return View(id == null ?
-                _repository.GetAnimals() :
-                _repository.GetAnimalByCategory(id!.Value));
+                _repository.GetPets() :
+                _repository.GetPetByCategory(id!.Value));
         }
 
         [HttpPost]
-        public IActionResult AddAnimalLike(int id)
+        public IActionResult AddPetLike(int id)
         {
-            var pet = _repository.AddAnimalLike(id);
+            var pet = _repository.AddPetLike(id);
             if (pet == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -52,7 +52,7 @@ namespace PetShopWebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddAnimalComment(Comment comment)
+        public IActionResult AddPetComment(Comment comment)
         {
             if (ModelState.IsValid)
             {

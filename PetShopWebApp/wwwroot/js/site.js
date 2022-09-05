@@ -8,7 +8,7 @@ $.validator.unobtrusive.options = settings;
 $('.btn-like').click(
     function (btn) {
         const id = btn.currentTarget.dataset.id;
-        $.post(`/Home/AddAnimalLike/${id}`,
+        $.post(`/Home/AddPetLike/${id}`,
             function (data) {
                 $(`#like_${id}`).html(data);
                 btn.currentTarget.setAttribute('disabled', '');
@@ -26,12 +26,12 @@ form.submit(function (e) {
     const formdata = $(this).serializeArray()
     const data = {
         Comment: {
-            AnimalId: this.dataset.id,
+            PetId: this.dataset.id,
             Auther: formdata[0].value,
             Text: formdata[1].value
         }
     };
-    $.post("/Home/AddAnimalComment/", data,
+    $.post("/Home/AddPetComment/", data,
         function (data) {
             const comment = $(`
             <div class="card-body">
@@ -72,7 +72,7 @@ $('#selectCategory').change(
 $('.btn-delete').click(
     function (btn) {
         const id = btn.currentTarget.dataset.id;
-        $.post('/Admin/DeleteAnimal/' + id,
+        $.post('/Admin/DeletePet/' + id,
             function (data) {
                 const pet = $('#pet_' + id);
                 pet.fadeOut('slow', function () { pet.remove(); });

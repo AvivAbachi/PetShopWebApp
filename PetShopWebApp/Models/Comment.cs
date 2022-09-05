@@ -5,8 +5,8 @@ namespace PetShopWebApp.Models
     public class Comment
     {
         public int CommentId { get; set; }
-        public int AnimalId { get; set; }
-        public virtual Animal? Animal { get; set; }
+        public int PetId { get; set; }
+        public virtual Pet? Pet { get; set; }
         [Required(ErrorMessage = "Please enter your name")]
         [MaxLength(100)]
         public string? Auther { get; set; }

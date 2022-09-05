@@ -15,30 +15,30 @@ namespace PetShopWebApp.Repositories
             _environment = environment;
         }
 
-        public async Task AddAnimal(Animal animal)
+        public async Task AddPet(Pet pet)
         {
-            _context.Animals!.Add(animal);
+            _context.Pets!.Add(pet);
             _context.SaveChanges();
-            if (animal.File != null)
+            if (pet.File != null)
             {
-                animal.PictureURL = await UploadPicture(animal.File, animal.AnimalId);
+                pet.PictureURL = await UploadPicture(pet.File, pet.PetId);
                 _context.SaveChanges();
             }
         }
 
-        public async Task<bool> EditAnimal(Animal animal)
+        public async Task<bool> EditPet(Pet pet)
         {
-            var pet = _context.Animals!.FirstOrDefault(p => p.AnimalId == animal.AnimalId);
-            if (pet != null)
+            var petToEdit = _context.Pets!.FirstOrDefault(p => p.PetId == pet.PetId);
+            if (petToEdit != null)
             {
-                pet.Name = animal.Name;
-                pet.Description = animal.Description;
-                pet.Age = animal.Age;
-                pet.CategoryId = animal.CategoryId;
-                if (animal.File != null)
+                petToEdit.Name = pet.Name;
+                petToEdit.Description = pet.Description;
+                petToEdit.Age = pet.Age;
+                petToEdit.CategoryId = pet.CategoryId;
+                if (pet.File != null)
                 {
-                    if (File.Exists(pet?.PictureURL)) File.Delete(pet.PictureURL!);
-                    pet!.PictureURL = await UploadPicture(animal.File, pet.AnimalId);
+                    if (File.Exists(petToEdit?.PictureURL)) File.Delete(petToEdit.PictureURL!);
+                    petToEdit!.PictureURL = await UploadPicture(pet.File, petToEdit.PetId);
                 }
                 _context.SaveChanges();
                 return true;
@@ -59,10 +59,10 @@ namespace PetShopWebApp.Repositories
             return $"/upload/{fileName}";
         }
 
-        public bool RemoveAnimal(int id)
+        public bool RemovePet(int id)
         {
-            var pet = _context.Animals!
-                  .Where(p => p.AnimalId == id)
+            var pet = _context.Pets!
+                  .Where(p => p.PetId == id)
                   .Include(p => p.Comments)
                   .FirstOrDefault();
             if (pet != null)
@@ -70,7 +70,7 @@ namespace PetShopWebApp.Repositories
                 var targetPath = _environment.WebRootPath + pet.PictureURL!.Replace("/", "\\");
                 if (File.Exists(targetPath)) File.Delete(targetPath!);
                 _context.Comments!.RemoveRange(pet.Comments!);
-                _context.Animals!.Remove(pet);
+                _context.Pets!.Remove(pet);
                 _context.SaveChanges();
                 return true;
             }

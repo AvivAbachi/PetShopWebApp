@@ -2,7 +2,7 @@
 {
 	public class PetView
 	{
-		public Animal? Pet { get; set; }
+		public Pet? Pet { get; set; }
 		public Comment? Comment { get; set; }
 	}
 }
