@@ -1,7 +1,7 @@
 ﻿$('.btn-like').click(
     function (btn) {
         const id = btn.currentTarget.dataset.id;
-        $.post("/Home/AddPetLike/" + id, function (data) { $("#like_" + id).html(data); });
+        $.post("/Home/AddAnimalLike/" + id, function (data) { $("#like_" + id).html(data); });
         btn.currentTarget.setAttribute('disabled', '');
     }
 )
@@ -14,7 +14,7 @@ form.submit(function (e) {
         [formdata[0].name]: formdata[0].value,
         [formdata[1].name]: formdata[1].value
     };
-    $.post("/Home/AddPetComment/", data, function (data) {
+    $.post("/Home/AddAnimalComment/", data, function (data) {
         const comment = $(`
             <div class="card-body">
                 <div class="card-title fs-5">${data.text}</div>
@@ -48,7 +48,7 @@ $('#selectCategory').change(
 $('.btn-delete').click(
     function (btn) {
         const id = btn.currentTarget.dataset.id;
-        $.post('/Admin/DeletePet/' + id, function () {
+        $.post('/Admin/DeleteAnimal/' + id, function () {
             const pet = $('#pet_' + id);
             pet.fadeOut(function () { pet.remove(); });
         })

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PetShopWebApp.Models.Pet>
+﻿@model IEnumerable<PetShopWebApp.Models.Animal>
 
 @{
 	ViewBag.Title = "Pet Shop";
@@ -26,8 +26,8 @@
 		{
 			<div class="col g-4">
 				<div class="position-relative">
-					<partial name="_ButtonLikePartial" model="pet.PetId" />
-					<a asp-controller="Home" asp-action="Pet" asp-route-id="@pet.PetId" 
+					<partial name="_ButtonLikePartial" model="pet.AnimalId" />
+					<a asp-controller="Home" asp-action="Animal" asp-route-id="@pet.AnimalId" 
 						class="d-block overflow-hidden text-bg-dark rounded-7 shadow-lg card-pet text-decoration-none" 
 						style="background-image: url('@pet.PictureURL')">
 						<div class="d-flex flex-column justify-content-between p-5 pb-3 text-white text-shadow-1 h-100">
@@ -39,7 +39,7 @@
 								</li>
 								<li class="d-flex align-items-center">
 									<i class="fa-solid fa-heart me-2"></i>
-									<small id="like_@pet.PetId">@pet.Like</small>
+									<small id="like_@pet.AnimalId">@pet.Like</small>
 								</li>
 							</ul>
 						</div>

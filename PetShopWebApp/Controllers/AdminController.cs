@@ -25,8 +25,8 @@ namespace PetShopWebApp.Controllers
             {
                 ViewBag.CategoryList = _publicRepository.GetCategories();
                 return View(id == null ?
-                    _publicRepository.GetPets() :
-                    _publicRepository.GetPetByCategory(id!.Value));
+                    _publicRepository.GetAnimals() :
+                    _publicRepository.GetAnimalByCategory(id!.Value));
             }
             return View("./Login", new User());
         }
@@ -63,39 +63,39 @@ namespace PetShopWebApp.Controllers
             return Redirect("/Home/Index");
         }
         [Authorize]
-        public IActionResult AddPet()
+        public IActionResult AddAnimal()
         {
             ViewBag.CategoryList = _publicRepository.GetCategories();
             ViewBag.isEdit = false;
             
-            return View("AddEditPet", new Pet());
+            return View("AddEditAnimal", new Animal());
         }
         [Authorize]
-        public IActionResult EditPet(int id)
+        public IActionResult EditAnimal(int id)
         {
             ViewBag.CategoryList = _publicRepository.GetCategories();
-            var pet = _publicRepository.GetPetByIDAndComments(id);
+            var animal = _publicRepository.GetAnimalByIDAndComments(id);
             ViewBag.isEdit = true;
-            return View("AddEditPet", pet);
+            return View("AddEditAnimal", animal);
         }
         [HttpPost, Authorize]
-        public IActionResult AddPet(Pet model)
+        public IActionResult AddAnimal(Animal model)
         {
             if (model == null) return NotFound();
-            _adminRepository.AddPet(model);
+            _adminRepository.AddAnimal(model);
             return RedirectToAction("Index");
         }
         [HttpPost, Authorize]
-        public async Task<IActionResult> EditPet(Pet model)
+        public async Task<IActionResult> EditAnimal(Animal model)
         {
             if (model == null) return NotFound();
-            await _adminRepository.EditPet(model);
+            await _adminRepository.EditAnimal(model);
             return RedirectToAction("Index");
         }
         [HttpPost, Authorize]
-        public IActionResult DeletePet(int id)
+        public IActionResult DeleteAnimal(int id)
         {
-            _adminRepository.RemovePet(id);
+            _adminRepository.RemoveAnimal(id);
             return RedirectToAction("Index");
         }
     }

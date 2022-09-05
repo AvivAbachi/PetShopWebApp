@@ -13,20 +13,20 @@ namespace PetShopWebApp.Repositories
             _context = context;
             _environment = environment;
         }
-        public async Task AddPet(Pet pet)
+        public async Task AddAnimal(Animal animal)
         {
-            if (pet.File != null) pet.PictureURL = await UploadPicture(pet.File, pet.PetId);
-            _context.Pets!.Add(pet);
+            if (animal.File != null) animal.PictureURL = await UploadPicture(animal.File, animal.AnimalId);
+            _context.Animals!.Add(animal);
             _context.SaveChanges();
         }
-        public async Task EditPet(Pet pet)
+        public async Task EditAnimal(Animal animal)
         {
-            var petToEdit = _context.Pets!.First(p => p.PetId == pet.PetId);
-            petToEdit.Name = pet.Name;
-            petToEdit.Description = pet.Description;
-            petToEdit.Age = pet.Age;
-            if (pet.File != null) petToEdit.PictureURL = await UploadPicture(pet.File, petToEdit.PetId);
-            petToEdit.CategoryId = pet.CategoryId;
+            var pet = _context.Animals!.First(p => p.AnimalId == animal.AnimalId);
+            pet.Name = animal.Name;
+            pet.Description = animal.Description;
+            pet.Age = animal.Age;
+            if (animal.File != null) pet.PictureURL = await UploadPicture(animal.File, pet.AnimalId);
+            pet.CategoryId = animal.CategoryId;
             _context.SaveChanges();
         }
         private async Task<string> UploadPicture(IFormFile file, int id)
@@ -43,17 +43,17 @@ namespace PetShopWebApp.Repositories
             }
             return Path.Combine(_environment.WebRootPath, $"/upload/{fileName}");
         }
-        public void RemovePet(int id)
+        public void RemoveAnimal(int id)
         {
-            var pet = _context.Pets!
-                  .Where(p => p.PetId == id)
+            var pet = _context.Animals!
+                  .Where(p => p.AnimalId == id)
                   .Include(p => p.Comments)
                   .FirstOrDefault();
             if (pet != null)
             {
                 //if (pet.PictureURL != null) File.Delete(pet.PictureURL);
                 _context.Comments!.RemoveRange(pet.Comments!);
-                _context.Pets!.Remove(pet);
+                _context.Animals!.Remove(pet);
                 _context.SaveChanges();
             }
         }

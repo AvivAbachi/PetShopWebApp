@@ -11,49 +11,49 @@ namespace PetShopWebApp.Repositories
 		{
 			_context = context;
 		}
-		public IEnumerable<Pet> GetPets()
+		public IEnumerable<Animal> GetAnimals()
 		{
-			return _context.Pets!
-				.OrderBy(a => a.PetId);
+			return _context.Animals!
+				.OrderBy(a => a.AnimalId);
 		}
 		public IEnumerable<Comment> GetComments()
 		{
 			return _context.Comments!;
 		}
-		public Pet? GetPetByIDAndComments(int id)
+		public Animal? GetAnimalByIDAndComments(int id)
 		{
-			var pet = _context.Pets!
-				  .Where(p => p.PetId == id)
+			var pet = _context.Animals!
+				  .Where(p => p.AnimalId == id)
 				  .Include(p => p.Category)
 				  .Include(p => p.Comments!.OrderByDescending(c => c.CreatedDate))
 				  .FirstOrDefault();
 			return pet;
 		}
-		public IEnumerable<Pet> GetPetByCategory(int category)
+		public IEnumerable<Animal> GetAnimalByCategory(int category)
 		{
-			return _context.Pets!
+			return _context.Animals!
 			   .Include(p => p.Category)
 			   .Where(c => c.CategoryId == category);
 		}
-		public IEnumerable<Pet> GetPetsByLikes(int counter)
+		public IEnumerable<Animal> GetAnimalsByLikes(int counter)
 		{
-			return _context.Pets!
+			return _context.Animals!
 				.OrderByDescending(a => a.Like)
 				.Take(counter)
-				.OrderBy(a => a.PetId)
+				.OrderBy(a => a.AnimalId)
 				.Include(p => p.Category);
 		}
-		public int AddPetLike(int id)
+		public int AddAnimalLike(int id)
 		{
-			var pet = _context.Pets!.First(p => p.PetId == id);
+			var pet = _context.Animals!.First(p => p.AnimalId == id);
 			pet.Like++;
 			_context.SaveChanges();
 			return pet.Like;
 		}
-		public Comment AddPetComment(int id, string auther, string text)
+		public Comment AddAnimaComment(int id, string auther, string text)
 		{
-			var pet = GetPetByIDAndComments(id);
-			var comment = new Comment { PetId = id, Auther = auther, Text = text, CreatedDate = DateTime.Now };
+			var pet = GetAnimalByIDAndComments(id);
+			var comment = new Comment { AnimalId = id, Auther = auther, Text = text, CreatedDate = DateTime.Now };
 			pet?.Comments!.Add(comment);
 			_context.SaveChanges();
 			return comment;
