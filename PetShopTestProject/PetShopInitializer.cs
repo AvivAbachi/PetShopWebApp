@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using PetShopWebApp.Data;
-using PetShopWebApp.Repositories;
+using System.Reflection;
 
 namespace PetShopTestProject
 {
     public abstract class PetShopInitializer
     {
         public WebApplication App { get; }
+        public string SimpleImage { get; }
+
         public PetShopInitializer()
         {
             var builder = WebApplication.CreateBuilder();
@@ -25,6 +25,15 @@ namespace PetShopTestProject
             var context = new DbContextOptionsBuilder<PetShopConetex>();
 
             App = builder.Build();
+
+            FileInfo fileInfo = new(Assembly.GetExecutingAssembly().Location);
+            string path = Path.GetFullPath(Path.Combine(fileInfo.DirectoryName!, @"..\..\..\"));
+            string uploadPath = Path.Combine(path, "upload");
+            if (Directory.Exists(uploadPath)) Directory.Delete(uploadPath, true);
+            Directory.CreateDirectory(uploadPath);
+
+            App.Environment.WebRootPath = path;
+            SimpleImage = Path.Combine(path, "Sample.jpg");
 
             using (var scope = App.Services.CreateScope())
             {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PetShopWebApp.Models;
 using PetShopWebApp.Repositories;
+using System.Net;
 
 namespace PetShopWebApp.Controllers
 {
@@ -11,32 +12,31 @@ namespace PetShopWebApp.Controllers
         private readonly IAdminRepository _adminRepository;
         private readonly IPublicRepository _publicRepository;
         private readonly SignInManager<IdentityUser> _signInManager;
+
         public AdminController(IAdminRepository adminRepository, IPublicRepository publicRepository, SignInManager<IdentityUser> signInManager)
         {
             _adminRepository = adminRepository;
             _publicRepository = publicRepository;
             _signInManager = signInManager;
         }
+
         [Authorize]
         public IActionResult Index(int? id)
         {
-            var user = _signInManager.IsSignedIn(User);
-            if (user)
-            {
-                ViewBag.CategoryList = _publicRepository.GetCategories();
-                return View(id == null ?
-                    _publicRepository.GetAnimals() :
-                    _publicRepository.GetAnimalByCategory(id!.Value));
-            }
-            return View("./Login", new User());
-        }
-        public IActionResult Login()
-        {
-            return View(new User());
+            ViewBag.CategoryList = _publicRepository.GetCategories();
+            return View(id == null ?
+                _publicRepository.GetAnimals() :
+                _publicRepository.GetAnimalByCategory(id!.Value));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(User user)
+        [Route("Login")]
+        public IActionResult Login()
+        {
+            return View(new LoginUserView());
+        }
+
+        [HttpPost, Route("Login")]
+        public async Task<IActionResult> Login(LoginUserView user)
         {
             if (ModelState.IsValid)
             {
@@ -45,58 +45,91 @@ namespace PetShopWebApp.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-                if (result.IsLockedOut)
-                {
-                    ModelState.AddModelError(string.Empty, "User account locked out.");
-                }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ViewBag.Error = "Invalid login attempt";
                 }
             }
             return View("./Login", user);
         }
+
         [HttpPost, Authorize]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return Redirect("/Home/Index");
+            return Redirect("/");
         }
+
         [Authorize]
         public IActionResult AddAnimal()
         {
             ViewBag.CategoryList = _publicRepository.GetCategories();
             ViewBag.isEdit = false;
-            
             return View("AddEditAnimal", new Animal());
         }
+
         [Authorize]
         public IActionResult EditAnimal(int id)
         {
             ViewBag.CategoryList = _publicRepository.GetCategories();
-            var animal = _publicRepository.GetAnimalByIDAndComments(id);
-            ViewBag.isEdit = true;
-            return View("AddEditAnimal", animal);
+            var pet = _publicRepository.GetAnimalByIDAndComments(id);
+            if (pet != null)
+            {
+                ViewBag.isEdit = true;
+                return View("AddEditAnimal", pet);
+            }
+            return Redirect("/404");
         }
+
         [HttpPost, Authorize]
-        public IActionResult AddAnimal(Animal model)
+        public async Task<IActionResult> AddAnimal(Animal model)
         {
-            if (model == null) return NotFound();
-            _adminRepository.AddAnimal(model);
-            return RedirectToAction("Index");
+            if (model.File == null)
+            {
+                ModelState.AddModelError("File", "Need Picture");
+            }
+            else if (!model.File.ContentType.StartsWith("image/"))
+            {
+                ModelState.AddModelError("File", "File type not vaild");
+                model.File = null;
+            }
+            if (ModelState.IsValid)
+            {
+                await _adminRepository.AddAnimal(model);
+                return RedirectToAction("Index");
+            }
+            ViewBag.CategoryList = _publicRepository.GetCategories();
+            ViewBag.isEdit = false;
+            return View("AddEditAnimal", model);
         }
+
         [HttpPost, Authorize]
         public async Task<IActionResult> EditAnimal(Animal model)
         {
-            if (model == null) return NotFound();
-            await _adminRepository.EditAnimal(model);
-            return RedirectToAction("Index");
+            if (model.File != null && !model.File.ContentType.StartsWith("image/"))
+            {
+                ModelState.AddModelError("File", "File type not vaild");
+                model.File = null;
+            }
+            if (ModelState.IsValid)
+            {
+                bool success = await _adminRepository.EditAnimal(model);
+                if (success) return RedirectToAction("Index");
+            }
+            ViewBag.CategoryList = _publicRepository.GetCategories();
+            ViewBag.isEdit = true;
+            return View("AddEditAnimal", model);
         }
+
         [HttpPost, Authorize]
         public IActionResult DeleteAnimal(int id)
         {
-            _adminRepository.RemoveAnimal(id);
-            return RedirectToAction("Index");
+            if (_adminRepository.RemoveAnimal(id))
+            {
+                return RedirectToAction("Index");
+            }
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            return Json(new { Message = "Invalid pet id" });
         }
     }
 }

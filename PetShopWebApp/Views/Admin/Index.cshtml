@@ -9,7 +9,7 @@
 <div class="container">
 	<div class="d-flex mb-4">
 		<form method="get" asp-action="index" class="col">
-			<partial name="_SelectCategoryPartial" model="(IEnumerable<PetShopWebApp.Models.Category>)@ViewBag.CategoryList" />
+			<partial name="_SelectCategoryPartial" model="@ViewBag.CategoryList"/>
 		</form>
 		<a asp-action="AddAnimal" class="btn btn-primary btn-rounded col-auto ms-3">
 			Add New Pet <i class="fa-solid fa-plus ms-1"></i>

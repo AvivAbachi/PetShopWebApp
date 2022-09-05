@@ -1,57 +1,82 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetShopWebApp.Models;
 using PetShopWebApp.Repositories;
+using System.Net;
 
 namespace PetShopWebApp.Controllers
 {
-	public class HomeController : Controller
-	{
-		private readonly IPublicRepository _repository;
-		public HomeController(IPublicRepository repository)
-		{
-			_repository = repository;
-		}
-		public IActionResult Index()
-		{
-			return View(_repository.GetAnimalsByLikes(2));
-		}
+    public class HomeController : Controller
+    {
+        private readonly IPublicRepository _repository;
 
-		[Route("Pet/{id}")]
-		public IActionResult Animal(int id)
-		{
-			return View(_repository.GetAnimalByIDAndComments(id));
-		}
+        public HomeController(IPublicRepository repository)
+        {
+            _repository = repository;
+        }
+        public IActionResult Index()
+        {
+            return View(_repository.GetAnimalsByLikes(2));
+        }
 
-		[Route("Category")]
-		public IActionResult Category(int? id)
-		{
+        [Route("Pet/{id}")]
+        public IActionResult Animal(int id)
+        {
+            var pet = _repository.GetAnimalByIDAndComments(id);
+            if (pet == null) return RedirectToAction("Error");
+            return View(new PetView
+            {
+                Pet = pet,
+                Comment = new Comment()
+            });
+        }
 
-			ViewBag.CategoryList = _repository.GetCategories();
-			return View(id == null ? _repository.GetAnimals() : _repository.GetAnimalByCategory(id!.Value));
-		}
+        [Route("Category")]
+        public IActionResult Category(int? id)
+        {
+            ViewBag.CategoryList = _repository.GetCategories();
+            return View(id == null ?
+                _repository.GetAnimals() :
+                _repository.GetAnimalByCategory(id!.Value));
+        }
 
-		[HttpPost]
-		public IActionResult AddAnimalLike(int id)
-		{
-			return Json(_repository.AddAnimalLike(id));
-		}
+        [HttpPost]
+        public IActionResult AddAnimalLike(int id)
+        {
+            var pet = _repository.AddAnimalLike(id);
+            if (pet == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Message = "Pet Not Found!" });
+            }
+            return Json(pet.Like);
+        }
 
-		[HttpPost]
-		public IActionResult AddAnimalComment(int id, string auther, string text)
-		{
-			var comment = _repository.AddAnimaComment(id, auther, text);
-			return Json(new
-			{
-				comment.Auther,
-				comment.Text,
-				CreatedDate = comment.CreatedDate.ToString(),
-			});
-		}
+        [HttpPost]
+        public IActionResult AddAnimalComment(Comment comment)
+        {
+            if (ModelState.IsValid)
+            {
+                comment.CreatedDate = DateTime.Now;
+                if (_repository.AddAnimaComment(comment))
+                {
+                    var jsonComment = new
+                    {
+                        comment!.Auther,
+                        comment!.Text,
+                        CreatedDate = comment!.CreatedDate.ToString()
+                    };
+                    return Json(jsonComment);
+                }
+            }
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            return Json(new { Message = "Invalid comment" });
+        }
 
-		[Route("404")]
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error()
-		{
-			return View();
-		}
-	}
+        [Route("{*url}", Order = 999)]
+        public IActionResult Error()
+        {
+            Response.StatusCode = (int)HttpStatusCode.NotFound;
+            return View();
+        }
+    }
 }

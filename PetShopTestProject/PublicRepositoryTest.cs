@@ -1,32 +1,28 @@
-using Microsoft.Extensions.DependencyInjection;
-using PetShopWebApp.Models;
-using PetShopWebApp.Repositories;
-
 namespace PetShopTestProject
 {
     [TestClass]
     public class PublicRepositoryTest : PetShopInitializer
     {
-        private readonly IPublicRepository publicRepository;
+        private readonly IPublicRepository _publicRepository;
         public PublicRepositoryTest()
         {
-            publicRepository = App.Services.GetRequiredService<IPublicRepository>();
+            _publicRepository = App.Services.GetRequiredService<IPublicRepository>();
         }
 
         [TestMethod]
         public void GetAnimalsTest()
         {
-            var pets = publicRepository.GetAnimals().ToArray();
+            var pets = _publicRepository.GetAnimals().ToArray();
             CollectionAssert.AllItemsAreInstancesOfType(pets, typeof(Animal));
         }
 
         [TestMethod]
         public void AddAnimalLikeTest()
         {
-            var pet = publicRepository.GetAnimalByIDAndComments(1);
+            var pet = _publicRepository.GetAnimalByIDAndComments(1);
             if (pet == null) throw new AssertFailedException("");
             int like = pet.Like;
-            publicRepository.AddAnimalLike(1);
+            _publicRepository.AddAnimalLike(1);
             Assert.IsTrue(like + 1 == pet.Like);
         }
 
@@ -34,7 +30,7 @@ namespace PetShopTestProject
         public void GetAnimalByCategoryTest()
         {
             int category = 1;
-            var pets = publicRepository.GetAnimalByCategory(category);
+            var pets = _publicRepository.GetAnimalByCategory(category);
             Assert.IsTrue(pets.All(a => a.CategoryId == category));
         }
 
@@ -42,8 +38,8 @@ namespace PetShopTestProject
         public void GetAnimalsByLikesTest()
         {
             int count = 2;
-            var pets = publicRepository.GetAnimalsByLikes(count).ToList();
-            var allPets = publicRepository.GetAnimals().ToList();
+            var pets = _publicRepository.GetAnimalsByLikes(count).ToList();
+            var allPets = _publicRepository.GetAnimals().ToList();
             for (int i = 0; i < count; i++)
             {
                 var topPet = allPets.MaxBy(p => p.Like);
@@ -56,11 +52,10 @@ namespace PetShopTestProject
         public void GetAnimalByIDAndCommentsTest()
         {
             int id = 1;
-            var petComment = publicRepository.GetAnimalByIDAndComments(id)
-                ?.Comments!.OrderBy(c => c.CommentId).ToList();
-            var comments = publicRepository.GetComments()
-                .Where(c => c.AnimalId == id).OrderBy(c => c.CommentId).ToList();
-            CollectionAssert.AreEqual(comments, petComment);
+            var comments = _publicRepository
+                .GetAnimalByIDAndComments(id)
+                ?.Comments?.ToList();
+            CollectionAssert.AllItemsAreNotNull(comments);
         }
 
         [TestMethod]
@@ -69,15 +64,18 @@ namespace PetShopTestProject
             int id = 2;
             string auther = "Amit";
             string text = "Testing adding comment";
-            publicRepository.AddAnimaComment(id, auther, text);
-            var comment = publicRepository.GetComments().Last();
-            Assert.IsTrue(comment.AnimalId == id && comment.Auther == auther && comment.Text == text);
+            var comment = new Comment { AnimalId = id, Auther = auther, Text = text };
+            bool succsses = _publicRepository.AddAnimaComment(comment);
+            Assert.IsTrue(succsses);
+            var pet = _publicRepository.GetAnimalByIDAndComments(id);
+            var lastComment = pet?.Comments?.Last();
+            Assert.IsTrue(lastComment?.AnimalId == id && lastComment?.Auther == auther && lastComment?.Text == text);
         }
 
         [TestMethod]
         public void GetCategoriesTest()
         {
-            var categories = publicRepository.GetCategories().ToArray();
+            var categories = _publicRepository.GetCategories().ToArray();
             CollectionAssert.AllItemsAreInstancesOfType(categories, typeof(Category));
             CollectionAssert.AllItemsAreUnique(categories);
         }

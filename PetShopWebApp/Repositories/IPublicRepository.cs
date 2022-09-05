@@ -8,9 +8,8 @@ namespace PetShopWebApp.Repositories
 		IEnumerable<Animal> GetAnimalByCategory(int category);
 		IEnumerable<Animal> GetAnimalsByLikes(int counter);
 		Animal? GetAnimalByIDAndComments(int id);
-		int AddAnimalLike(int id);
-		Comment AddAnimaComment(int id, string auther, string comment);
-		IEnumerable<Comment> GetComments();
+        Animal? AddAnimalLike(int id);
+		bool AddAnimaComment(Comment comment);
 		IEnumerable<Category> GetCategories();
 	}
 }
