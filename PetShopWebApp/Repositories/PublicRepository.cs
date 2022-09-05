@@ -13,40 +13,40 @@ namespace PetShopWebApp.Repositories
             _context = context;
         }
 
-        public IEnumerable<Animal> GetAnimals()
+        public IEnumerable<Pet> GetPets()
         {
-            return _context.Animals!
-                .OrderBy(a => a.AnimalId);
+            return _context.Pets!
+                .OrderBy(a => a.PetId);
         }
 
-        public Animal? GetAnimalByIDAndComments(int id)
+        public Pet? GetPetByIDAndComments(int id)
         {
-            return _context.Animals!
-                  .Where(p => p.AnimalId == id)
+            return _context.Pets!
+                  .Where(p => p.PetId == id)
                   .Include(p => p.Category)
                   .Include(p => p.Comments!.OrderByDescending(c => c.CreatedDate))
                   .FirstOrDefault();
          }
 
-        public IEnumerable<Animal> GetAnimalByCategory(int category)
+        public IEnumerable<Pet> GetPetByCategory(int category)
         {
-            return _context.Animals!
+            return _context.Pets!
                .Include(p => p.Category)
                .Where(c => c.CategoryId == category);
         }
 
-        public IEnumerable<Animal> GetAnimalsByLikes(int counter)
+        public IEnumerable<Pet> GetPetsByLikes(int counter)
         {
-            return _context.Animals!
+            return _context.Pets!
                 .OrderByDescending(a => a.Like)
                 .Take(counter)
-                .OrderBy(a => a.AnimalId)
+                .OrderBy(a => a.PetId)
                 .Include(p => p.Category);
         }
 
-        public Animal? AddAnimalLike(int id)
+        public Pet? AddPetLike(int id)
         {
-            var pet = _context.Animals!.FirstOrDefault(p => p.AnimalId == id);
+            var pet = _context.Pets!.FirstOrDefault(p => p.PetId == id);
             if (pet != null)
             {
                 pet!.Like++;
@@ -58,7 +58,7 @@ namespace PetShopWebApp.Repositories
 
         public bool AddAnimaComment(Comment comment)
         {
-            var pet = GetAnimalByIDAndComments(comment.AnimalId);
+            var pet = GetPetByIDAndComments(comment.PetId);
             if (pet != null)
             {
                 comment.CreatedDate = DateTime.Now;

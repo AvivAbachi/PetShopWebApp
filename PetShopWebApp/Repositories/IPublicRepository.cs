@@ -4,11 +4,11 @@ namespace PetShopWebApp.Repositories
 {
 	public interface IPublicRepository
 	{
-		IEnumerable<Animal> GetAnimals();
-		IEnumerable<Animal> GetAnimalByCategory(int category);
-		IEnumerable<Animal> GetAnimalsByLikes(int counter);
-		Animal? GetAnimalByIDAndComments(int id);
-        Animal? AddAnimalLike(int id);
+		IEnumerable<Pet> GetPets();
+		IEnumerable<Pet> GetPetByCategory(int category);
+		IEnumerable<Pet> GetPetsByLikes(int counter);
+		Pet? GetPetByIDAndComments(int id);
+        Pet? AddPetLike(int id);
 		bool AddAnimaComment(Comment comment);
 		IEnumerable<Category> GetCategories();
 	}

@@ -25,8 +25,8 @@ namespace PetShopWebApp.Controllers
         {
             ViewBag.CategoryList = _publicRepository.GetCategories();
             return View(id == null ?
-                _publicRepository.GetAnimals() :
-                _publicRepository.GetAnimalByCategory(id!.Value));
+                _publicRepository.GetPets() :
+                _publicRepository.GetPetByCategory(id!.Value));
         }
 
         [Route("Login")]
@@ -61,28 +61,28 @@ namespace PetShopWebApp.Controllers
         }
 
         [Authorize]
-        public IActionResult AddAnimal()
+        public IActionResult AddPet()
         {
             ViewBag.CategoryList = _publicRepository.GetCategories();
             ViewBag.isEdit = false;
-            return View("AddEditAnimal", new Animal());
+            return View("AddEditPet", new Pet());
         }
 
         [Authorize]
-        public IActionResult EditAnimal(int id)
+        public IActionResult EditPet(int id)
         {
             ViewBag.CategoryList = _publicRepository.GetCategories();
-            var pet = _publicRepository.GetAnimalByIDAndComments(id);
+            var pet = _publicRepository.GetPetByIDAndComments(id);
             if (pet != null)
             {
                 ViewBag.isEdit = true;
-                return View("AddEditAnimal", pet);
+                return View("AddEditPet", pet);
             }
             return Redirect("/404");
         }
 
         [HttpPost, Authorize]
-        public async Task<IActionResult> AddAnimal(Animal model)
+        public async Task<IActionResult> AddPet(Pet pet)
         {
             if (model.File == null)
             {
@@ -95,17 +95,17 @@ namespace PetShopWebApp.Controllers
             }
             if (ModelState.IsValid)
             {
-                var pet = _adminRepository.AddAnimal(model);
+                _adminRepository.AddPet(pet);
                 await _adminRepository.UploadPicture(pet);
                 return RedirectToAction("Index");
             }
             ViewBag.CategoryList = _publicRepository.GetCategories();
             ViewBag.isEdit = false;
-            return View("AddEditAnimal", model);
+            return View("AddEditPet", model);
         }
 
         [HttpPost, Authorize]
-        public async Task<IActionResult> EditAnimal(Animal model)
+        public async Task<IActionResult> EditPet(Pet pet)
         {
             //if (model.File != null && !model.File.ContentType.StartsWith("image/"))
             //{
@@ -114,19 +114,19 @@ namespace PetShopWebApp.Controllers
             //}
             if (ModelState.IsValid)
             {
-                var pet = _adminRepository.EditAnimal(model);
+                _adminRepository.EditPet(pet);
                 await _adminRepository.UploadPicture(pet);
                 return RedirectToAction("Index");
             }
             ViewBag.CategoryList = _publicRepository.GetCategories();
             ViewBag.isEdit = true;
-            return View("AddEditAnimal", model);
+            return View("AddEditPet", model);
         }
 
         [HttpPost, Authorize]
-        public IActionResult DeleteAnimal(int id)
+        public IActionResult DeletePet(int id)
         {
-            if (_adminRepository.RemoveAnimal(id))
+            if (_adminRepository.RemovePet(id))
             {
                 return RedirectToAction("Index");
             }

@@ -14,22 +14,11 @@ namespace PetShopTestProject
         }
 
         [TestMethod]
-        public void AddAnimalTest()
+        public async Task AddPetTest()
         {
-            var pets = _publicRipository.GetAnimals();
+            var pets = _publicRipository.GetPets();
             int saveCount = pets.Count();
-            IFormFile file;
-
-            using (var stream = File.OpenRead(SimpleImage))
-            {
-                file = new FormFile(stream, 0, stream.Length, "", stream.Name)
-                {
-                    Headers = new HeaderDictionary(),
-                    ContentType = "image/jpg"
-                };
-            }
-
-            var pet = new Animal()
+            var pet = new Pet()
             {
                 Name = "Dolphin",
                 Description = "Dolphin loves to sweem",
@@ -38,18 +27,18 @@ namespace PetShopTestProject
                 CategoryId = 1,
             };
 
-              _adminRipository.AddAnimal(pet);
+            await _adminRipository.AddPet(pet);
 
             Assert.IsTrue(saveCount + 1 == pets.Count());
             Assert.IsTrue(File.Exists(pet.PictureURL));
         }
 
         [TestMethod]
-        public void EditAnimalTest()
+        public void EditPetTest()
         {
             int id = 1;
-            var pet = _publicRipository.GetAnimalByIDAndComments(id);
-            var savePet = new Animal
+            var pet = _publicRipository.GetPetByIDAndComments(id);
+            var savePet = new Pet
             {
                 Name = pet!.Name,
                 Description = pet.Description,
@@ -62,7 +51,7 @@ namespace PetShopTestProject
             pet!.Age = 10;
             pet!.CategoryId = 2;
 
-              _adminRipository.EditAnimal(pet);
+            _adminRipository.EditPet(pet);
 
             Assert.AreNotEqual(pet.Name, savePet.Name);
             Assert.AreNotEqual(pet.Description, savePet.Description);
@@ -88,21 +77,30 @@ namespace PetShopTestProject
         public async Task UploadImageTest()
         {
             //int id = 1;
-            //IFormFile formFile;
+            IFormFile formFile;
+
+            using (var stream = File.OpenRead(SimpleImage))
+            {
+                file = new FormFile(stream, 0, stream.Length, "", stream.Name)
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "image/jpg"
+                };
+            }
             //await adminRipository.UploadPicture(formFile, id);
         }
 
         [TestMethod]
-        public void RemoveAnimalTest()
+        public void RemovePetTest()
         {
-            var petlist = _publicRipository.GetAnimals();
+            var petlist = _publicRipository.GetPets();
             var pet = petlist.Last();
             int countBeforeRemove = petlist.Count();
-            _adminRipository.RemoveAnimal(pet.AnimalId);
+            _adminRipository.RemovePet(pet.PetId);
             int countAfterRemove = petlist.Count();
 
             Assert.IsTrue(countBeforeRemove == countAfterRemove + 1);
-            Assert.IsNull(_publicRipository.GetAnimalByIDAndComments(pet.AnimalId));
+            Assert.IsNull(_publicRipository.GetPetByIDAndComments(pet.PetId));
         }
     }
 }

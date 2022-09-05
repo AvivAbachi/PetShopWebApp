@@ -8,7 +8,7 @@
 <div class="container py-5">
 	<div class="card border-0 shadow-lg d-flex flex-wrap flex-row row-cols-lg-2 row-cols-1 rounded-7 position-relative">
 		<div class="col">
-			<partial name="_ButtonLikePartial" model="@Model.Pet.AnimalId" />
+			<partial name="_ButtonLikePartial" model="@Model.Pet.PetId" />
 			<img class="card-img rounded-7" src="@Model.Pet.PictureURL" />
 		</div>
 		<div class="col p-5">
@@ -19,7 +19,7 @@
 				<i class="fa-solid fa-paw text-success ms-4 me-1"></i>
 				<span>@Model.Pet.Age y</span>
 				<i class="fa-solid fa-heart text-danger ms-4 me-1"></i>
-				<span id="like_@Model.Pet.AnimalId">@Model.Pet.Like</span>
+				<span id="like_@Model.Pet.PetId">@Model.Pet.Like</span>
 			</div>
 			<p>@Model.Pet.Description</p>
 		</div>
@@ -28,7 +28,7 @@
 				New Comment
 				<i class="fa-solid fa-pen text-success ms-1"></i>
 			</h4>
-			<form data-id="@Model.Pet.AnimalId" id="newComment">
+			<form data-id="@Model.Pet.PetId" id="newComment">
 				<label asp-for="@Model.Comment!.Auther" class="form-label">Auther</label>
 				<input asp-for="@Model.Comment!.Auther" class="form-control mb-4" />
 				<span asp-validation-for="@Model.Comment!.Auther" class="invalid-feedback"></span>

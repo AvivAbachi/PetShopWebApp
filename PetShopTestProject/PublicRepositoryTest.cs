@@ -10,50 +10,50 @@ namespace PetShopTestProject
         }
 
         [TestMethod]
-        public void GetAnimalsTest()
+        public void GetPetsTest()
         {
-            var pets = _publicRepository.GetAnimals().ToArray();
-            CollectionAssert.AllItemsAreInstancesOfType(pets, typeof(Animal));
+            var pets = _publicRepository.GetPets().ToArray();
+            CollectionAssert.AllItemsAreInstancesOfType(pets, typeof(Pet));
         }
 
         [TestMethod]
-        public void AddAnimalLikeTest()
+        public void AddPetLikeTest()
         {
-            var pet = _publicRepository.GetAnimalByIDAndComments(1);
+            var pet = _publicRepository.GetPetByIDAndComments(1);
             if (pet == null) throw new AssertFailedException("");
             int like = pet.Like;
-            _publicRepository.AddAnimalLike(1);
+            _publicRepository.AddPetLike(1);
             Assert.IsTrue(like + 1 == pet.Like);
         }
 
         [TestMethod]
-        public void GetAnimalByCategoryTest()
+        public void GetPetByCategoryTest()
         {
             int category = 1;
-            var pets = _publicRepository.GetAnimalByCategory(category);
+            var pets = _publicRepository.GetPetByCategory(category);
             Assert.IsTrue(pets.All(a => a.CategoryId == category));
         }
 
         [TestMethod]
-        public void GetAnimalsByLikesTest()
+        public void GetPetsByLikesTest()
         {
             int count = 2;
-            var pets = _publicRepository.GetAnimalsByLikes(count).ToList();
-            var allPets = _publicRepository.GetAnimals().ToList();
+            var pets = _publicRepository.GetPetsByLikes(count).ToList();
+            var allPets = _publicRepository.GetPets().ToList();
             for (int i = 0; i < count; i++)
             {
                 var topPet = allPets.MaxBy(p => p.Like);
-                Assert.IsTrue(pets[i].AnimalId == topPet?.AnimalId);
+                Assert.IsTrue(pets[i].PetId == topPet?.PetId);
                 allPets.Remove(topPet);
             }
         }
 
         [TestMethod]
-        public void GetAnimalByIDAndCommentsTest()
+        public void GetPetByIDAndCommentsTest()
         {
             int id = 1;
             var comments = _publicRepository
-                .GetAnimalByIDAndComments(id)
+                .GetPetByIDAndComments(id)
                 ?.Comments?.ToList();
             CollectionAssert.AllItemsAreNotNull(comments);
         }
@@ -64,12 +64,12 @@ namespace PetShopTestProject
             int id = 2;
             string auther = "Amit";
             string text = "Testing adding comment";
-            var comment = new Comment { AnimalId = id, Auther = auther, Text = text };
+            var comment = new Comment { PetId = id, Auther = auther, Text = text };
             bool succsses = _publicRepository.AddAnimaComment(comment);
             Assert.IsTrue(succsses);
-            var pet = _publicRepository.GetAnimalByIDAndComments(id);
+            var pet = _publicRepository.GetPetByIDAndComments(id);
             var lastComment = pet?.Comments?.Last();
-            Assert.IsTrue(lastComment?.AnimalId == id && lastComment?.Auther == auther && lastComment?.Text == text);
+            Assert.IsTrue(lastComment?.PetId == id && lastComment?.Auther == auther && lastComment?.Text == text);
         }
 
         [TestMethod]

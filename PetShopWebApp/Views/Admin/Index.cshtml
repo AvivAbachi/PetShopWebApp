@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PetShopWebApp.Models.Animal>
+﻿@model IEnumerable<PetShopWebApp.Models.Pet>
 
 @{
 	ViewBag.Title = "Manager - Pet Shop";
@@ -11,7 +11,7 @@
 		<form method="get" asp-action="index" class="col">
 			<partial name="_SelectCategoryPartial" model="@ViewBag.CategoryList"/>
 		</form>
-		<a asp-action="AddAnimal" class="btn btn-primary btn-rounded col-auto ms-3">
+		<a asp-action="AddPet" class="btn btn-primary btn-rounded col-auto ms-3">
 			Add New Pet <i class="fa-solid fa-plus ms-1"></i>
 		</a>
 	</div>
