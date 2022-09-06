@@ -81,3 +81,7 @@ $('.btn-delete').click(
             })
     }
 );
+
+$('#btn-remove-file').click(function () {
+    document.querySelector('input[type="file"]').value = "";
+})
