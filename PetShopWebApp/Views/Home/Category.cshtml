@@ -8,7 +8,7 @@
 <h1 class="py-5 text-center fw-bold">Let's meet our's Pets!</h1>
 <div class="container">
 	<form method="get" asp-action="Category" class="text-center mb-4">
-		<partial name="_SelectCategoryPartial" model="@ViewBag.CategoryList" />
+		<partial name="_SelectCategoryPartial" />
 	</form>
 	<partial name="_PetListPartial" model="@Model" />
 </div>

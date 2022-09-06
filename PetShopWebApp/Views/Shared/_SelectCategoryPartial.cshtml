@@ -1,9 +1,9 @@
-﻿@model IEnumerable<PetShopWebApp.Models.Category>
+﻿@inject PetShopWebApp.Repositories.IPublicRepository PublicRepository;
 
 <select id="selectCategory" name="id" class="form-select">
 	<option value="" disabled selected hidden>Select pet's category</option>
 	<option value="">All</option>
-	@foreach (var category in Model)
+	@foreach (var category in PublicRepository.GetCategories())
 	{
 		<option value="@(category.CategoryId)">@category.Name</option>
 	}

@@ -23,7 +23,7 @@ namespace PetShopWebApp.Controllers
         [Authorize]
         public IActionResult Index(int? id)
         {
-            ViewBag.CategoryList = _publicRepository.GetCategories();
+            
             return View(id == null ?
                 _publicRepository.GetPets() :
                 _publicRepository.GetPetByCategory(id!.Value));
@@ -47,7 +47,7 @@ namespace PetShopWebApp.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = "Invalid login attempt";
+                    ViewBag.Error = "Fail to login, Please try again!";
                 }
             }
             return View("./Login", user);
@@ -63,7 +63,7 @@ namespace PetShopWebApp.Controllers
         [Authorize]
         public IActionResult AddPet()
         {
-            ViewBag.CategoryList = _publicRepository.GetCategories();
+            
             ViewBag.isEdit = false;
             return View("AddEditPet", new Pet());
         }
@@ -71,7 +71,7 @@ namespace PetShopWebApp.Controllers
         [Authorize]
         public IActionResult EditPet(int id)
         {
-            ViewBag.CategoryList = _publicRepository.GetCategories();
+            
             var pet = _publicRepository.GetPetByIDAndComments(id);
             if (pet != null)
             {
@@ -90,7 +90,7 @@ namespace PetShopWebApp.Controllers
                 await _adminRepository.UploadPicture(pet);
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryList = _publicRepository.GetCategories();
+            
             ViewBag.isEdit = false;
             return View("AddEditPet", pet);
         }
@@ -104,7 +104,7 @@ namespace PetShopWebApp.Controllers
                 if (success && pet.File != null) await _adminRepository.UploadPicture(pet);
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryList = _publicRepository.GetCategories();
+            
             ViewBag.isEdit = true;
             return View("AddEditPet", pet);
         }
@@ -114,10 +114,10 @@ namespace PetShopWebApp.Controllers
         {
             if (_adminRepository.RemovePet(id))
             {
-                return RedirectToAction("Index");
+                return Ok(id);
             }
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            return Json(new { Message = "Invalid pet id" });
+            return Json(new { Message = "Fail To Delete Pet!" });
         }
     }
 }

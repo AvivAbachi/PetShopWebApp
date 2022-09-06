@@ -8,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 string connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 
 builder.Services.AddDbContext<PetShopConetex>(options => options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<PetShopConetex>();
 builder.Services.AddTransient<IPublicRepository, PublicRepository>();
 builder.Services.AddTransient<IAdminRepository, AdminRepository>();
@@ -23,11 +22,8 @@ using (var scope = app.Services.CreateScope())
     ctx.Database.EnsureDeleted();
     ctx.Database.EnsureCreated();
 }
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
-else
+
+if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/404");
     app.UseHsts();

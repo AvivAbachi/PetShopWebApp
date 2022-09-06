@@ -1,10 +1,9 @@
-﻿@using PetShopWebApp.Models
-@model Pet
+﻿@model PetShopWebApp.Models.Pet
 
 @{
 	ViewBag.Title = Model!.Name + " - Shop";
 	ViewBag.Page = "Category";
-	Comment commentForm = new Comment();
+	var commentForm = new PetShopWebApp.Models.Comment();
 }
 
 <div class="container py-5">
@@ -36,7 +35,7 @@
 					<input asp-for="@commentForm.Auther" class="form-control" />
 					<span asp-validation-for="@commentForm.Auther" class="invalid-feedback"></span>
 				</div>
-				<div class="mb-4">
+				<div class="mb-5">
 					<label asp-for="@commentForm.Text" class="form-label">Comment</label>
 					<textarea asp-for="@commentForm.Text" class="form-control"></textarea>
 					<span asp-validation-for="@commentForm.Text" class="invalid-feedback"></span>

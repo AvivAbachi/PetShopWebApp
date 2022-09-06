@@ -14,7 +14,7 @@ $('.btn-like').click(
                 btn.currentTarget.setAttribute('disabled', '');
             })
             .fail(function (error) {
-                console.error(error.responseJSON.message);
+                alert(error.responseJSON.message);
             })
     }
 );
@@ -26,7 +26,7 @@ form.submit(function (e) {
     const formdata = $(this).serializeArray();
     const data = {
         Comment: {
-            PetId: this.dataset.id,
+            PetId:500, //this.dataset.id,
             Auther: formdata[0].value,
             Text: formdata[1].value
         }
@@ -48,7 +48,7 @@ form.submit(function (e) {
             form.trigger('reset');
         })
         .fail(function (error) {
-            console.error(error.responseJSON.message);
+            alert(error.responseJSON.message);
         })
 });
 
@@ -77,7 +77,7 @@ $('.btn-delete').click(
                 pet.fadeOut('slow', function () { pet.remove(); });
             })
             .fail(function (error) {
-                console.error(error.responseJSON.message);
+                alert(error.responseJSON.message);
             })
     }
 );

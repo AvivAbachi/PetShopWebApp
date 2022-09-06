@@ -29,7 +29,6 @@ namespace PetShopWebApp.Controllers
         [Route("Category")]
         public IActionResult Category(int? id)
         {
-            ViewBag.CategoryList = _repository.GetCategories();
             return View(id == null ?
                 _repository.GetPets() :
                 _repository.GetPetByCategory(id!.Value));
@@ -42,7 +41,7 @@ namespace PetShopWebApp.Controllers
             if (pet == null)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new { Message = "Pet Not Found!" });
+                return Json(new { Message = "Fail to Add Like!" });
             }
             return Json(pet.Like);
         }
@@ -65,7 +64,7 @@ namespace PetShopWebApp.Controllers
                 }
             }
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            return Json(new { Message = "Invalid comment" });
+            return Json(new { Message = "Fail To Add Comment!" });
         }
 
         [Route("{*url}", Order = 999)]
