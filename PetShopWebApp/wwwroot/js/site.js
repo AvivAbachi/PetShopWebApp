@@ -23,7 +23,7 @@ const form = $('#newComment');
 form.submit(function (e) {
     e.preventDefault();
     if (!form.valid()) return;
-    const formdata = $(this).serializeArray()
+    const formdata = $(this).serializeArray();
     const data = {
         Comment: {
             PetId: this.dataset.id,
@@ -42,9 +42,8 @@ form.submit(function (e) {
                     </div>
                 </div>
             </div>
-        `)
+            `).hide();
             $('#comments').prepend(comment);
-            $(comment).hide();
             $(comment).slideDown();
             form.trigger('reset');
         })
