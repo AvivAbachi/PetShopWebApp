@@ -1,9 +1,4 @@
-﻿const settings = {
-    validClass: "is-valid",
-    errorClass: "is-invalid"
-};
-$.validator.setDefaults(settings);
-$.validator.unobtrusive.options = settings;
+﻿
 
 $('.btn-like').click(
     function (btn) {
@@ -73,7 +68,7 @@ $('.btn-delete').click(
     function (btn) {
         const id = btn.currentTarget.dataset.id;
         $.post('/Admin/DeletePet/' + id,
-            function (data) {
+            function () {
                 const pet = $('#pet_' + id);
                 pet.fadeOut('slow', function () { pet.remove(); });
             })
@@ -82,3 +77,7 @@ $('.btn-delete').click(
             })
     }
 );
+
+const settings = { validClass: "is-valid", errorClass: "is-invalid" };
+$.validator.setDefaults(settings);
+$.validator.unobtrusive.options = settings;

@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
+using PetShopWebApp.Models;
+using System;
+using System.IO;
 
 namespace PetShopTestProject
 {
     [TestClass]
     public class AdminRepositoryTest : PetShopInitializer
     {
+        const int testId = 1;
         private readonly IAdminRepository _adminRipository;
         private readonly IPublicRepository _publicRipository;
         public AdminRepositoryTest()
@@ -14,7 +18,7 @@ namespace PetShopTestProject
         }
 
         [TestMethod]
-        public async Task AddPetTest()
+        public void AddPetTest()
         {
             var pets = _publicRipository.GetPets();
             int saveCount = pets.Count();
@@ -27,7 +31,7 @@ namespace PetShopTestProject
                 CategoryId = 1,
             };
 
-            await _adminRipository.AddPet(pet);
+            _adminRipository.AddPet(pet);
 
             Assert.IsTrue(saveCount + 1 == pets.Count());
             Assert.IsTrue(File.Exists(pet.PictureURL));
@@ -36,8 +40,7 @@ namespace PetShopTestProject
         [TestMethod]
         public void EditPetTest()
         {
-            int id = 1;
-            var pet = _publicRipository.GetPetByIDAndComments(id);
+            var pet = _publicRipository.GetPetByIDAndComments(testId);
             var savePet = new Pet
             {
                 Name = pet!.Name,
@@ -59,48 +62,32 @@ namespace PetShopTestProject
             Assert.AreNotEqual(pet.CategoryId, savePet.CategoryId);
         }
 
-        /// <summary>
-        /// "App.Environment.WebRootPath" כתובת של התיקה הראשית
-        /// "SimpleImage" הכתובת של התמונה
-        /// 
-        /// "formFile" א.להתחל את משנה
-        /// !אבל הוא לא טוב "AddAnimalTest()"בגדול יש אתחול ב
-        ///  ליפול UploadPicture הוא גורם ל
-        /// 
-        /// "UploadPicture(formFile, id)" ב.להריץ את פונקציה
-        /// 
-        /// ג.לבדוק עם התמונה נוספה
-        /// 
-        /// c#יש קליסים ב
-        /// Directory, Path, File
-        /// </summary>
+        [TestMethod]
         public async Task UploadImageTest()
         {
-            //int id = 1;
-            IFormFile formFile;
-
-            using (var stream = File.OpenRead(SimpleImage))
-            {
-                file = new FormFile(stream, 0, stream.Length, "", stream.Name)
-                {
-                    Headers = new HeaderDictionary(),
-                    ContentType = "image/jpg"
-                };
-            }
-            //await adminRipository.UploadPicture(formFile, id);
+            var pet = _publicRipository.GetPetByIDAndComments(testId);
+            var file = await File.ReadAllBytesAsync(SimpleImage);
+            var ms = new MemoryStream(file);
+            var fileName = Path.GetFileName(SimpleImage);
+            pet!.File = new FormFile(ms, 0, ms.Length, "File", fileName);
+            await _adminRipository.UploadPicture(pet!);
+            var path = pet.PictureURL!.Remove(0, 1).Replace("/", "\\");
+            var fullPath = Path.Combine(App.Environment.WebRootPath, path);
+            Assert.IsTrue(File.Exists(fullPath));
         }
 
         [TestMethod]
-        public void RemovePetTest()
+        public async Task RemovePetTest()
         {
+            await UploadImageTest();
             var petlist = _publicRipository.GetPets();
-            var pet = petlist.Last();
-            int countBeforeRemove = petlist.Count();
-            _adminRipository.RemovePet(pet.PetId);
-            int countAfterRemove = petlist.Count();
-
-            Assert.IsTrue(countBeforeRemove == countAfterRemove + 1);
-            Assert.IsNull(_publicRipository.GetPetByIDAndComments(pet.PetId));
+            int saveCount = petlist.Count();
+            string path = petlist.First(p => p.PetId == testId).PictureURL!.Remove(0, 1).Replace("/", "\\");
+            string fullPath = Path.Combine(App.Environment.WebRootPath, path);
+            _adminRipository.RemovePet(testId);
+            Assert.IsTrue(saveCount == petlist.Count() + 1);
+            Assert.IsNull(petlist.FirstOrDefault(p => p.PetId == testId));
+            Assert.IsFalse(File.Exists(fullPath));
         }
     }
 }

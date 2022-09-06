@@ -27,7 +27,7 @@ namespace PetShopWebApp.Repositories
             var pet = _context.Pets!.FirstOrDefault(p => p.PetId == editPet.PetId);
             if (pet != null)
             {
-                pet.Name = editPeteditPetName;
+                pet.Name = editPet.Name;
                 pet.Description = pet.Description;
                 pet.Age = editPet.Age;
                 pet.CategoryId = editPet.CategoryId;
@@ -41,7 +41,7 @@ namespace PetShopWebApp.Repositories
         {
             string FilePath = Path.Combine(_environment.WebRootPath, "upload");
             if (!Directory.Exists(FilePath)) Directory.CreateDirectory(FilePath);
-            string fileName = $"{pet.PetId}.{pet.File!.FileName.Split('.')[1]}";
+            string fileName = pet.PetId + Path.GetExtension(pet.File!.FileName);
             var filePath = Path.Combine(FilePath, fileName);
             using (var fs = File.Create(filePath))
             {
@@ -60,7 +60,7 @@ namespace PetShopWebApp.Repositories
                   .FirstOrDefault();
             if (pet != null)
             {
-                var targetPath = _environment.WebRootPath + pet.PictureURL!.Replace("/", "\\");
+                var targetPath = Path.Combine(_environment.WebRootPath, pet.PictureURL!.Remove(0, 1).Replace("/", "\\"));
                 if (File.Exists(targetPath)) File.Delete(targetPath!);
                 _context.Comments!.RemoveRange(pet.Comments!);
                 _context.Pets!.Remove(pet);
