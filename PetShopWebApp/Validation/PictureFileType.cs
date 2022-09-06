@@ -14,6 +14,7 @@ namespace PetShopWebApp.Validation
             MergeAttribute(context.Attributes, "data-val-accept", "image/bmp, image/jpeg, image/png");
             MergeAttribute(context.Attributes, "accept", "image/bmp, image/jpeg, image/png");
         }
+
         public string GetErrorMessage() => "Please Enter Pet Picture On Support Type: Bmp, Jpg, Jpeg, Png";
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)

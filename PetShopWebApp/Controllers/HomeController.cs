@@ -23,11 +23,7 @@ namespace PetShopWebApp.Controllers
         {
             var pet = _repository.GetPetByIDAndComments(id);
             if (pet == null) return RedirectToAction("Error");
-            return View(new PetView
-            {
-                Pet = pet,
-                Comment = new Comment()
-            });
+            return View(pet);
         }
 
         [Route("Category")]

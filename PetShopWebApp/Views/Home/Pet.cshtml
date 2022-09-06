@@ -1,40 +1,46 @@
-﻿@model PetShopWebApp.Models.PetView
+﻿@using PetShopWebApp.Models
+@model Pet
 
 @{
-	ViewBag.Title = Model.Pet!.Name + " - Pet Shop";
+	ViewBag.Title = Model!.Name + " - Shop";
 	ViewBag.Page = "Category";
+	Comment commentForm = new Comment();
 }
 
 <div class="container py-5">
 	<div class="card border-0 shadow-lg d-flex flex-wrap flex-row row-cols-lg-2 row-cols-1 rounded-7 position-relative">
 		<div class="col">
-			<partial name="_ButtonLikePartial" model="@Model.Pet.PetId" />
-			<img class="card-img rounded-7" src="@Model.Pet.PictureURL" />
+			<partial name="_ButtonLikePartial" model="@Model.PetId" />
+			<img class="card-img rounded-7" src="@Model.PictureURL" />
 		</div>
 		<div class="col p-5">
-			<h1>@Model.Pet.Name</h1>
+			<h1>@Model.Name</h1>
 			<div class="mt-3 border-bottom mb-4 pb-2">
 				<i class="fa-solid fa-bookmark text-warning me-1"></i>
-				<span>@Model.Pet.Category?.Name</span>
+				<span>@Model.Category?.Name</span>
 				<i class="fa-solid fa-paw text-success ms-4 me-1"></i>
-				<span>@Model.Pet.Age y</span>
+				<span>@Model.Age y</span>
 				<i class="fa-solid fa-heart text-danger ms-4 me-1"></i>
-				<span id="like_@Model.Pet.PetId">@Model.Pet.Like</span>
+				<span id="like_@Model.PetId">@Model.Like</span>
 			</div>
-			<p>@Model.Pet.Description</p>
+			<p>@Model.Description</p>
 		</div>
 		<div class="col p-5">
 			<h4 class="border-bottom mb-4 pb-2">
 				New Comment
 				<i class="fa-solid fa-pen text-success ms-1"></i>
 			</h4>
-			<form data-id="@Model.Pet.PetId" id="newComment">
-				<label asp-for="@Model.Comment!.Auther" class="form-label">Auther</label>
-				<input asp-for="@Model.Comment!.Auther" class="form-control mb-4" />
-				<span asp-validation-for="@Model.Comment!.Auther" class="invalid-feedback"></span>
-				<label asp-for="@Model.Comment!.Text" class="form-label">Comment</label>
-				<textarea asp-for="@Model.Comment!.Text" class="form-control mb-4" name="text"></textarea>
-				<span asp-validation-for="@Model.Comment!.Text" class="invalid-feedback"></span>
+			<form data-id="@Model.PetId" id="newComment">
+				<div class="mb-4">
+					<label asp-for="@commentForm.Auther" class="form-label">Auther</label>
+					<input asp-for="@commentForm.Auther" class="form-control" />
+					<span asp-validation-for="@commentForm.Auther" class="invalid-feedback"></span>
+				</div>
+				<div class="mb-4">
+					<label asp-for="@commentForm.Text" class="form-label">Comment</label>
+					<textarea asp-for="@commentForm.Text" class="form-control"></textarea>
+					<span asp-validation-for="@commentForm.Text" class="invalid-feedback"></span>
+				</div>
 				<button type="submit" class="btn btn-success btn-rounded px-4 d-block me-0 ms-auto">
 					Send Comment
 					<i class="fa-solid fa-paper-plane ms-1"></i>
@@ -47,7 +53,7 @@
 				<i class="fa-solid fa-comment-dots text-info ms-1"></i>
 			</h4>
 			<div id="comments" class="overflow-auto">
-				@foreach (var comment in @Model.Pet.Comments!)
+				@foreach (var comment in @Model.Comments!)
 				{
 					<div class="card-body">
 						<div class="card-title fs-5">@comment.Text</div>

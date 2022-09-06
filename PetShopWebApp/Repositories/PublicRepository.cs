@@ -26,7 +26,7 @@ namespace PetShopWebApp.Repositories
                   .Include(p => p.Category)
                   .Include(p => p.Comments!.OrderByDescending(c => c.CreatedDate))
                   .FirstOrDefault();
-         }
+        }
 
         public IEnumerable<Pet> GetPetByCategory(int category)
         {

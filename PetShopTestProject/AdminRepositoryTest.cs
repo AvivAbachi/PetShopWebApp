@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using PetShopWebApp.Models;
-using System;
-using System.IO;
 
 namespace PetShopTestProject
 {
