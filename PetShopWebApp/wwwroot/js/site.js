@@ -1,4 +1,9 @@
-﻿
+﻿const settings = {
+    validClass: "is-valid",
+    errorClass: "is-invalid"
+};
+$.validator.setDefaults(settings);
+$.validator.unobtrusive.options = settings;
 
 $('.btn-like').click(
     function (btn) {
@@ -77,7 +82,3 @@ $('.btn-delete').click(
             })
     }
 );
-
-const settings = { validClass: "is-valid", errorClass: "is-invalid" };
-$.validator.setDefaults(settings);
-$.validator.unobtrusive.options = settings;

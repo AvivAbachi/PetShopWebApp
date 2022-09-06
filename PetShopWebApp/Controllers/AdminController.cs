@@ -100,8 +100,8 @@ namespace PetShopWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _adminRepository.EditPet(pet);
-                if (pet.File != null) await _adminRepository.UploadPicture(pet);
+                var success = _adminRepository.EditPet(pet);
+                if (success  && pet.File != null) await _adminRepository.UploadPicture(pet);
                 return RedirectToAction("Index");
             }
             ViewBag.CategoryList = _publicRepository.GetCategories();

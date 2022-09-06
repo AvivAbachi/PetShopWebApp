@@ -7,21 +7,21 @@
 
 <div class="container p-5">
 	<div class="card p-5 border-0 shadow-lg">
-		<h1 class="card-title text-center mb-3">@(ViewBag.isEdit ? "Edit" : "Add") Pet</h1>
-		<form class="card-body" asp-action="@(ViewBag.isEdit?"EditPet":"AddPet")" method="post" enctype="multipart/form-data">
+		<h1 class="card-title text-center mb-4">@(ViewBag.isEdit ? "Edit" : "Add") Pet</h1>
+		<form id="form2" class="card-body" asp-action="@(ViewBag.isEdit?"EditPet":"AddPet")" method="post" enctype="multipart/form-data">
 			@if (ViewBag.isEdit)
 			{
-				<div class="mb-3 ">
+				<div class="mb-4 ">
 					<label asp-for="@Model.PetId" class="form-label">ID</label>
 					<input asp-for="@Model.PetId" class="form-control" readonly />
 				</div>
 			}
-			<div class="mb-3">
+			<div class="mb-4">
 				<label asp-for="@Model.Name" class="form-label">Name</label>
 				<input asp-for="@Model.Name" class="form-control" />
 				<span asp-validation-for="@Model.Name" class="invalid-feedback"></span>
 			</div>
-			<div class="mb-3">
+			<div class="mb-4">
 				<label asp-for="@Model.CategoryId" class="form-label">Category</label>
 				<select asp-for="@Model.CategoryId" class="form-select">
 					<option disabled selected hidden>Select pet's category</option>
@@ -32,37 +32,35 @@
 				</select>
 				<span asp-validation-for="@Model.CategoryId" class="invalid-feedback"></span>
 			</div>
-			<div class="mb-3">
+			<div class="mb-4">
 				<label asp-for="@Model.Age" class="form-label">Age</label>
 				<input asp-for="@Model.Age" value="@(@Model.Age==0?null:@Model.Age)" step="any" type="number" class="form-control" />
 				<span asp-validation-for="@Model.Age" class="invalid-feedback"></span>
 			</div>
-			<div class="mb-3">
+			<div class="mb-4">
 				<label asp-for="@Model.Description" class="form-label">Description</label>
 				<textarea asp-for="@Model.Description" class="form-control"></textarea>
 				<span asp-validation-for="@Model.Description" class="invalid-feedback"></span>
 			</div>
 			@if (ViewBag.isEdit)
 			{
-				<div class="mb-3">
+				<div class="mb-4">
 					<label asp-for="@Model.Like" class="form-label">Like</label>
 					<input asp-for="@Model.Like" class="form-control" readonly />
 				</div>
 			}
-			<div class="mb-3">
+			<div class="mb-7">
 				<label asp-for="@Model.File" class="form-label">Picture</label>
 				@if (ViewBag.isEdit)
 				{
-					<input asp-for="@Model.File" type="file" class="form-control" accept="image/bmp, image/jpeg, image/png"/>
+					<input asp-for="@Model.File" type="file" class="form-control" />
 				}
 				else
 				{
 					<input asp-for="@Model.File" type="file" class="form-control" required="true"
-					   accept="image/bmp, image/jpeg, image/png" data-val="true" data-val-required="Please enter Pet Picture" />
+					   data-val="true" data-val-required="Please enter Pet Picture" />
 				}
 				<span asp-validation-for="@Model.File" class="invalid-feedback"></span>
-				<br />
-				<img class="rounded-3 mt-3" src="@Model.PictureURL" width="150" />
 			</div>
 			<input asp-for="@Model.PictureURL" hidden readonly />
 			<button typa="submit" class="btn btn-rounded btn-lg @(ViewBag.isEdit ? "btn-success" : "btn-primary")">

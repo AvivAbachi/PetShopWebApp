@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PetShopWebApp.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PetShopWebApp.Models
@@ -25,7 +26,7 @@ namespace PetShopWebApp.Models
         public int CategoryId { get; set; }
 
         [NotMapped]
-        [FileTypeValidation]
+        [PictureFileType]
         public IFormFile? File { get; set; }
         public virtual Category? Category { get; set; }
         public virtual ICollection<Comment>? Comments { get; set; }

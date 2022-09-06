@@ -22,7 +22,7 @@ namespace PetShopWebApp.Repositories
             return pet;
         }
 
-        public Pet? EditPet(Pet editPet)
+        public bool EditPet(Pet editPet)
         {
             var pet = _context.Pets!.FirstOrDefault(p => p.PetId == editPet.PetId);
             if (pet != null)
@@ -32,9 +32,9 @@ namespace PetShopWebApp.Repositories
                 pet.Age = editPet.Age;
                 pet.CategoryId = editPet.CategoryId;
                 _context.SaveChanges();
-                return pet;
+                return true;
             }
-            return null;
+            return false;
         }
 
         public async Task UploadPicture(Pet pet)
