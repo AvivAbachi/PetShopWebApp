@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetShopWebApp.Data;
 using PetShopWebApp.Models;
+using System.Linq;
 
 namespace PetShopWebApp.Repositories
 {
@@ -15,8 +16,7 @@ namespace PetShopWebApp.Repositories
 
         public IEnumerable<Pet> GetPets()
         {
-            return _context.Pets!
-                .OrderBy(a => a.PetId);
+            return _context.Pets!;
         }
 
         public Pet? GetPetByIDAndComments(int id)

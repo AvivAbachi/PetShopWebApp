@@ -63,7 +63,6 @@ namespace PetShopWebApp.Controllers
         [Authorize]
         public IActionResult AddPet()
         {
-            
             ViewBag.isEdit = false;
             return View("AddEditPet", new Pet());
         }
@@ -87,10 +86,9 @@ namespace PetShopWebApp.Controllers
             if (ModelState.IsValid)
             {
                 _adminRepository.AddPet(pet);
-                await _adminRepository.UploadPicture(pet);
+                await _adminRepository.UploadPicture(pet.PetId, pet.File!);
                 return RedirectToAction("Index");
             }
-            
             ViewBag.isEdit = false;
             return View("AddEditPet", pet);
         }
@@ -101,10 +99,9 @@ namespace PetShopWebApp.Controllers
             if (ModelState.IsValid)
             {
                 var success = _adminRepository.EditPet(pet);
-                if (success && pet.File != null) await _adminRepository.UploadPicture(pet);
+                if (success && pet.File != null) await _adminRepository.UploadPicture(pet.PetId,pet.File);
                 return RedirectToAction("Index");
             }
-            
             ViewBag.isEdit = true;
             return View("AddEditPet", pet);
         }

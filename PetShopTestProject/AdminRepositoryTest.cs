@@ -62,13 +62,14 @@ namespace PetShopTestProject
         [TestMethod]
         public async Task UploadImageTest()
         {
-            var pet = _publicRipository.GetPetByIDAndComments(testId);
             var file = await File.ReadAllBytesAsync(SimpleImage);
             var ms = new MemoryStream(file);
             var fileName = Path.GetFileName(SimpleImage);
-            pet!.File = new FormFile(ms, 0, ms.Length, "File", fileName);
-            await _adminRipository.UploadPicture(pet!);
-            var path = pet.PictureURL!.Remove(0, 1).Replace("/", "\\");
+            var FormFile = new FormFile(ms, 0, ms.Length, "File", fileName);
+
+            var pet = await _adminRipository.UploadPicture(testId, FormFile);
+
+            var path = pet!.PictureURL!.Remove(0, 1).Replace("/", "\\");
             var fullPath = Path.Combine(App.Environment.WebRootPath, path);
             Assert.IsTrue(File.Exists(fullPath));
         }

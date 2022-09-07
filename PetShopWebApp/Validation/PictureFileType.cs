@@ -22,16 +22,13 @@ namespace PetShopWebApp.Validation
             if (value == null) return ValidationResult.Success;
             try
             {
-                if (value is IFormFile file)
+                using (var img = Image.FromStream(((IFormFile)value).OpenReadStream()))
                 {
-                    using (var img = Image.FromStream(file.OpenReadStream()))
+                    if (img.RawFormat.Equals(ImageFormat.Jpeg) ||
+                        img.RawFormat.Equals(ImageFormat.Png) ||
+                        img.RawFormat.Equals(ImageFormat.Bmp))
                     {
-                        if (img.RawFormat == ImageFormat.Jpeg ||
-                            img.RawFormat.Equals(ImageFormat.Png) ||
-                            img.RawFormat.Equals(ImageFormat.Bmp))
-                        {
-                            return ValidationResult.Success;
-                        }
+                        return ValidationResult.Success;
                     }
                 }
             }

@@ -6,7 +6,7 @@ namespace PetShopWebApp.Repositories
     {
         Pet AddPet(Pet pet);
         bool EditPet(Pet pet);
-        Task UploadPicture(Pet pet);
+        Task<Pet?> UploadPicture(int id,IFormFile image);
         bool RemovePet(int id);
     }
 }

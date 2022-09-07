@@ -28,7 +28,7 @@ namespace PetShopWebApp.Repositories
             if (pet != null)
             {
                 pet.Name = editPet.Name;
-                pet.Description = pet.Description;
+                pet.Description = editPet.Description;
                 pet.Age = editPet.Age;
                 pet.CategoryId = editPet.CategoryId;
                 _context.SaveChanges();
@@ -37,19 +37,26 @@ namespace PetShopWebApp.Repositories
             return false;
         }
 
-        public async Task UploadPicture(Pet pet)
+        public async Task<Pet?> UploadPicture(int id, IFormFile image)
         {
-            string FilePath = Path.Combine(_environment.WebRootPath, "upload");
-            if (!Directory.Exists(FilePath)) Directory.CreateDirectory(FilePath);
-            string fileName = pet.PetId + Path.GetExtension(pet.File!.FileName);
-            var filePath = Path.Combine(FilePath, fileName);
-            using (var fs = File.Create(filePath))
+            var pet = _context.Pets!.FirstOrDefault(p => p.PetId == id);
+            if (pet != null)
             {
-                await pet.File.CopyToAsync(fs);
+                if (pet.PictureURL != null)
+                {
+                    string oldPath = Path.Combine(_environment.WebRootPath, pet.PictureURL.Remove(0, 1).Replace("/", "\\"));
+                    if (File.Exists(oldPath)) File.Delete(oldPath);
+                }
+                string fileName = pet.PetId + Path.GetExtension(image.FileName);
+                string targetPath = Path.Combine(_environment.WebRootPath, "upload", fileName);
+                using (var fs = File.Create(targetPath))
+                {
+                    await image.CopyToAsync(fs);
+                }
+                pet!.PictureURL = $"/upload/{fileName}";
+                _context.SaveChanges();
             }
-            pet.PictureURL = $"/upload/{fileName}";
-            pet.File = null;
-            _context.SaveChanges();
+            return pet;
         }
 
         public bool RemovePet(int id)
